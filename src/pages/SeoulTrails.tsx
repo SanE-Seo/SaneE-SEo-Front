@@ -1,14 +1,14 @@
 import React from 'react';
 import DefaultLayout from '../components/DefaultLayout';
 
-function Main() {
+function SeoulTrails() {
   return (
     <>
       <DefaultLayout>
-        <div>Main</div>
+        <div>Seoul trails</div>
       </DefaultLayout>
     </>
   );
 }
 
-export default Main;
+export default SeoulTrails;

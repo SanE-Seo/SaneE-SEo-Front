@@ -1,14 +1,14 @@
 import React from 'react';
 import DefaultLayout from '../components/DefaultLayout';
 
-function Main() {
+function Community() {
   return (
     <>
       <DefaultLayout>
-        <div>Main</div>
+        <div>Community</div>
       </DefaultLayout>
     </>
   );
 }
 
-export default Main;
+export default Community;
