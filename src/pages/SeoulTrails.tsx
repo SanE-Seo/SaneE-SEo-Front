@@ -1,7 +1,14 @@
 import React from 'react';
+import DefaultLayout from '../components/DefaultLayout';
 
 function SeoulTrails() {
-  return <div>SeoulTrails</div>;
+  return (
+    <>
+      <DefaultLayout>
+        <div>Seoul trails</div>
+      </DefaultLayout>
+    </>
+  );
 }
 
 export default SeoulTrails;

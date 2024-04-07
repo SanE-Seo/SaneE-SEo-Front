@@ -18,8 +18,8 @@ const createColor = (color: string) => color;
 // 폰트 정의
 const fonts = {
   title_lg: createFontStyle('Pretendard', 600, 48, 120),
-  title_md: createFontStyle('Pretendard', 600, 36, 120),
-  title_sm: createFontStyle('Pretendard', 600, 24, 130),
+  title_md: createFontStyle('Pretendard', 600, 32, 120),
+  title_sm: createFontStyle('Pretendard', 600, 20, 130),
   text_lg: createFontStyle('Pretendard', 600, 18, 140),
   text_md: createFontStyle('Pretendard', 400, 16, 140),
   text_sm: createFontStyle('Pretendard', 400, 14, 140),
