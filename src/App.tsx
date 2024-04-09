@@ -1,6 +1,6 @@
 import React from 'react';
 import Main from './pages/Main';
-
+import { GlobalStyle } from './styles/global-style';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -9,6 +9,7 @@ import Community from './pages/Community';
 function App() {
   return (
     <>
+      <GlobalStyle />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Main />} />
