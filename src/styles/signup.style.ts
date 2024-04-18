@@ -135,6 +135,10 @@ export const SubmitButton = styled.button<ButtonProps>`
   ${(props) => props.theme.fonts.text_md};
   margin-top: 23px;
   cursor: pointer;
+
+  &:disabled {
+    cursor: default;
+  }
 `;
 
 export const DupliButton = styled(SubmitButton)<ButtonProps>`
