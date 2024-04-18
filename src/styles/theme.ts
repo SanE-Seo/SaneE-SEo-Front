@@ -17,8 +17,8 @@ const createColor = (color: string) => color;
 
 // 폰트 정의
 const fonts = {
-  title_lg: createFontStyle('Pretendard', 600, 48, 120),
-  title_md: createFontStyle('Pretendard', 600, 32, 120),
+  title_lg: createFontStyle('Pretendard', 600, 32, 120),
+  title_md: createFontStyle('Pretendard', 600, 24, 120),
   title_sm: createFontStyle('Pretendard', 600, 20, 130),
   text_lg: createFontStyle('Pretendard', 600, 18, 140),
   text_md: createFontStyle('Pretendard', 400, 16, 140),
@@ -35,6 +35,7 @@ const colors = {
   deepBrown: createColor('#645023'),
   paleBrown: createColor('#DFDAD0'),
   red500: createColor('#FF6450'),
+  green700: createColor('#597313'),
   gray800: createColor('#1F1F1F'),
   gray700: createColor('#2E2E2E'),
   gray600: createColor('#3E3E3E'),
