@@ -26,7 +26,7 @@ export const PlaceForm = styled.div`
   }
 
   .my-place-wrapper {
-    margin: 0 13px;
+    margin-left: 22px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -35,14 +35,14 @@ export const PlaceForm = styled.div`
     .my-place-label {
       ${(props) => props.theme.fonts.text_sm};
       color: ${(props) => props.theme.colors.gray600};
-      margin: 0 5px;
+      margin: 0 3px;
     }
   }
 `;
 
 export const WeatherLayout = styled.div`
   width: 273px;
-  height: 681px;
+  height: 680px;
   background: ${(props) => props.theme.colors.background};
   border-radius: 7px;
   margin-top: 7px;
