@@ -4,10 +4,10 @@ export const MainLayout = styled.div`
   max-width: 1125px;
   margin: auto;
   display: grid;
-  grid-template-columns: 300px 900px;
-  grid-template-rows: 400px 400px;
+  grid-template-columns: 300px 800px;
+  grid-template-rows: 370px 370px;
   column-gap: 34px;
-  row-gap: 100px;
+  row-gap: 80px;
 
   div: first-child {
     grid-row: 1 / span 2;
@@ -37,7 +37,7 @@ export const SeoulWrapper = styled.div`
   flex-direction: column;
 `;
 
-export const TownWraaper = styled.div`
+export const TownWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
@@ -51,8 +51,33 @@ export const Title = styled.span<SpanProps>`
   color: ${(props) => props.title_color || props.theme.colors.gray600};
 `;
 
-export const ContentSpan = styled.span`
-  ${(props) => props.theme.fonts.text_md};
-  color: ${(props) => props.theme.colors.gray300};
-  margin: 15px 0;
+export const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  .content-span {
+    ${(props) => props.theme.fonts.text_md};
+    color: ${(props) => props.theme.colors.gray300};
+    margin: 15px 0;
+  }
+
+  .row-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+    .text-md {
+      ${(props) => props.theme.fonts.text_md};
+      color: ${(props) => props.theme.colors.gray600};
+    }
+    .icon-wrapper {
+      margin-left: 5px;
+    }
+  }
+`;
+
+export const CardList = styled.div`
+  display: flex;
+  flex-direction: row;
 `;

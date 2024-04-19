@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
 import * as W from '../../styles/weather.style';
 import { SeoulDistricts } from '../../assets/seoul_districts';
-import { ReactComponent as MyPlace } from '../../assets/icons/target-point.svg';
-import { ReactComponent as Temparature } from '../../assets/icons/temperature-icon.svg';
+import MyPlace from '../../assets/icons/target-point.png';
+
 import { ReactComponent as WaterIcon } from '../../assets/icons/water-icon.svg';
 import { ReactComponent as RainIcon } from '../../assets/icons/rain-icon.svg';
 import { ReactComponent as FineDustIcon } from '../../assets/icons/fine-dust.svg';
 import { ReactComponent as UltraFineDustIcon } from '../../assets/icons/ultra-fine-dust.svg';
 import { ReactComponent as OzoneIcon } from '../../assets/icons/ozone-icon.svg';
-
+import TemperatureIcon from '../../assets/icons/temparature-icon.png';
 function Weather() {
   // 선택된 자치구 상태를 관리하기 위한 useState
   const [selectedDistrict, setSelectedDistrict] = useState<string>('');
 
   // 드롭다운에서 자치구가 선택될 때 실행될 핸들러 함수
+  //api 요청 코드 추가
   const handleDistrictChange = (
     event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
@@ -35,7 +36,7 @@ function Weather() {
           ))}
         </select>
         <div className="my-place-wrapper">
-          <MyPlace />
+          <img src={MyPlace} alt="내 위치" height={17} />
           <span className="my-place-label">내 위치</span>
         </div>
       </W.PlaceForm>
@@ -43,7 +44,7 @@ function Weather() {
         <label className="weather-label">기상정보</label>
         <W.InfoBox>
           <div className="row-container">
-            <Temparature className="icon-style" />
+            <img src={TemperatureIcon} className="icon-style" height={28} />
             <span className="label-text">온도</span>
           </div>
           <div className="temp-column-container">
