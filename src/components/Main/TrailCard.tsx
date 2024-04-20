@@ -1,8 +1,8 @@
 import React from 'react';
 import * as T from '../../styles/trailcard.style';
-import postDefaultImage from '../../assets/post-default-image.png';
-import SeoulLogo from '../../assets/seoul-logo.png';
-import DefaultProfile from '../../assets/icons/default-profile.png';
+import postDefaultImage from '../../assets/image/post-default-image.png';
+import SeoulLogo from '../../assets/image/seoul-logo.png';
+import DefaultProfile from '../../assets/image/default-profile.png';
 import { ReactComponent as TimeIcon } from '../../assets/icons/time-icon.svg';
 import { ReactComponent as HeartIcon } from '../../assets/icons/heart-icon.svg';
 import { ReactComponent as PointIcon } from '../../assets/icons/point-icon.svg';
