@@ -1,7 +1,7 @@
 // src/pages/EditUserCourse.tsx
 import React, { useState, useRef } from 'react';
 import DefaultLayout from '../components/DefaultLayout';
-import { Map, Circle, Polyline, CustomOverlayMap } from 'react-kakao-maps-sdk';
+import { Map, Polyline, CustomOverlayMap } from 'react-kakao-maps-sdk';
 import useKakaoLoader from '../components/useKakaoLoader';
 import { useLocation } from '../contexts/LocationContext';
 
@@ -10,71 +10,68 @@ type CircleData = {
   radius: number;
 };
 
+declare global {
+  interface Window {
+    kakao: any;
+  }
+}
+
 function EditUserCourse() {
   useKakaoLoader();
   const { latitude, longitude } = useLocation();
   const [isDrawing, setIsDrawing] = useState(false);
-  const [drawingCircleData, setDrawingCircleData] = useState<CircleData | null>(
-    null,
-  );
   const drawingLineRef = useRef<kakao.maps.Polyline>(null);
-  const [circles, setCircles] = useState([]);
   const [mousePosition, setMousePosition] = useState({
     lat: 0,
     lng: 0,
   });
+  const [clickLine, setClickLine] = useState<kakao.maps.Polyline>();
+  const [paths, setPaths] = useState([
+    {
+      lat: 0,
+      lng: 0,
+    },
+  ]);
+  const [distances, setDistances] = useState([]);
+  const [moveLine, setMoveLine] = useState<kakao.maps.Polyline>();
 
-  const handleClick = (_prev: any, mouseEvent: any): void => {
+  const handleClick = (_map: any, mouseEvent: kakao.maps.event.MouseEvent) => {
     if (!isDrawing) {
-      setDrawingCircleData({
-        center: {
-          lat: mouseEvent.latLng.getLat(),
-          lng: mouseEvent.latLng.getLng(),
-        },
-        radius: 0,
-      });
-      setIsDrawing(true);
+      setDistances([]);
+      setPaths([]);
     }
+    setPaths((prev) => [
+      ...prev,
+      {
+        lat: mouseEvent.latLng.getLat(),
+        lng: mouseEvent.latLng.getLng(),
+      },
+    ]);
+    setDistances((prev) => {
+      if (!prev) return prev; // 또는 적절한 기본값을 반환할 수 있습니다.
+
+      setIsDrawing(true);
+      return {
+        ...prev,
+        distance: Math.round(clickLine!.getLength() + moveLine!.getLength()),
+      };
+    });
   };
 
-  const handleMouseMove = (_prev: any, mouseEvent: any) => {
+  const handleMouseMove = (
+    _map: any,
+    mouseEvent: kakao.maps.event.MouseEvent,
+  ) => {
     setMousePosition({
       lat: mouseEvent.latLng.getLat(),
       lng: mouseEvent.latLng.getLng(),
     });
 
-    if (isDrawing) {
-      const drawingLine = drawingLineRef.current;
-      // drawingLine이 undefined가 아닐 때만 로직을 실행합니다.
-      if (drawingLine) {
-        setDrawingCircleData((prev) => {
-          // prev가 undefined일 수 있다는 것을 체크합니다.
-          if (!prev) return prev; // 또는 적절한 기본값을 반환할 수 있습니다.
-
-          const newRadius = drawingLine.getLength(); // 예시에서 drawingLine.getLength()의 반환 타입은 number라고 가정합니다.
-          return {
-            ...prev,
-            radius: newRadius,
-            // center는 이미 prev에 정의되어 있으므로, 여기서는 변경하지 않습니다.
-          };
-        });
-      }
-    }
+    console.log(mousePosition);
   };
 
-  const handleRightClick = (mouseEvent: any) => {
-    if (isDrawing) {
-      setIsDrawing(false);
-      setCircles((prev) => {
-        // prev가 undefined일 수 있다는 것을 체크합니다.
-        if (!prev) return prev; // 또는 적절한 기본값을 반환할 수 있습니다.
-        return {
-          ...prev,
-          ...drawingCircleData,
-          mousePosition,
-        };
-      });
-    }
+  const handleRightClick = (_mouseEvent: any) => {
+    setIsDrawing(false);
   };
 
   return (
@@ -83,48 +80,48 @@ function EditUserCourse() {
         <Map
           id="map"
           center={{ lat: latitude, lng: longitude }}
-          style={{ width: '100%', height: '400px' }}
-          level={3}
+          style={{ width: '100%', height: '89.2vh' }}
+          level={2}
           onClick={handleClick}
           onRightClick={handleRightClick}
           onMouseMove={handleMouseMove}
         >
+          <Polyline
+            path={paths}
+            strokeWeight={3} // 선의 두께입니다
+            strokeColor={'#db4040'} // 선의 색깔입니다
+            strokeOpacity={1} // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
+            strokeStyle={'solid'} // 선의 스타일입니다
+            onCreate={setClickLine}
+          />
+          {paths.map((path) => (
+            <CustomOverlayMap
+              key={`dot-${path.lat},${path.lng}`}
+              position={path}
+              zIndex={1}
+            >
+              <span className="dot"></span>
+            </CustomOverlayMap>
+          ))}
+
+          <Polyline
+            path={isDrawing ? [paths[paths.length - 1], mousePosition] : []}
+            strokeWeight={3} // 선의 두께입니다
+            strokeColor={'#db4040'} // 선의 색깔입니다
+            strokeOpacity={0.5} // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
+            strokeStyle={'solid'} // 선의 스타일입니다
+            onCreate={setMoveLine}
+          />
           {isDrawing && (
-            <>
-              <Circle
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                center={drawingCircleData!.center}
-                radius={drawingCircleData!.radius}
-                strokeWeight={1} // 선의 두께입니다
-                strokeColor={'#00a0e9'} // 선의 색깔입니다
-                strokeOpacity={0.1} // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
-                strokeStyle={'solid'} // 선의 스타일입니다
-                fillColor={'#00a0e9'} // 채우기 색깔입니다
-                fillOpacity={0.2} // 채우기 불투명도입니다
-              />
-              <Polyline
-                path={[drawingCircleData!.center, mousePosition]}
-                ref={drawingLineRef}
-                strokeWeight={3} // 선의 두께 입니다
-                strokeColor={'#00a0e9'} // 선의 색깔입니다
-                strokeOpacity={1} // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
-                strokeStyle={'solid'} // 선의 스타일입니다
-              />
-              <CustomOverlayMap
-                position={mousePosition}
-                xAnchor={0}
-                yAnchor={0}
-                zIndex={1}
-              >
-                <div className="info">
-                  반경{' '}
-                  <span className="number">
-                    {Math.floor(drawingCircleData!.radius)}
-                  </span>
-                  m
-                </div>
-              </CustomOverlayMap>
-            </>
+            <CustomOverlayMap position={mousePosition} yAnchor={1} zIndex={2}>
+              <div className="dotOverlay distanceInfo">
+                총거리{' '}
+                <span className="number">
+                  {Math.round(clickLine!.getLength() + moveLine!.getLength())}
+                </span>
+                m
+              </div>
+            </CustomOverlayMap>
           )}
         </Map>
       </div>
