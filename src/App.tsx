@@ -6,12 +6,9 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import SeoulTrails from './pages/SeoulTrails';
 import Community from './pages/Community';
-<<<<<<< HEAD
 import EditUserCourse from './pages/EditUserCourse';
-
-=======
 import SeoulTrailsDetail from './pages/SeoulTrailsDetail';
->>>>>>> upstream/develop
+
 function App() {
   return (
     <>
