@@ -60,13 +60,9 @@ export const Description = styled.div`
   margin-top: 10px;
   align-items: center;
 
-  .icon-container {
-    margin: 0 5px;
-  }
-
   .description-text {
     ${(props) => props.theme.fonts.caption};
     color: ${(props) => props.theme.colors.gray300};
-    margin-right: 5px;
+    margin: 0 10px 0 3px;
   }
 `;

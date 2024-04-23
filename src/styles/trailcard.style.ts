@@ -46,14 +46,10 @@ export const Description = styled.div`
   opacity: 0; // 기본 상태에서는 투명하게
   visibility: hidden; // 기본 상태에서는 보이지 않게
 
-  .icon-container {
-    margin: 0 5px;
-  }
-
   .description-text {
     ${(props) => props.theme.fonts.caption};
     color: ${(props) => props.theme.colors.gray300};
-    margin-right: 5px;
+    margin: 0 10px 0 3px;
   }
 `;
 
