@@ -3,9 +3,9 @@ import * as T from '../../styles/trailcard.style';
 import postDefaultImage from '../../assets/image/post-default-image.png';
 import SeoulLogo from '../../assets/image/seoul-logo.png';
 import DefaultProfile from '../../assets/image/default-profile.png';
-import { ReactComponent as TimeIcon } from '../../assets/icons/time-icon.svg';
-import { ReactComponent as HeartIcon } from '../../assets/icons/heart-icon.svg';
-import { ReactComponent as PointIcon } from '../../assets/icons/point-icon.svg';
+import TimeIcon from '../../assets/icons/time-icon';
+import HeartIcon from '../../assets/icons/heart-icon';
+import LengthIcon from '../../assets/icons/length-icon';
 
 //Props 타입 정의
 interface TrailCardProps {
@@ -26,11 +26,11 @@ function TrailCard({ type }: TrailCardProps) {
       </T.Data>
       <T.CardBack>
         <T.Description>
-          <TimeIcon className="icon-container" />
+          <TimeIcon width={20} height={20} />
           <span className="description-text">1시간</span>
-          <HeartIcon className="icon-container" />
+          <HeartIcon width={20} height={20} />
           <span className="description-text">15</span>
-          <PointIcon className="icon-container" />
+          <LengthIcon width={11} height={17} />
           <span className="description-text">2.51km</span>
         </T.Description>
       </T.CardBack>
