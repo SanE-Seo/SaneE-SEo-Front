@@ -7,8 +7,8 @@ import Signup from './pages/Signup';
 import SeoulTrails from './pages/SeoulTrails';
 import Community from './pages/Community';
 import EditUserCourse from './pages/EditUserCourse';
-
 import SeoulTrailsDetail from './pages/SeoulTrailsDetail';
+
 function App() {
   return (
     <>
