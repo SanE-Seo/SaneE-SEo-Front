@@ -21,7 +21,7 @@ function App() {
           <Route path="/seoul-trails" element={<SeoulTrails />} />
           <Route path="/trail-detail" element={<SeoulTrailsDetail />} />
           <Route path="/community" element={<Community />} />
-          <Route path="/EditUserCourse" element={<EditUserCourse />} />
+          <Route path="/edit-user-course" element={<EditUserCourse />} />
         </Routes>
       </BrowserRouter>
     </>
