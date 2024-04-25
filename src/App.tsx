@@ -1,12 +1,14 @@
 import React from 'react';
-import Main from './pages/Main';
-import { GlobalStyle } from './styles/global-style';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { GlobalStyle } from './styles/global-style';
+import { LocationProvider } from './contexts/LocationContext'; // Import the LocationProvider
+
+import Main from './pages/Main';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import SeoulTrails from './pages/SeoulTrails';
 import Community from './pages/Community';
-import EditUserCourse from './pages/EditUserCourse';
+import UserTrailEditor from './pages/UserTrailEditor';
 import SeoulTrailsDetail from './pages/SeoulTrailsDetail';
 
 function App() {
@@ -14,15 +16,23 @@ function App() {
     <>
       <GlobalStyle />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/sign-up" element={<Signup />} />
-          <Route path="/seoul-trails" element={<SeoulTrails />} />
-          <Route path="/trail-detail" element={<SeoulTrailsDetail />} />
-          <Route path="/community" element={<Community />} />
-          <Route path="/edit-user-course" element={<EditUserCourse />} />
-        </Routes>
+        <LocationProvider>
+          {' '}
+          {/* Wrap the Routes component with LocationProvider */}
+          <Routes>
+            <Route path="/" element={<Main />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/sign-up" element={<Signup />} />
+            <Route path="/seoul-trails" element={<SeoulTrails />} />
+            <Route path="/trail-detail" element={<SeoulTrailsDetail />} />
+            <Route path="/community" element={<Community />} />
+            <Route path="/user-trail-editor" element={<UserTrailEditor />} />
+            {/* <Route
+              path="/user-trail-details-form"
+              element={<UserTrailDetailsForm />}
+            /> */}
+          </Routes>
+        </LocationProvider>
       </BrowserRouter>
     </>
   );

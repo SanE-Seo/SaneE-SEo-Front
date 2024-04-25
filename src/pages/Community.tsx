@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import UserTrailMap from '../components/Community/UserTrailMap';
 import PlaceSearchModal from '../components/Community/PlaceSearchModal';
 import { useLocation } from '../contexts/LocationContext';
+
 function Community() {
   const [placeInput, setPlaceInput] = useState<string>('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -34,7 +35,7 @@ function Community() {
             }}
           ></input>
         </C.SearchContainer>
-        <C.AddButton onClick={() => navigate('/edit-user-course')}>
+        <C.AddButton onClick={() => navigate('/user-trail-editor')}>
           <span className="button_icon-wrapper">
             <RightArrowIcon width={15} height={15} color="#645023" />
             <RightArrowIcon width={15} height={15} color="#645023" />
