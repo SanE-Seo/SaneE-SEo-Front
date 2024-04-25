@@ -43,14 +43,6 @@ function Header() {
         >
           로그인
         </button>
-        <button // 코스 등록 버튼 - 임시로 추가한 버튼입니다.
-          className="edit-course-button"
-          onClick={() => {
-            navigate('/EditUserCourse');
-          }}
-        >
-          코스 등록
-        </button>
       </H.HeaderLayout>
     </H.HeaderWrapper>
   );
