@@ -3,7 +3,14 @@ import * as S from '../styles/signup.style';
 import { ReactComponent as Logo } from '../assets/icons/logo.svg';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { emailRegex, passwordRegex } from '../utils/regex';
+import axios from 'axios';
 
+// 닉네임 중복 확인을 위한 API 응답 타입을 정의합니다.
+interface CheckNicknameResponse {
+  success: boolean; // 사용 가능 여부
+  message: string; // 추가 메시지 (옵션)
+  data: any;
+}
 function Signup() {
   //폼으로 입력받을 데이터 정의
   interface FormValue {
@@ -42,6 +49,18 @@ function Signup() {
   const checkValues = () => {
     const { email, password, pw_confirm, nickname } = getValues();
     return email == '' || password == '' || pw_confirm == '' || nickname == '';
+  };
+
+  const handleCheckDuplicate = async () => {
+    const { nickname } = getValues();
+    try {
+      const res = await axios.get<CheckNicknameResponse>(
+        `/api/member/duplicate?username=${nickname}`,
+      );
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <>
@@ -133,6 +152,7 @@ function Signup() {
                 type="button"
                 disabled={nickname_watch == ''}
                 button_color={nickname_watch != '' ? '#94C020' : '#B8B8B8'}
+                onClick={handleCheckDuplicate}
               >
                 중복확인
               </S.DupliButton>

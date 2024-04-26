@@ -15,7 +15,7 @@ function Community() {
   const { latitude, longitude } = useLocation();
 
   const [lat, setLat] = useState<number>(latitude);
-  const [long, setLong] = useState<number>(longitude);
+  const [lng, setLng] = useState<number>(longitude);
 
   const navigate = useNavigate();
 
@@ -49,11 +49,11 @@ function Community() {
           setPlaceInput={setPlaceInput}
           setIsOpen={setIsOpen}
           setLat={setLat}
-          setLong={setLong}
+          setLng={setLng}
         />
       )}
 
-      <UserTrailMap lat={lat} long={long} />
+      <UserTrailMap lat={lat} lng={lng} />
     </>
   );
 }

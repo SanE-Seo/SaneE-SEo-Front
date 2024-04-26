@@ -6,7 +6,7 @@ type PlaceProps = {
   setPlaceInput: (value: string) => void;
   setIsOpen: (value: boolean) => void;
   setLat: (value: number) => void;
-  setLong: (value: number) => void;
+  setLng: (value: number) => void;
 };
 
 type DistrictCoordinates = {
@@ -17,7 +17,7 @@ function PlaceSearchModal({
   setPlaceInput,
   setIsOpen,
   setLat,
-  setLong,
+  setLng,
 }: PlaceProps) {
   console.log(placeInput);
   const [searchResults, setSearchResults] = useState<string[]>([]);
@@ -45,7 +45,7 @@ function PlaceSearchModal({
                   onClick={() => {
                     setPlaceInput(district);
                     setLat(coordinates[district].lat);
-                    setLong(coordinates[district].lng);
+                    setLng(coordinates[district].lng);
                     setIsOpen(false);
                   }}
                 >
