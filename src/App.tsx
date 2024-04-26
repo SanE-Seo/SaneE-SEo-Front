@@ -10,6 +10,7 @@ import SeoulTrails from './pages/SeoulTrails';
 import Community from './pages/Community';
 import UserTrailEditor from './pages/UserTrailEditor';
 import SeoulTrailsDetail from './pages/SeoulTrailsDetail';
+import RedirectPage from './components/Login/RedirectPage';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route path="/trail-detail" element={<SeoulTrailsDetail />} />
             <Route path="/community" element={<Community />} />
             <Route path="/user-trail-editor" element={<UserTrailEditor />} />
+            <Route path="/redirect" element={<RedirectPage />} />
             {/* <Route
               path="/user-trail-details-form"
               element={<UserTrailDetailsForm />}

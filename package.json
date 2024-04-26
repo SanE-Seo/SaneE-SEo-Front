@@ -7,6 +7,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
+    "axios": "^1.6.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.2",
@@ -18,6 +19,7 @@
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
+  "proxy": "http://seseo2-env.eba-iserdnzu.ap-northeast-2.elasticbeanstalk.com/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -59,4 +61,5 @@
     "kakao.maps.d.ts": "^0.1.39",
     "prettier": "^3.2.5"
   }
+
 }

@@ -4,6 +4,7 @@ import { ReactComponent as Logo } from '../assets/icons/logo.svg';
 import KakaoLogin from '../components/Login/KakaoLogin';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { emailRegex, passwordRegex } from '../utils/regex';
+import axios from 'axios';
 function Login() {
   //폼으로 입력받을 데이터 정의
   interface FormValue {
@@ -24,8 +25,17 @@ function Login() {
     },
   });
   //서버 api 요청 코드 추가
-  const onSubmitHandler: SubmitHandler<FormValue> = (data) => {
+  const onSubmitHandler: SubmitHandler<FormValue> = async (data) => {
     console.log(data);
+
+    try {
+      const res = await axios.get(`/api/member`, {
+        data,
+      });
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <>
