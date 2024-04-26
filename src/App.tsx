@@ -11,7 +11,7 @@ import Community from './pages/Community';
 import UserTrailEditor from './pages/UserTrailEditor';
 import SeoulTrailsDetail from './pages/SeoulTrailsDetail';
 import RedirectPage from './components/Login/RedirectPage';
-
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 function App() {
   return (
     <>
@@ -36,6 +36,7 @@ function App() {
           </Routes>
         </LocationProvider>
       </BrowserRouter>
+      <ReactQueryDevtools initialIsOpen={true} />
     </>
   );
 }
