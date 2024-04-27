@@ -15,9 +15,9 @@ function Header() {
             navigate('/');
           }}
         >
-          <H.LogoText logoTextColor="#94C020">산책</H.LogoText>
-          <H.LogoText logoTextColor="#F9C758">이음</H.LogoText>
-          <H.LogoText logoTextColor="#645023">서울</H.LogoText>
+          <H.LogoText color="#94C020">산책</H.LogoText>
+          <H.LogoText color="#F9C758">이음</H.LogoText>
+          <H.LogoText color="#645023">서울</H.LogoText>
         </div>
         <span
           className="menu-text"

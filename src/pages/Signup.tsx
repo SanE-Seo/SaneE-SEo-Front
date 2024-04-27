@@ -3,23 +3,17 @@ import * as S from '../styles/signup.style';
 import { ReactComponent as Logo } from '../assets/icons/logo.svg';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { emailRegex, passwordRegex } from '../utils/regex';
-import axios from 'axios';
-
-// 닉네임 중복 확인을 위한 API 응답 타입을 정의합니다.
-interface CheckNicknameResponse {
-  success: boolean; // 사용 가능 여부
-  message: string; // 추가 메시지 (옵션)
-  data: any;
-}
+import { CheckNicknameDuplicate, RegisterUser } from '../apis/user';
+import { useNavigate } from 'react-router-dom';
 function Signup() {
   //폼으로 입력받을 데이터 정의
-  interface FormValue {
+  type FormValue = {
     email: string;
     password: string;
     pw_confirm: string;
     nickname: string;
-  }
-
+  };
+  const navigate = useNavigate();
   //useForm 사용하기
   const {
     register,
@@ -37,11 +31,6 @@ function Signup() {
     },
   });
 
-  //서버 api 요청 코드 추가
-  const onSubmitHandler: SubmitHandler<FormValue> = (data) => {
-    const { email, password, pw_confirm, nickname } = getValues();
-    console.log(email, password, pw_confirm, nickname);
-  };
   //비밀번호 값 추적
   const password_watch = watch('password');
   const nickname_watch = watch('nickname');
@@ -53,13 +42,20 @@ function Signup() {
 
   const handleCheckDuplicate = async () => {
     const { nickname } = getValues();
-    try {
-      const res = await axios.get<CheckNicknameResponse>(
-        `/api/member/duplicate?username=${nickname}`,
-      );
-      console.log(res);
-    } catch (error) {
-      console.log(error);
+    const res = await CheckNicknameDuplicate(nickname);
+    if (res?.status == 200) {
+      alert('사용가능한 닉네임 입니다.');
+    }
+  };
+
+  //서버 api 요청 코드 추가
+  const onSubmitHandler: SubmitHandler<FormValue> = async () => {
+    const { email, password, pw_confirm, nickname } = getValues();
+    console.log(email, password, pw_confirm, nickname);
+    const res = await RegisterUser(email, password, nickname);
+    if (res?.status == 200) {
+      alert('회원가입 성공!');
+      navigate('/login');
     }
   };
   return (

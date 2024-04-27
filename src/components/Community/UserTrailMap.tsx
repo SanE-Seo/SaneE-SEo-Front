@@ -9,13 +9,19 @@ type MapProps = {
   lng: number;
 };
 function UserTrailMap({ lat, lng }: MapProps) {
-  // useKakaoLoader();
+  useKakaoLoader();
   const [isOpenDrawer, setIsOpenDrawer] = useState<boolean>(false);
 
   return (
     <>
-      {isOpenDrawer && <Drawer />}
       <U.MapLayout>
+        {isOpenDrawer && (
+          <Drawer
+            isOpenDrawer={isOpenDrawer}
+            setIsOpenDrawer={setIsOpenDrawer}
+          />
+        )}
+
         <Map
           id="map"
           center={{ lat: lat, lng: lng }}
