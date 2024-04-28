@@ -92,7 +92,7 @@ export const LoginLayout = styled.div`
 `;
 // HeaderLayout 컴포넌트의 Props 타입 정의
 type SpanProps = {
-  logotextcolor?: string; // logo-text의 색상을 설정할 수 있는 선택적 프로퍼티
+  color?: string; // logo-text의 색상을 설정할 수 있는 선택적 프로퍼티
 };
 
 export const LogoText = styled.span<SpanProps>`
@@ -101,7 +101,7 @@ export const LogoText = styled.span<SpanProps>`
   font-weight: 400;
   font-size: 32px;
   line-height: 40px;
-  color: ${(props) => props.logotextcolor || '#94C020'};
+  color: ${(props) => props.color || '#94C020'};
 `;
 
 export const LineContainer = styled.div`

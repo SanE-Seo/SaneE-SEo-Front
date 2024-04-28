@@ -4,7 +4,9 @@ import { ReactComponent as Logo } from '../assets/icons/logo.svg';
 import KakaoLogin from '../components/Login/KakaoLogin';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { emailRegex, passwordRegex } from '../utils/regex';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { loginUser } from '../apis/user';
+import { useAuth } from '../contexts/AuthContext';
 function Login() {
   //폼으로 입력받을 데이터 정의
   interface FormValue {
@@ -16,6 +18,7 @@ function Login() {
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors },
   } = useForm<FormValue>({
     mode: 'onSubmit',
@@ -24,19 +27,21 @@ function Login() {
       password: '',
     },
   });
+  const { login } = useAuth();
+  const navigate = useNavigate();
   //서버 api 요청 코드 추가
-  const onSubmitHandler: SubmitHandler<FormValue> = async (data) => {
-    console.log(data);
+  const onSubmitHandler: SubmitHandler<FormValue> = async () => {
+    const { email, password } = getValues();
 
-    try {
-      const res = await axios.get(`/api/member`, {
-        data,
-      });
-      return res;
-    } catch (error) {
-      console.log(error);
+    const res = await loginUser(email, password);
+    if (res?.status == 200) {
+      alert('로그인성공!');
+      login();
+      console.log(res);
+      navigate('/');
     }
   };
+
   return (
     <>
       <L.LoginWrapper>
@@ -44,9 +49,9 @@ function Login() {
           <div className="header-container">
             <Logo />
             <div className="logo-container">
-              <L.LogoText logotextcolor="#94C020">산책</L.LogoText>
-              <L.LogoText logotextcolor="#F9C758">이음</L.LogoText>
-              <L.LogoText logotextcolor="#645023">서울</L.LogoText>
+              <L.LogoText color="#94C020">산책</L.LogoText>
+              <L.LogoText color="#F9C758">이음</L.LogoText>
+              <L.LogoText color="#645023">서울</L.LogoText>
             </div>
             <span className="header-text">
               서울의 매력적인 길을 함께 걸으며,
