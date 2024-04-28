@@ -3,7 +3,7 @@ import * as S from '../styles/signup.style';
 import { ReactComponent as Logo } from '../assets/icons/logo.svg';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { emailRegex, passwordRegex } from '../utils/regex';
-import { CheckNicknameDuplicate, RegisterUser } from '../apis/user';
+import { checkNicknameDuplicate, registerUser } from '../apis/user';
 import { useNavigate } from 'react-router-dom';
 function Signup() {
   //폼으로 입력받을 데이터 정의
@@ -42,7 +42,7 @@ function Signup() {
 
   const handleCheckDuplicate = async () => {
     const { nickname } = getValues();
-    const res = await CheckNicknameDuplicate(nickname);
+    const res = await checkNicknameDuplicate(nickname);
     if (res?.status == 200) {
       alert('사용가능한 닉네임 입니다.');
     }
@@ -52,7 +52,7 @@ function Signup() {
   const onSubmitHandler: SubmitHandler<FormValue> = async () => {
     const { email, password, pw_confirm, nickname } = getValues();
     console.log(email, password, pw_confirm, nickname);
-    const res = await RegisterUser(email, password, nickname);
+    const res = await registerUser(email, password, nickname);
     if (res?.status == 200) {
       alert('회원가입 성공!');
       navigate('/login');

@@ -46,6 +46,18 @@ export const HeaderLayout = styled.div`
       background: #2b2a2a;
     }
   }
+  .menu-box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .profile-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-left: 500px;
+      margin-right: 5px;
+    }
+  }
 `;
 
 export const LogoText = styled.span<SpanProps>`
@@ -55,4 +67,25 @@ export const LogoText = styled.span<SpanProps>`
   font-size: 32px;
   line-height: 40px;
   color: ${(props) => props.color || '#94C020'};
+`;
+
+export const MenuBox = styled.div`
+  position: absolute;
+  width: 165px;
+  height: 85px;
+  border-radius: 5px;
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  border: 1px solid #dbdbdb;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 15px;
+
+  .menu-text {
+    margin: 5px;
+    color: ${(props) => props.theme.colors.gray800};
+    ${(props) => props.theme.fonts.text_md}
+    cursor: default;
+  }
 `;
