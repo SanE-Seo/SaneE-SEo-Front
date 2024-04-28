@@ -53,6 +53,27 @@ type AuthResponseData = {
   refreshToken: string;
 };
 
+export const authKaKaoUser = async (code: string) => {
+  try {
+    const res = await Get<AuthResponseData[]>(`/api/oauth/kakao?code=${code}`);
+
+    if (res.status == 200) {
+      const { accessToken, refreshToken } = res.data.data[0];
+      console.log(accessToken, refreshToken);
+      onLogInSuccess(accessToken, refreshToken);
+
+      return res.data;
+    }
+  } catch (error) {
+    console.log(error);
+    if (axios.isAxiosError<CommonError>(error) && error.response) {
+      const errorCode = error.response.data.errorCode;
+      const message = error.response.data.message;
+      console.log(`${errorCode}: ${message}`);
+    }
+  }
+};
+
 export const loginUser = async (email: string, password: string) => {
   try {
     const res = await Post<AuthResponseData[]>('/api/auth/login', {

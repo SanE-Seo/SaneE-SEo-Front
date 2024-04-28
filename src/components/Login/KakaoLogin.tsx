@@ -1,6 +1,7 @@
 import React from 'react';
 import { ReactComponent as KakaoIcon } from '../../assets/icons/kakao-icon.svg';
 import styled from 'styled-components';
+
 function KakaoLogin() {
   const handleKaKaoLogin = () => {
     window.location.href = `https://kauth.kakao.com/oauth/authorize?redirect_uri=http://localhost:3000/redirect&&response_type=code&&client_id=7126e3761e4f77dba781a4ddf981d5ef`;
