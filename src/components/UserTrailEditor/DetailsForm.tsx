@@ -63,7 +63,6 @@ const DetailsForm: React.FC<IFormDataProps> = ({ onSubmit }) => {
   const photos = watch('photos');
 
   const onFormSubmit = (data: IFormData) => {
-    const {};
     console.log('Form Data:', data); // 폼 데이터 확인
     onSubmit(data); // 상위 컴포넌트로 데이터 전달
   };
