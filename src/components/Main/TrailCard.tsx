@@ -6,6 +6,7 @@ import DefaultProfile from '../../assets/image/default-profile.png';
 import TimeIcon from '../../assets/icons/time-icon';
 import HeartIcon from '../../assets/icons/heart-icon';
 import LengthIcon from '../../assets/icons/length-icon';
+import LevelIcon from '../../assets/icons/level-icon';
 
 //Props 타입 정의
 interface TrailCardProps {
@@ -32,6 +33,8 @@ function TrailCard({ type }: TrailCardProps) {
           <span className="description-text">15</span>
           <LengthIcon width={11} height={17} />
           <span className="description-text">2.51km</span>
+          <LevelIcon width={15} height={15} />
+          <span className="description-text">초급</span>
         </T.Description>
       </T.CardBack>
     </T.Main>

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { CommonResponse } from './types';
+import { CommonResponse } from '../@types/api';
 import { onSilentRefresh } from './user';
 export const axiosInstance = axios.create({
   headers: {

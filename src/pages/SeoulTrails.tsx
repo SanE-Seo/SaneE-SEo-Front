@@ -10,29 +10,26 @@ import { ReactComponent as Brown } from '../assets/image/background-brown.svg';
 import { ReactComponent as Green } from '../assets/image/background-green.svg';
 import CardItem from '../components/SeoulTrails.tsx/CardItem';
 import { useQuery } from '@tanstack/react-query';
-import { getAllPosts } from '../apis/seoul_trail';
-import { AxiosError } from 'axios';
-type CardData = {
-  title: string;
-  subTitle: string;
-  time: string;
-  likes: number;
-  distance: string;
-  level: string;
-};
+import { getAllPosts, getDistrictPosts } from '../apis/seoul_trail';
+import Spinner from '../components/Spinner';
+
 function SeoulTrails() {
   const [offset, setOffset] = useState<number>(0);
   const [selectedDistrict, setSelectedDistrict] = useState<string>('전체');
 
   // 전체 데이터 불러오기
-  // const { isLoading, data } = useQuery({
-  //   queryKey: ['allPosts'],
-  //   queryFn: () => {selectedDistrict=='전체'? getAllPosts(): ,
-  // });
+  const { isLoading, data } = useQuery({
+    queryKey: ['getSeoulTrails', selectedDistrict],
+    queryFn: () => {
+      return selectedDistrict == '전체'
+        ? getAllPosts()
+        : getDistrictPosts(SeoulDistricts.indexOf(selectedDistrict) + 1);
+    },
+  });
 
-  // if (data) {
-  //   console.log(data);
-  // }
+  if (data) {
+    console.log(data);
+  }
 
   const handlePrevClick = useCallback(() => {
     if (offset < 0) setOffset(offset + 1000);
@@ -46,6 +43,7 @@ function SeoulTrails() {
     setSelectedDistrict(district);
     console.log(district);
   };
+
   return (
     <>
       <DefaultLayout>
@@ -99,9 +97,21 @@ function SeoulTrails() {
                 <NextIcon color={offset <= -2000 ? '#B8B8B8' : '#717171'} />
               </button>
             </S.DistrictBox>
-            <S.CardItemBox>
-              <CardItem />
-            </S.CardItemBox>
+            {!isLoading ? (
+              data && data.length > 0 ? (
+                <S.CardItemBox>
+                  {data.map((item, index) => (
+                    <CardItem key={index} data={item} />
+                  ))}
+                </S.CardItemBox>
+              ) : (
+                <div>{selectedDistrict}에 해당되는 산책로가 없습니다.</div>
+              )
+            ) : (
+              <div>
+                <Spinner />
+              </div>
+            )}
           </S.ScreenWrapper>
         </S.Background>
       </DefaultLayout>

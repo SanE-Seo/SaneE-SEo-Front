@@ -11,7 +11,7 @@ import { Cookies } from 'react-cookie';
 function Header() {
   const navigate = useNavigate();
   const { isLoggedIn, logout } = useAuth();
-  console.log(isLoggedIn);
+  // console.log(isLoggedIn);
   const { isLoading, data } = useQuery({
     queryKey: ['getUser'],
     queryFn: () => getUser(),

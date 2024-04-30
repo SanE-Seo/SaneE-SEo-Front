@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
 export const HeaderLayout = styled.div`
-  width: 100%;
+  width: 100vw;
+  min-width: 1100px;
   height: 60px;
   display: flex;
   flex-direction: row;

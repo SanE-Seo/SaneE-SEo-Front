@@ -1,27 +1,47 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import DefaultProfileImg from '../../assets/image/default-profile.png';
+import ReviewModal from './ReviewModal';
 function Review() {
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   return (
-    <ReviewLayout>
-      <AddReviewButton>리뷰 작성하기</AddReviewButton>
-      <ReviewItem>
-        <div className="profile-rating-box">
-          <img src={DefaultProfileImg} className="profile-img" alt="profile" />
-          <span className="name">응자</span>
-        </div>
-        <span className="review-text">가볍게 산책하기 좋아요</span>
-        <span className="review-text">2024.04.17</span>
-      </ReviewItem>
-      <ReviewItem>
-        <div className="profile-rating-box">
-          <img src={DefaultProfileImg} className="profile-img" alt="profile" />
-          <span className="name">응자</span>
-        </div>
-        <span className="review-text">가볍게 산책하기 좋아요</span>
-        <span className="review-text">2024.04.17</span>
-      </ReviewItem>
-    </ReviewLayout>
+    <>
+      <ReviewLayout>
+        <AddReviewButton onClick={() => setIsOpenModal(!isOpenModal)}>
+          리뷰 작성하기
+        </AddReviewButton>
+        <ReviewItem>
+          <div className="profile-rating-box">
+            <img
+              src={DefaultProfileImg}
+              className="profile-img"
+              alt="profile"
+            />
+            <span className="name">응자</span>
+          </div>
+          <span className="review-text">가볍게 산책하기 좋아요</span>
+          <span className="review-text">2024.04.17</span>
+        </ReviewItem>
+        <ReviewItem>
+          <div className="profile-rating-box">
+            <img
+              src={DefaultProfileImg}
+              className="profile-img"
+              alt="profile"
+            />
+            <span className="name">응자</span>
+          </div>
+          <span className="review-text">가볍게 산책하기 좋아요</span>
+          <span className="review-text">2024.04.17</span>
+        </ReviewItem>
+      </ReviewLayout>
+      {isOpenModal && (
+        <ReviewModal
+          isOpenModal={isOpenModal}
+          setIsOpenModal={setIsOpenModal}
+        />
+      )}
+    </>
   );
 }
 
