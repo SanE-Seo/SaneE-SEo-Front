@@ -25,7 +25,7 @@ export const Background = styled.div`
   }
 `;
 export const ScreenWrapper = styled.div`
-  width: 1125px;
+  width: 1150px;
   display: flex;
   flex-direction: column;
   margin: 0 auto;
@@ -65,11 +65,12 @@ export const SubTitle = styled.span`
 `;
 
 export const DistrictBox = styled.div`
-  width: 100%;
+  width: 1125px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin: 0 10px;
   .slide-button {
     width: 30px;
     height: 40px;
@@ -127,5 +128,4 @@ export const SlideItem = styled.li<LiProps>`
 export const CardItemBox = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
 `;

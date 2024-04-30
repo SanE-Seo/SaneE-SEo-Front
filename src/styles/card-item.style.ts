@@ -11,7 +11,9 @@ export const CardLayout = styled.div`
   box-shadow: 0px 2px 8px rgba(99, 99, 99, 0.1);
   border-radius: 7px;
   border: 1px solid #dbdbdb;
-  margin-bottom: 10px;
+  // margin-bottom: 10px;
+  // // margin-right: 20px;
+  margin: 10px;
 
   filter: drop-shadow(0px 3px 8px rgba(99, 99, 99, 0.25));
 

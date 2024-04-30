@@ -1,6 +1,6 @@
 import { Get, Post, axiosInstance } from './index';
 import axios from 'axios';
-import { CommonError } from './types';
+import { CommonError } from '../@types/api';
 import { Cookies } from 'react-cookie';
 
 export const checkNicknameDuplicate = async (nickname: string) => {

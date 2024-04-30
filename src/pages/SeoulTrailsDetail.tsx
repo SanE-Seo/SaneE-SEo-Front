@@ -10,8 +10,10 @@ import HeartFilledIcon from '../assets/icons/heart-filled-icon';
 import useKakaoLoader from '../components/useKakaoLoader';
 import { Map } from 'react-kakao-maps-sdk';
 import { useLocation } from '../contexts/LocationContext';
+import { useParams } from 'react-router-dom';
 function SeoulTrailsDetail() {
   useKakaoLoader();
+  const postId = useParams().postId;
   const [likeStatus, setLikeStatus] = useState<boolean>(false);
   const { latitude, longitude } = useLocation();
   return (

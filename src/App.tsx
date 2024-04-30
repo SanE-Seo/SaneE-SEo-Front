@@ -52,7 +52,10 @@ function App() {
           <Routes>
             <Route path="/" element={<Main />} />
             <Route path="/seoul-trails" element={<SeoulTrails />} />
-            <Route path="/trail-detail" element={<SeoulTrailsDetail />} />
+            <Route
+              path="/trail-detail/:postId"
+              element={<SeoulTrailsDetail />}
+            />
             <Route path="/community" element={<Community />} />
             <Route element={<PrivateRoute />}>
               <Route path="/user-trail-editor" element={<UserTrailEditor />} />
