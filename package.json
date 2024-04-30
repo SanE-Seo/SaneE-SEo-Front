@@ -21,11 +21,7 @@
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
-<<<<<<< Updated upstream
-  "proxy": "http://54.180.179.109",
-=======
   "proxy": "http://54.180.179.109/",
->>>>>>> Stashed changes
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

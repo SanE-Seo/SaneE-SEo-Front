@@ -84,7 +84,7 @@ export const InfoBox = styled.div`
   .temp-column-container {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    align-items: end;
     margin-right: 15px;
   }
   .value-caption {

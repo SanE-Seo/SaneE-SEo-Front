@@ -6,7 +6,7 @@ import { PostData } from '../@types/post';
 
 export const getAllPosts = async () => {
   try {
-    const res = await Get<CardData[]>('/api/districts/posts/1');
+    const res = await Get<CardData[]>('/api/districts/posts/0');
 
     if (res.status == 204) {
       return [];
