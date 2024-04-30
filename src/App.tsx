@@ -57,8 +57,9 @@ function App() {
               element={<SeoulTrailsDetail />}
             />
             <Route path="/community" element={<Community />} />
+            <Route path="/user-trail-editor" element={<UserTrailEditor />} />
             <Route element={<PrivateRoute />}>
-              <Route path="/user-trail-editor" element={<UserTrailEditor />} />
+              {/* <Route path="/user-trail-editor" element={<UserTrailEditor />} /> */}
               <Route path="/mypage" element={<MyPage />} />
             </Route>
             <Route element={<PublicRoute />}>
@@ -67,11 +68,6 @@ function App() {
             </Route>
 
             <Route path="/redirect" element={<RedirectPage />} />
-
-            {/* <Route
-              path="/user-trail-details-form"
-              element={<UserTrailDetailsForm />}
-            /> */}
           </Routes>
         </LocationProvider>
       </BrowserRouter>

@@ -1,4 +1,4 @@
-// components/ProgressStepper.tsx
+// components/UserTrailEditor/ProgressStepper.tsx
 import React from 'react';
 import styled, { css, keyframes } from 'styled-components';
 

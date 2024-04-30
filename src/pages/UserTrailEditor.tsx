@@ -5,29 +5,72 @@ import DefaultLayout from '../components/DefaultLayout';
 import { Map, DrawingManager } from 'react-kakao-maps-sdk';
 import useKakaoLoader from '../components/useKakaoLoader';
 import { useLocation } from '../contexts/LocationContext';
-import ProgressStepper from '../components/ProgressStepper';
+import ProgressStepper from '../components/UserTrailEditor/ProgressStepper';
+import DetailsForm from '../components/UserTrailEditor/DetailsForm';
+//import Modal from '../components/UserTrailEditor/Modal';
+// import DraggableButton from '../components/UserTrailEditor/DraggableButton';
 import * as E from '../styles/user-trail-editor.style';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+
+interface OverlayData {
+  polyline: kakao.maps.drawing.DrawingPolylineData[];
+}
+
+export interface IFormData {
+  title: string;
+  region: string;
+  distance: number;
+  duration: number;
+  difficulty: string;
+  photos: File[];
+  introduction: string;
+}
+
+interface UserTrail {
+  author: string;
+  title: string;
+  region: string;
+  distance: number;
+  duration: number;
+  difficulty: string;
+  photos: File[];
+  introduction: string;
+  polyline: PolylineData;
+}
+
+interface PolylineData {
+  coordinate: string; // 좌표계 정보
+  points: { lat: number; lng: number }[]; // 폴리라인을 구성하는 점들의 배열
+}
 
 function UserTrailEditor() {
   useKakaoLoader();
   const navigate = useNavigate();
-
   const { latitude, longitude } = useLocation();
-
   const managerRef =
     useRef<
-      kakao.maps.drawing.DrawingManager<
-        | kakao.maps.drawing.OverlayType.MARKER
-        | kakao.maps.drawing.OverlayType.POLYLINE
-      >
+      kakao.maps.drawing.DrawingManager<kakao.maps.drawing.OverlayType.POLYLINE>
     >(null);
+  const [polylines, setPolylines] = useState<
+    kakao.maps.drawing.DrawingPolylineData[]
+  >([]);
 
-  function selectOverlay(
-    type:
-      | kakao.maps.drawing.OverlayType.MARKER
-      | kakao.maps.drawing.OverlayType.POLYLINE,
-  ) {
+  const [userTrail, setUserTrail] = useState<UserTrail>({
+    author: '',
+    title: '',
+    region: '',
+    distance: 0,
+    duration: 0,
+    difficulty: '',
+    photos: [],
+    introduction: '',
+    polyline: {
+      coordinate: '',
+      points: [],
+    },
+  });
+
+  function selectOverlay(type: kakao.maps.drawing.OverlayType.POLYLINE) {
     const manager = managerRef.current;
     if (manager) {
       manager.cancel();
@@ -35,19 +78,51 @@ function UserTrailEditor() {
     }
   }
 
+  function checkPolylineLength() {
+    const manager = managerRef.current;
+    if (manager) {
+      const data = manager.getData();
+      setPolylines(data.polyline);
+      if (data.polyline.length === 1) {
+        return true;
+      } else if (data.polyline.length > 1) {
+        return false;
+      } else {
+        return false;
+      }
+    }
+  }
+  // 지도 상에 그린 폴리라인 데이터를 가져오는 함수
+  function getOverlayData() {
+    const manager = managerRef.current;
+    if (manager) {
+      const data = manager.getData();
+      setPolylines(data.polyline); // 상태 업데이트
+      if (checkPolylineLength()) {
+        console.log('Polyline Data:', data.polyline[0]);
+        setUserTrail((prev) => ({
+          ...prev,
+          polyline: {
+            coordinate: 'wgs84', // 예시, 실제 사용하는 좌표체계로 변경 필요
+            points: data.polyline[0].points.map((point) => ({
+              lat: point.y, // 가정: point.y가 위도
+              lng: point.x, // 가정: point.x가 경도
+            })),
+          },
+        }));
+      }
+    }
+  }
+
   const [currentStep, setCurrentStep] = useState(0);
   const [isAnimatingForward, setIsAnimatingForward] = useState(true);
-  const [formData, setFormData] = useState({
-    trailName: '',
-    description: '',
-  });
 
-  const handleNextStep = () => {
+  function handleNextStep() {
     if (currentStep < 2) {
       setCurrentStep((prevStep) => prevStep + 1);
       setIsAnimatingForward(true);
     }
-  };
+  }
 
   const handlePrevStep = () => {
     if (currentStep > 0) {
@@ -56,35 +131,22 @@ function UserTrailEditor() {
     }
   };
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
+  const handleDetailsFormSubmit = (formData: IFormData) => {
+    setUserTrail((prevState) => ({
+      ...prevState,
+      ...formData,
+      photos: formData.photos,
+      introduction: formData.introduction,
     }));
+    console.log('Submitting details form...');
+    handleNextStep(); // Move to the next step after state update
   };
-
-  useEffect(() => {
-    if (currentStep === 2) {
-      // 3단계에 해당하는 step 인덱스가 2라고 가정
-      setTimeout(() => {
-        navigate('/community');
-      }, 1000); // 2초 후에 Community 페이지로 이동
-    }
-  }, [currentStep, navigate]); // Dependencies는 currentStep과 navigate 함수를 포함
 
   const stepContents = [
     {
-      title: '상세 정보 입력',
+      title: '코스 작성',
       render: (
         <div style={{ display: 'flex', gap: '8px' }}>
-          <button
-            onClick={() => selectOverlay(kakao.maps.drawing.OverlayType.MARKER)}
-          >
-            Marker
-          </button>
           <button
             onClick={() =>
               selectOverlay(kakao.maps.drawing.OverlayType.POLYLINE)
@@ -97,46 +159,27 @@ function UserTrailEditor() {
     },
     {
       title: '작성 완료',
-      render: (
-        <form>
-          <label>
-            Trail Name:
-            <input
-              type="text"
-              name="trailName"
-              value={formData.trailName}
-              onChange={handleInputChange}
-              placeholder="Enter trail name"
-            />
-          </label>
-          <label>
-            Description:
-            <textarea
-              name="description"
-              value={formData.description}
-              onChange={handleInputChange}
-              placeholder="Describe the trail"
-            />
-          </label>
-          <button
-            type="submit"
-            onClick={(e) => {
-              e.preventDefault();
-              handleNextStep();
-            }}
-          >
-            Submit
-          </button>
-        </form>
-      ),
+      render: <DetailsForm onSubmit={handleDetailsFormSubmit} />,
     },
   ];
+
+  useEffect(() => {
+    console.log('User Trail updated:', userTrail);
+  }, [userTrail]); // This useEffect will run whenever userTrail changes.
 
   return (
     <>
       <DefaultLayout />
       <E.HeaderLayout>
-        <E.AddButton onClick={handlePrevStep}>
+        <E.AddButton
+          onClick={() => {
+            if (currentStep === 0) {
+              navigate('/community');
+              return;
+            }
+            handlePrevStep();
+          }}
+        >
           <span className="button_icon-wrapper">
             <IoIosArrowBack width={15} height={15} />
           </span>
@@ -147,7 +190,25 @@ function UserTrailEditor() {
           currentStep={currentStep}
           isAnimatingForward={isAnimatingForward}
         />
-        <E.AddButton onClick={handleNextStep}>
+        <E.AddButton
+          onClick={() => {
+            if (currentStep === 0 && checkPolylineLength()) {
+              getOverlayData();
+              handleNextStep();
+            } else if (currentStep === 1) {
+              const form = document.getElementById(
+                'detailsForm',
+              ) as HTMLFormElement | null;
+              if (form) {
+                form.requestSubmit(); // 폼을 직접 제출합니다.
+              }
+              handleNextStep();
+            } else if (currentStep === 2) {
+              console.log('Navigating to community...');
+              navigate('/community');
+            }
+          }}
+        >
           <span style={{ width: 25 }}></span>
           <span style={{ flex: 1, textAlign: 'center' }}>
             {currentStep < stepContents.length - 1 ? '내용 작성' : '작성 완료'}
@@ -165,7 +226,7 @@ function UserTrailEditor() {
         >
           <DrawingManager
             ref={managerRef}
-            drawingMode={['marker', 'polyline']}
+            drawingMode={['polyline']}
             guideTooltip={['draw', 'drag', 'edit']}
             markerOptions={{ draggable: true, removable: true }}
             polylineOptions={{
