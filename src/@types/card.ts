@@ -6,7 +6,9 @@ export type CardData = {
   distance: string;
   level: string;
   postId: number;
-  postImages: {
-    imageUrl: string;
-  };
+  postImages: PostImage[];
+};
+
+type PostImage = {
+  imageUrl: string;
 };

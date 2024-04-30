@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { css, keyframes } from 'styled-components';
-function Spinner2() {
+function Spinner() {
   return (
     <Loader>
       <JimuPrimaryLoading />
@@ -8,7 +8,7 @@ function Spinner2() {
   );
 }
 
-export default Spinner2;
+export default Spinner;
 
 // keyframes를 사용한 애니메이션 정의
 const loadingAnimation = keyframes`

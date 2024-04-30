@@ -10,7 +10,7 @@ import { ReactComponent as Brown } from '../assets/image/background-brown.svg';
 import { ReactComponent as Green } from '../assets/image/background-green.svg';
 import CardItem from '../components/SeoulTrails.tsx/CardItem';
 import { useQuery } from '@tanstack/react-query';
-import { getAllPosts, getDistrictPosts } from '../apis/seoul_trail';
+import { getAllPosts, getDistrictPosts } from '../apis/post';
 import Spinner from '../components/Spinner';
 
 function SeoulTrails() {
