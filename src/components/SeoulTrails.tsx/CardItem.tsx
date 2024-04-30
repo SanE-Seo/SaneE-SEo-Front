@@ -15,9 +15,18 @@ type CardProps = {
 };
 function CardItem({ key, data }: CardProps) {
   const navigate = useNavigate();
+
   return (
     <C.CardLayout onClick={() => navigate(`/trail-detail/${data.postId}`)}>
-      <img className="card-image" src={postDefaultImage} alt="post-image" />
+      <img
+        className="card-image"
+        src={
+          data.postImages[0].imageUrl
+            ? data.postImages[0].imageUrl
+            : postDefaultImage
+        }
+        alt="post-image"
+      />
       <C.Data>
         <img src={SeoulLogo} className="profile-icon" alt="seoul" />
         <div className="data-container">
