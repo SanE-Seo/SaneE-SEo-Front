@@ -7,34 +7,58 @@ import TimeIcon from '../../assets/icons/time-icon';
 import HeartIcon from '../../assets/icons/heart-icon';
 import LengthIcon from '../../assets/icons/length-icon';
 import LevelIcon from '../../assets/icons/level-icon';
-
-//Props 타입 정의
-interface TrailCardProps {
+import { CardData } from '../../@types/card';
+import { useNavigate } from 'react-router-dom';
+type CardProps = {
+  key: number;
+  data: CardData;
   type: 'seoul' | 'town';
-}
-function TrailCard({ type }: TrailCardProps) {
+};
+function TrailCard({ type, key, data }: CardProps) {
   // type에 따라 프로필 이미지 결정
   const logoImage = type === 'seoul' ? SeoulLogo : DefaultProfile;
+  const navigate = useNavigate();
+
+  const handleNavigatePost = () => {
+    if (type === 'seoul') {
+      navigate(`/trail-detail/${data.postId}`);
+    } else {
+      navigate('/community');
+    }
+  };
   return (
-    <T.Main>
-      <T.Card src={postDefaultImage} alt="Trail Image" />
+    <T.Main onClick={handleNavigatePost}>
+      <T.Card
+        src={
+          data.postImages[0].imageUrl
+            ? data.postImages[0].imageUrl
+            : postDefaultImage
+        }
+        alt="Trail Image"
+      />
       <T.Data>
-        <img src={logoImage} className="profile-icon" alt="seoul" />
+        <img
+          src={
+            type == 'seoul' ? SeoulLogo : data.authorProfile ?? DefaultProfile
+          }
+          className="profile-icon"
+          alt="seoul"
+        />
         <div className="data-container">
-          <span className="title-md">낙산구간</span>
-          <span className="category-sm">한양도성길</span>
+          <span className="title-md">{data.title}</span>
+          <span className="category-sm">{data.subTitle}</span>
         </div>
       </T.Data>
       <T.CardBack>
         <T.Description>
           <TimeIcon width={20} height={20} />
-          <span className="description-text">1시간</span>
+          <span className="description-text">{data.time}</span>
           <HeartIcon width={20} height={20} />
-          <span className="description-text">15</span>
+          <span className="description-text">{data.likes}</span>
           <LengthIcon width={11} height={17} />
-          <span className="description-text">2.51km</span>
+          <span className="description-text">{data.distance}</span>
           <LevelIcon width={15} height={15} />
-          <span className="description-text">초급</span>
+          <span className="description-text">{data.level}</span>
         </T.Description>
       </T.CardBack>
     </T.Main>

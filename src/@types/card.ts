@@ -7,6 +7,9 @@ export type CardData = {
   level: string;
   postId: number;
   postImages: PostImage[];
+  authorId: number;
+  authorName: string;
+  authorProfile: string;
 };
 
 type PostImage = {
