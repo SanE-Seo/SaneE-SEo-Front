@@ -5,8 +5,7 @@ import TimeIcon from '../assets/icons/time-icon';
 import HeartIcon from '../assets/icons/heart-icon';
 import LengthIcon from '../assets/icons/length-icon';
 import LevelIcon from '../assets/icons/level-icon';
-import HeartEmptyIcon from '../assets/icons/heart-empty-icon';
-import HeartFilledIcon from '../assets/icons/heart-filled-icon';
+
 import useKakaoLoader from '../components/useKakaoLoader';
 import { Map, Polyline } from 'react-kakao-maps-sdk';
 import { useParams } from 'react-router-dom';
@@ -14,24 +13,30 @@ import { getPostDetails } from '../apis/post';
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '../components/Spinner';
 import { getLikes } from '../apis/like';
+import Like from '../components/Like';
 function SeoulTrailsDetail() {
   useKakaoLoader();
   const { postId } = useParams() as { postId: string };
   const [likeStatus, setLikeStatus] = useState<boolean>(false);
-
   const { isLoading, data } = useQuery({
     queryKey: ['getPostDetails'],
     queryFn: () => getPostDetails(postId),
   });
 
+  useEffect(() => {
+    refetch();
+  }, [likeStatus]);
+
   const {
     isLoading: isLoadingLikes,
     isSuccess: isSuccessLikes,
     data: likeData,
+    refetch,
   } = useQuery({
     queryKey: ['getLikes'],
     queryFn: () => getLikes(postId),
   });
+
   if (likeData) {
     console.log(likeData.likeCnt);
   }
@@ -44,15 +49,11 @@ function SeoulTrailsDetail() {
             <span className="title-text">{data.title}</span>
             <span className="sub-title">{data.subTitle}</span>
             <div className="div-row">
-              <S.TagContainer>
-                <button onClick={() => setLikeStatus(!likeStatus)}>
-                  {likeStatus ? (
-                    <HeartEmptyIcon width={22} height={19} />
-                  ) : (
-                    <HeartFilledIcon width={24} height={24} />
-                  )}
-                </button>
-              </S.TagContainer>
+              <Like
+                postId={postId}
+                likeStatus={likeStatus}
+                setLikeStatus={setLikeStatus}
+              />
               <S.TagContainer>
                 <TimeIcon width={28} height={28} />
                 <span className="description">{data.time}</span>

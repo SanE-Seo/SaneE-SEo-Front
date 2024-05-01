@@ -13,12 +13,7 @@ import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { getAllPosts, getDistrictPosts } from '../apis/post';
 import Spinner from '../components/Spinner';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { CardData } from '../@types/card';
 
-type Page = {
-  data: CardData[];
-  nextPage?: number;
-};
 function SeoulTrails() {
   const [offset, setOffset] = useState<number>(0);
   const [selectedDistrict, setSelectedDistrict] = useState<string>('전체');
