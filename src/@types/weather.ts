@@ -3,7 +3,7 @@ export type WeatherData = {
   temperature: number;
   temperatureMax: number;
   temperatureMin: number;
-  precipitation: number;
+  precipitation: string;
   humidity: number;
   microDust: number;
   ultraMicroDust: number;

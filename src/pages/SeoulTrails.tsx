@@ -9,26 +9,56 @@ import { ReactComponent as Yellow } from '../assets/image/background-yellow.svg'
 import { ReactComponent as Brown } from '../assets/image/background-brown.svg';
 import { ReactComponent as Green } from '../assets/image/background-green.svg';
 import CardItem from '../components/SeoulTrails.tsx/CardItem';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { getAllPosts, getDistrictPosts } from '../apis/post';
 import Spinner from '../components/Spinner';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { CardData } from '../@types/card';
 
+type Page = {
+  data: CardData[];
+  nextPage?: number;
+};
 function SeoulTrails() {
   const [offset, setOffset] = useState<number>(0);
   const [selectedDistrict, setSelectedDistrict] = useState<string>('전체');
 
-  // 전체 데이터 불러오기
+  // 각 자치구별 데이터 불러오기
   const { isLoading, data } = useQuery({
     queryKey: ['getSeoulTrails', selectedDistrict],
-    queryFn: () => {
-      return selectedDistrict == '전체'
-        ? getAllPosts()
-        : getDistrictPosts(SeoulDistricts.indexOf(selectedDistrict) + 1);
+    queryFn: () =>
+      getDistrictPosts(SeoulDistricts.indexOf(selectedDistrict) + 1),
+    enabled: selectedDistrict != '전체',
+  });
+
+  //전체 데이터 무한 스크롤
+  const {
+    data: paging,
+    isSuccess,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['getAllPosts'],
+    initialPageParam: 1,
+    enabled: selectedDistrict == '전체',
+    queryFn: async ({ pageParam = 1 }) => {
+      const data = await getAllPosts(pageParam);
+      return {
+        // 반환되는 객체 내에서 'result' 대신 직접 'data'를 사용
+        data,
+        // 다음 페이지가 없을 경우, 즉 가져온 데이터의 길이가 16 미만일 경우 nextPage를 undefined로 설정하여 더 이상의 페이지 요청을 중단
+        nextPage: data && data.length < 16 ? undefined : pageParam + 1,
+      };
     },
+    getNextPageParam: (lastPage) => lastPage.nextPage,
   });
 
   if (data) {
     console.log(data);
+  }
+  if (paging) {
+    console.log(paging);
   }
 
   const handlePrevClick = useCallback(() => {
@@ -97,7 +127,25 @@ function SeoulTrails() {
                 <NextIcon color={offset <= -2000 ? '#B8B8B8' : '#717171'} />
               </button>
             </S.DistrictBox>
-            {!isLoading ? (
+
+            {selectedDistrict === '전체' && isSuccess ? (
+              <InfiniteScroll
+                dataLength={paging?.pages.length}
+                loader={<Spinner />}
+                hasMore={hasNextPage}
+                next={() => fetchNextPage()}
+              >
+                <S.CardItemBox>
+                  {paging?.pages.map(
+                    (page, index) =>
+                      page.data &&
+                      page.data.map((data, index) => (
+                        <CardItem key={index} data={data} />
+                      )),
+                  )}
+                </S.CardItemBox>
+              </InfiniteScroll>
+            ) : !isLoading ? (
               data && data.length > 0 ? (
                 <S.CardItemBox>
                   {data.map((item, index) => (
@@ -105,13 +153,18 @@ function SeoulTrails() {
                   ))}
                 </S.CardItemBox>
               ) : (
-                <div>{selectedDistrict}에 해당되는 산책로가 없습니다.</div>
+                <S.CardItemBox>
+                  <div className="no-content">
+                    <span className="text-md">
+                      {selectedDistrict}에 해당되는 산책로가 없습니다.
+                    </span>
+                  </div>
+                </S.CardItemBox>
               )
             ) : (
-              <div>
-                <Spinner />
-              </div>
+              <Spinner />
             )}
+            {/* </S.CardItemBox> */}
           </S.ScreenWrapper>
         </S.Background>
       </DefaultLayout>

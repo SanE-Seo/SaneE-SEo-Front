@@ -93,6 +93,7 @@ export const loginUser = async (email: string, password: string) => {
       const errorCode = error.response.data.errorCode;
       const message = error.response.data.message;
       console.log(`${errorCode}: ${message}`);
+      alert(message);
     }
   }
 };
@@ -111,24 +112,28 @@ type refreshData = {
 export const onSilentRefresh = async () => {
   const cookies = new Cookies();
   const refreshToken = cookies.get('refreshToken');
-
-  try {
-    const res = await Post<refreshData[]>('/api/auth/token/refresh', {
-      refreshToken: refreshToken,
-    });
-    if (res.status == 200) {
-      const { accessToken } = res.data.data[0];
-      onLogInSuccess(accessToken, refreshToken); //토큰 갱신
-      console.log(res);
+  if (refreshToken && refreshToken.length > 0) {
+    try {
+      const res = await Post<refreshData[]>('/api/auth/token/refresh', {
+        refreshToken: refreshToken,
+      });
+      if (res.status == 200) {
+        const { accessToken } = res.data.data[0];
+        onLogInSuccess(accessToken, refreshToken); //토큰 갱신
+        console.log(res);
+      }
+    } catch (error) {
+      console.log(error);
+      if (axios.isAxiosError<CommonError>(error) && error.response) {
+        const errorCode = error.response.data.errorCode;
+        const message = error.response.data.message;
+        console.log(`${errorCode}: ${message}`);
+        //로그인 페이지 리다이렉트
+        alert('로그인이 필요합니다.');
+        window.location.href = '/login';
+      }
     }
-  } catch (error) {
-    console.log(error);
-    console.log(error);
-    if (axios.isAxiosError<CommonError>(error) && error.response) {
-      const errorCode = error.response.data.errorCode;
-      const message = error.response.data.message;
-      console.log(`${errorCode}: ${message}`);
-    }
+  } else {
     //로그인 페이지 리다이렉트
     alert('로그인이 필요합니다.');
     window.location.href = '/login';
