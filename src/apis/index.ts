@@ -39,3 +39,11 @@ export const Post = async <T>(
   const response = await axiosInstance.post(url, data, config);
   return response;
 };
+
+export const Delete = async <T>(
+  url: string,
+  config?: AxiosRequestConfig,
+): Promise<AxiosResponse<CommonResponse<T>>> => {
+  const response = await axiosInstance.delete(url, config);
+  return response;
+};
