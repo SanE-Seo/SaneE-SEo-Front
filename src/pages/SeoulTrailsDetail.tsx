@@ -36,13 +36,6 @@ function SeoulTrailsDetail() {
     console.log(likeData.likeCnt);
   }
 
-  //좌표를 카카오맵에 띄울 수 있도록 형식 변환
-  const transformedCoordinates: { lat: number; lng: number }[][] = [
-    data?.coordinate.coordinates
-      ? data.coordinate.coordinates.map(([lat, lng]) => ({ lat, lng }))
-      : [],
-  ];
-
   return (
     <DefaultLayout>
       <S.ScreenLayout>
@@ -82,12 +75,19 @@ function SeoulTrailsDetail() {
             <p className="content-md">{data.courseDetail}</p>
             <Map
               id="map"
-              center={{ lat: data.coordinate.lat, lng: data.coordinate.lng }}
+              center={{
+                lat: data.geometry.coordinates[
+                  Math.floor(data.geometry.coordinates.length / 2)
+                ].lat,
+                lng: data.geometry.coordinates[
+                  Math.floor(data.geometry.coordinates.length / 2)
+                ].lng,
+              }}
               style={{ width: '100%', height: '500px', margin: '20px 0' }}
-              level={4}
+              level={6}
             >
               <Polyline
-                path={transformedCoordinates}
+                path={data.geometry.coordinates}
                 strokeWeight={3} // 선의 두께 입니다
                 strokeColor={'#FF6450'} // 선의 색깔입니다
                 strokeOpacity={0.8} // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다

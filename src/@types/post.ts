@@ -8,15 +8,18 @@ export type PostData = {
   description: string;
   courseDetail: string;
   transportation: string;
-  coordinate: {
-    lat: number;
-    lng: number;
+  geometry: {
     type: string;
-    coordinates: number[][];
+    coordinates: latlng[];
   };
+
   districtName: string[];
   images: {
     id: number;
     imageUrl: string;
   };
+};
+export type latlng = {
+  lat: number;
+  lng: number;
 };

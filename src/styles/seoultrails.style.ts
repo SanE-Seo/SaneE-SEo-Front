@@ -128,4 +128,20 @@ export const SlideItem = styled.li<LiProps>`
 export const CardItemBox = styled.div`
   display: flex;
   flex-wrap: wrap;
+
+  .no-content {
+    margin: auto;
+    width: 995px;
+    height: 250px;
+    // background: #ffffff;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .text-md {
+      ${(props) => props.theme.fonts.text_lg};
+      color: ${(props) => props.theme.colors.gray600};
+    }
+  }
 `;

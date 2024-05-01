@@ -135,11 +135,7 @@ function Weather() {
                 <RainIcon className="icon-style" />
                 <span className="label-text">강수량</span>
               </div>
-              <span className="value-md">
-                {data.precipitation == 0
-                  ? '강수없음'
-                  : `${data.precipitation}mm`}
-              </span>
+              <span className="value-md">{data.precipitation}</span>
             </W.InfoBox>
             <label className="weather-label">대기오염정보 </label>
             <W.InfoBox>
