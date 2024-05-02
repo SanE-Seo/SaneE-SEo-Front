@@ -4,12 +4,15 @@ import styled from 'styled-components';
 
 interface IFormData {
   title: string;
-  region: string;
-  distance: number;
-  duration: number;
-  difficulty: string;
-  photos: File[];
-  introduction: string;
+  subTitle: string;
+  description: string;
+  level: string;
+  time: string;
+  distance: string;
+  courseDetail: string;
+  transportation: string;
+  images: File[];
+  districtId: string;
 }
 
 interface IFormDataProps {
@@ -56,13 +59,14 @@ const DetailsForm: React.FC<IFormDataProps> = ({ onSubmit }) => {
     setValue,
     getValues,
     formState: { errors },
-  } = useForm<IFormData>({ defaultValues: { photos: [] } });
+  } = useForm<IFormData>({ defaultValues: { images: [] } });
 
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
 
-  const photos = watch('photos');
+  const photos = watch('images');
 
   const onFormSubmit = (data: IFormData) => {
+    // const {};
     console.log('Form Data:', data); // 폼 데이터 확인
     onSubmit(data); // 상위 컴포넌트로 데이터 전달
   };
@@ -81,7 +85,7 @@ const DetailsForm: React.FC<IFormDataProps> = ({ onSubmit }) => {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       const filesArray = Array.from(event.target.files).slice(0, 5);
-      setValue('photos', filesArray as any);
+      setValue('images', filesArray as any);
     }
   };
 
@@ -93,15 +97,15 @@ const DetailsForm: React.FC<IFormDataProps> = ({ onSubmit }) => {
         {errors.title && <span>This field is required</span>}
 
         <Label htmlFor="region">지역</Label>
-        <Input id="region" {...register('region', { required: true })} />
-        {errors.region && <span>This field is required</span>}
+        <Input id="region" {...register('districtId', { required: true })} />
+        {errors.districtId && <span>This field is required</span>}
 
         <Label htmlFor="distance">거리</Label>
         <Textarea id="distance" {...register('distance')} />
         <Label htmlFor="duration">시간</Label>
-        <Textarea id="duration" {...register('duration')} />
+        <Textarea id="duration" {...register('time')} />
         <Label htmlFor="difficulty">난이도</Label>
-        <Textarea id="difficulty" {...register('difficulty')} />
+        <Textarea id="difficulty" {...register('level')} />
 
         <Label htmlFor="photos">사진</Label>
         <Input
@@ -120,10 +124,25 @@ const DetailsForm: React.FC<IFormDataProps> = ({ onSubmit }) => {
           />
         ))}
 
-        <Label htmlFor="introduction">산책로 소개</Label>
+        <Label htmlFor="description">산책로 소개</Label>
         <Textarea
-          id="introduction"
-          {...register('introduction')}
+          id="description"
+          {...register('description')}
+          rows={4}
+        ></Textarea>
+
+        <Label htmlFor="subTitle">subTitle</Label>
+        <Textarea id="subTitle" {...register('subTitle')} rows={4}></Textarea>
+        <Label htmlFor="courseDetail">courseDetail</Label>
+        <Textarea
+          id="courseDetail"
+          {...register('courseDetail')}
+          rows={4}
+        ></Textarea>
+        <Label htmlFor="transportation">transportation</Label>
+        <Textarea
+          id="transportation"
+          {...register('transportation')}
           rows={4}
         ></Textarea>
         <button type="submit" style={{ display: 'none' }}>
