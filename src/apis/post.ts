@@ -51,3 +51,18 @@ export const getPostDetails = async (postId: string) => {
     }
   }
 };
+
+export const getSortedPosts = async (category: number) => {
+  try {
+    const res = await Get<CardData[]>(
+      `/api/districts/posts/${category}/sorted-by-likes`,
+    );
+    return res.data.data;
+  } catch (error) {
+    if (axios.isAxiosError<CommonError>(error) && error.response) {
+      const errorCode = error.response.data.errorCode;
+      const message = error.response.data.message;
+      console.log(`${errorCode}: ${message}`);
+    }
+  }
+};

@@ -6,8 +6,24 @@ import TrailCard from '../components/Main/TrailCard';
 import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg';
 
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { getSortedPosts } from '../apis/post';
 function Main() {
   const navigate = useNavigate();
+
+  // 서울 두드림길 데이터 불러오기
+  const { isLoading: isSeoulLoading, data: seoulData } = useQuery({
+    queryKey: ['getSeoulTrails'],
+    queryFn: () => getSortedPosts(0),
+  });
+  const { isLoading: isCustomLoading, data: customData } = useQuery({
+    queryKey: ['getCustomTrails'],
+    queryFn: () => getSortedPosts(1),
+  });
+
+  if (seoulData) {
+    console.log(seoulData.length);
+  }
   return (
     <>
       <DefaultLayout>
@@ -41,9 +57,15 @@ function Main() {
               </div>
             </M.Container>
             <M.CardList>
-              <TrailCard type="seoul" />
-              <TrailCard type="seoul" />
-              <TrailCard type="seoul" />
+              {!isSeoulLoading && seoulData && seoulData.length > 0 ? (
+                <>
+                  {seoulData.map((item, index) => (
+                    <TrailCard type="seoul" data={item} key={index} />
+                  ))}
+                </>
+              ) : (
+                <div> 데이터가 없습니다.</div>
+              )}
             </M.CardList>
           </M.SeoulWrapper>
           <M.TownWrapper>
@@ -66,9 +88,15 @@ function Main() {
               </div>
             </M.Container>
             <M.CardList>
-              <TrailCard type="town" />
-              <TrailCard type="town" />
-              <TrailCard type="town" />
+              {!isCustomLoading && customData && customData?.length > 0 ? (
+                <>
+                  {customData.map((item, index) => (
+                    <TrailCard type="town" data={item} key={index} />
+                  ))}
+                </>
+              ) : (
+                <div> 데이터가 없습니다.</div>
+              )}
             </M.CardList>
           </M.TownWrapper>
         </M.MainLayout>
