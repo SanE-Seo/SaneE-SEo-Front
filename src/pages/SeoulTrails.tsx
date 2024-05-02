@@ -151,7 +151,7 @@ function SeoulTrails() {
                 <S.CardItemBox>
                   <div className="no-content">
                     <span className="text-md">
-                      {selectedDistrict}에 해당되는 산책로가 없습니다.
+                      {selectedDistrict}에 해당되는 두드림길이 없습니다.
                     </span>
                   </div>
                 </S.CardItemBox>
