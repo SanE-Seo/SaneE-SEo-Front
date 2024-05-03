@@ -167,8 +167,10 @@ function UserTrailEditor() {
   );
   const [currentStep, setCurrentStep] = useState(0);
   const [isAnimatingForward, setIsAnimatingForward] = useState(true);
+  /*
   const mutation = useMutation<ApiResponse, Error, UserTrail, unknown>({
     mutationFn: async (newTrail) => {
+      
       const formattedTrail = convertToAPIFormat(newTrail);
       const response: AxiosResponse<CommonResponse<unknown>> = await Post(
         '/api/posts', // Change the URL here
@@ -177,6 +179,7 @@ function UserTrailEditor() {
       return { message: response.data.message };
     },
   });
+  */
 
   const [mapKey, setMapKey] = useState(0);
 
@@ -284,19 +287,18 @@ function UserTrailEditor() {
     setUserTrail((prevState) => ({
       ...prevState,
       ...formData,
-      //   images: formData.images,
-      //   title: formData.title,
-      //   subTitle: formData.subTitle,
-      //   description: formData.description,
-      //   level: formData.level,
-      //   time: formData.time,
-      //   distance: formData.distance,
-      //   courseDetail: formData.courseDetail,
-      //   transportation: formData.transportation,
-      //   districtId: formData.districtId,
-      //
+      images: formData.images,
+      title: formData.title,
+      subTitle: formData.subTitle,
+      description: formData.description,
+      level: formData.level,
+      time: formData.time,
+      distance: formData.distance,
+      courseDetail: formData.courseDetail,
+      transportation: formData.transportation,
+      districtId: formData.districtId,
     }));
-    console.log('Submitting details form...');
+    console.log('User Trail updated with form data:', userTrail);
     handleNextStep(); // Move to the next step after state update
   };
 
@@ -440,6 +442,8 @@ function UserTrailEditor() {
               } // The toast error is triggered inside the checkPolylineLength if needed
             } else if (currentStep === 1) {
               console.log('Sending data to server:', userTrail);
+              // handleNextStep();
+              /*
               mutation.mutate(userTrail, {
                 onSuccess: () => {
                   console.log('Trail posted successfully');
@@ -449,6 +453,7 @@ function UserTrailEditor() {
                   console.error('Error posting trail:', error);
                 },
               });
+              */
             } else if (currentStep === 2) {
               console.log('Navigating to community...');
               navigate('/community');
