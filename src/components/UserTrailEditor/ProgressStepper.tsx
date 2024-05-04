@@ -82,7 +82,7 @@ const ProgressStepper: React.FC<ProgressStepperProps> = ({
   currentStep,
   isAnimatingForward,
 }) => {
-  const steps = ['Course Edit', 'Content Write', 'Complete'];
+  const steps = ['Course Edit', 'Content Write'];
   return (
     <StepsContainer>
       {steps.map((step, index) => (
