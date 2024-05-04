@@ -19,25 +19,10 @@ const Input = styled.select`
   border-radius: 5px;
   box-sizing: border-box;
   cursor: pointer;
-`;
 
-const ListContainer = styled.div`
-  position: absolute;
-  width: 100%;
-  max-height: 220px;
-  overflow-y: auto;
-  border: 1px solid #ccc;
-  border-top: none;
-  border-radius: 0 0 5px 5px;
-  background-color: white;
-  z-index: 1000;
-`;
-
-const ListItem = styled.div`
-  padding: 8px 12px;
-  cursor: pointer;
-  &:hover {
-    background-color: #f0f0f0;
+  span {
+    ${(props) => props.theme.fonts.text_sm};
+    color: ${({ theme }) => theme.colors.gray800}; /* 테마 폰트 색상 적용 */
   }
 `;
 
@@ -51,7 +36,7 @@ const DropDownTime: React.FC<DropDownProps> = ({
       <Input value={value} onChange={(e) => onChange(e.target.value)}>
         {options.map((option) => (
           <option key={option} value={option}>
-            {option}
+            <span>{option}</span>
           </option>
         ))}
       </Input>
