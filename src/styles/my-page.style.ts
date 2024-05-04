@@ -37,7 +37,7 @@ export const UserInfoLayout = styled.div`
       }
     }
 
-    .user-name-container {
+    .user-nickname-container {
       ${(props) => props.theme.fonts.title_md};
       color: black;
       margin: 10px;

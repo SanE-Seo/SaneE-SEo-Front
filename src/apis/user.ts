@@ -171,3 +171,26 @@ export const logoutUser = async () => {
     }
   }
 };
+
+export const updateUserProfile = async (
+  name: string,
+  email: string,
+  imageFile: File | null,
+) => {
+  try {
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('email', email);
+    if (imageFile) formData.append('profile', imageFile);
+
+    const response = await axios.patch(`/api/member`, formData, {
+      // headers: {
+      //   'Content-Type': 'multipart/form-data',
+      // },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error('Update failed:', error);
+  }
+};
