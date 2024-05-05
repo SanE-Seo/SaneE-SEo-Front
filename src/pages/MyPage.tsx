@@ -27,7 +27,11 @@ function MyPage() {
     setProfileEditIsOpen(false);
     document.body.style.overflow = 'unset';
   };
-
+  useEffect(() => {
+    if (data && data) {
+      console.log(data);
+    }
+  }, []);
   return (
     <>
       <DefaultLayout>
@@ -46,8 +50,8 @@ function MyPage() {
                 )}
               </div>
               <div className="user-nickname-container">
-                {isLoggedIn && !isLoading && data?.nickname
-                  ? data.nickname
+                {isLoggedIn && !isLoading && data?.name
+                  ? data.name
                   : '이름 없음'}
               </div>
               <div className="user-email-container">

@@ -139,15 +139,17 @@ export const onSilentRefresh = async () => {
     window.location.href = '/login';
   }
 };
+
 type userProps = {
   email: string;
-  nickname: string;
+  name: string;
   image?: string;
 };
+
 export const getUser = async () => {
   try {
-    const res = await Get<userProps>('/api/member');
-    return res.data.data;
+    const res = await Get<userProps[]>('/api/member');
+    return res.data.data[0]; // 유저 정보 반환 예시: {name: '홍길동', email: 'gildong@gmail.com', profile: null}
   } catch (error) {
     console.log(error);
     if (axios.isAxiosError<CommonError>(error) && error.response) {
