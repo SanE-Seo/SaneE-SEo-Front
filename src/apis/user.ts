@@ -16,7 +16,7 @@ export const checkNicknameDuplicate = async (nickname: string) => {
       console.log(`${statusCode} - ${statusText} : ${message}`);
       switch (statusCode) {
         case 400:
-          alert(message);
+          console.log(message);
       }
     }
   }
@@ -174,6 +174,7 @@ export const logoutUser = async () => {
   }
 };
 
+// 수정 필요
 export const updateUserProfile = async (
   name: string,
   email: string,
@@ -186,9 +187,9 @@ export const updateUserProfile = async (
     if (imageFile) formData.append('profile', imageFile);
 
     const response = await axios.patch(`/api/member`, formData, {
-      // headers: {
-      //   'Content-Type': 'multipart/form-data',
-      // },
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
     });
 
     return response.data;
