@@ -3,3 +3,5 @@ export const emailRegex =
 
 export const passwordRegex =
   /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
+
+export const nicknameRegex = /^[가-힣a-zA-Z0-9]+$/;

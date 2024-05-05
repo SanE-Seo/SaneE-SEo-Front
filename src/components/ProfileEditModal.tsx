@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getUser, updateUserProfile } from '../apis/user';
 import { useAuth } from '../contexts/AuthContext';
 import { checkNicknameDuplicate } from '../apis/user';
-import { emailRegex } from '../utils/regex';
+import { nicknameRegex, emailRegex } from '../utils/regex';
 import DefaultProfileImg from '../assets/image/default-profile.png';
 import PropTypes from 'prop-types';
 
@@ -55,9 +55,7 @@ function ProfileEditModal({ closeProfileEditModal }: propsType) {
     if (nickname.length < 2 || nickname.length > 10) {
       return false;
     }
-    // 닉네임에 한글, 영어, 숫자 이외의 문자가 포함되어 있는지 확인.
-    const regex = /^[가-힣a-zA-Z0-9]+$/;
-    return regex.test(nickname);
+    return nicknameRegex.test(nickname);
   };
 
   const handleNicknameAlertText = async (nickname: string) => {
