@@ -21,9 +21,13 @@ function ProfileEditModal({ closeProfileEditModal }: propsType) {
     enabled: isLoggedIn, //로그인한 상태에서만 실행
   });
 
-  const [inputNickName, setInputNickName] = useState('');
+  const [inputNickName, setInputNickName] = useState(
+    isLoggedIn && !isLoading && data && data.name ? data.name : '이름없음',
+  );
   const [nickNameAlertText, setNickNameAlertText] = useState('');
-  const [inputEmail, setInputEmail] = useState('');
+  const [inputEmail, setInputEmail] = useState(
+    isLoggedIn && !isLoading && data && data.email ? data.email : '이메일없음',
+  );
   const [emailAlertText, setEmailAlertText] = useState('');
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -33,7 +37,7 @@ function ProfileEditModal({ closeProfileEditModal }: propsType) {
     if (file) {
       const imageUrl = URL.createObjectURL(file);
       setSelectedImage(imageUrl);
-      setSelectedFile(file); // Store the file object
+      setSelectedFile(file);
       console.log('File selected:', imageUrl);
     }
   };
@@ -79,18 +83,28 @@ function ProfileEditModal({ closeProfileEditModal }: propsType) {
   };
 
   const handleUpdateProfile = async () => {
-    // Call the update function
-    const updateResult = await updateUserProfile(
-      inputNickName,
-      inputEmail,
-      selectedFile,
-    );
-    if (updateResult && updateResult.success) {
-      // Assuming API responds with a success field
-      alert('Profile updated successfully!');
-      closeProfileEditModal(); // Close the modal upon successful update
+    // Check if nickname and email conditions are met
+    if (
+      nickNameAlertText === '사용 가능한 별명이에요.' &&
+      emailAlertText !== '올바르지 않은 이메일 형식이에요.'
+    ) {
+      const updateResult = await updateUserProfile(
+        inputNickName,
+        inputEmail,
+        selectedFile,
+      );
+      if (updateResult && updateResult.success) {
+        alert('정보 수정 완료');
+        closeProfileEditModal();
+      } else {
+        alert('정보 수정 실패');
+      }
     } else {
-      alert('Failed to update profile!');
+      if (nickNameAlertText !== '사용 가능한 별명이에요.') {
+        alert('별명을 확인해주세요.');
+      } else if (emailAlertText === '올바르지 않은 이메일 형식이에요.') {
+        alert('이메일 형식을 확인해주세요.');
+      }
     }
   };
 
