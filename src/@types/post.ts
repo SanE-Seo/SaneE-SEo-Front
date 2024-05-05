@@ -4,10 +4,13 @@ export type PostData = {
   time: string;
   distance: string;
   level: string;
-  postId: number;
+  id: number;
   description: string;
   courseDetail: string;
   transportation: string;
+  authorId: number;
+  authorName: string;
+  authorProfile: string;
   geometry: {
     type: string;
     coordinates: latlng[];

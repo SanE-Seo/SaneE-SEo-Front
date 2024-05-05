@@ -5,7 +5,7 @@ import HeartFilledIcon from '../assets/icons/heart-filled-icon';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { addLikes, checkLikes, deleteLikes } from '../apis/like';
-
+import styled from 'styled-components';
 type likeProps = {
   postId: string;
   likeStatus: boolean;
@@ -51,7 +51,7 @@ function Like({ postId, likeStatus, setLikeStatus }: likeProps) {
     // 사용자 위치 정보가 유효한 경우에만 fetchDistrict 함수 호출
   }
   return (
-    <S.TagContainer>
+    <Container>
       <button onClick={handleLike}>
         {likeStatus ? (
           <HeartFilledIcon width={24} height={24} />
@@ -59,8 +59,21 @@ function Like({ postId, likeStatus, setLikeStatus }: likeProps) {
           <HeartEmptyIcon width={22} height={19} />
         )}
       </button>
-    </S.TagContainer>
+    </Container>
   );
 }
 
 export default Like;
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: 10px;
+  padding: 10px;
+  box-sizing: border-box;
+
+  height: 45px;
+
+  border: 1px solid #b8b8b8;
+  border-radius: 10px;
+`;

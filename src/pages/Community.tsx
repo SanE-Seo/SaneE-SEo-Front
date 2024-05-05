@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import UserTrailMap from '../components/Community/UserTrailMap';
 import PlaceSearchModal from '../components/Community/PlaceSearchModal';
 import { useLocation } from '../contexts/LocationContext';
+import { getAllCustomPosts } from '../apis/community';
+import { useQuery } from '@tanstack/react-query';
 
 function Community() {
   const [placeInput, setPlaceInput] = useState<string>('');
@@ -16,6 +18,19 @@ function Community() {
 
   const [lat, setLat] = useState<number>(latitude);
   const [lng, setLng] = useState<number>(longitude);
+
+  const {
+    isLoading,
+    isSuccess,
+    data: TrailData,
+  } = useQuery({
+    queryKey: ['getUserTrails'],
+    queryFn: () => getAllCustomPosts(),
+  });
+
+  // if (!isLoading && data) {
+  //   console.log(data);
+  // }
 
   const navigate = useNavigate();
 
@@ -53,7 +68,7 @@ function Community() {
         />
       )}
 
-      <UserTrailMap lat={lat} lng={lng} />
+      <UserTrailMap lat={lat} lng={lng} trailData={TrailData} />
     </>
   );
 }

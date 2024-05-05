@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import ProgressStepper from './ProgressStepper';
-import { PolylineData, UserTrail } from '../../@types/custom_trail';
+import { PolylineData, UserTrail } from '../../@types/custom';
 
 type DrawTrailProps = {
   handlePrevStep: () => void;

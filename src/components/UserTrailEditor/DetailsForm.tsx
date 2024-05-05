@@ -9,9 +9,9 @@ import { IoAdd } from 'react-icons/io5';
 import * as E from '../../styles/user-trail-editor.style';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import ProgressStepper from './ProgressStepper';
-import { PolylineData } from '../../@types/custom_trail';
+import { PolylineData } from '../../@types/custom';
 import { useNavigate } from 'react-router-dom';
-import { addPosts } from '../../apis/community';
+import { addImages, addPosts } from '../../apis/community';
 import SeoulCoordinates from '../../seoul_districts_coordinates.json';
 
 type IFormData = {
@@ -73,8 +73,7 @@ function DetailsForm({
   };
 
   const onFormSubmit = async () => {
-    const { title, description, level, distance, districtId, images } =
-      getValues();
+    const { title, description, level, distance, districtId } = getValues();
 
     const time =
       timeHours == '0'
@@ -87,7 +86,6 @@ function DetailsForm({
       level,
       distance,
       districtId,
-      images,
       timeMinutes,
       timeHours,
     );
@@ -104,7 +102,6 @@ function DetailsForm({
       level,
       time,
       distance,
-      images,
       Object.keys(SeoulCoordinates).indexOf(districtId) + 26,
       {
         name: trailData?.name,
@@ -114,7 +111,32 @@ function DetailsForm({
     );
 
     if (res?.success) {
-      alert('게시글 등록 성공!');
+      const { images } = getValues();
+      if (images.length > 0) {
+        sendImages(res.data);
+      } else {
+        alert('게시물 등록 성공!');
+        navigate('/community');
+      }
+    }
+  };
+
+  const sendImages = async (postId: number) => {
+    const { images } = getValues();
+    // FormData 객체 생성
+    const formData = new FormData();
+
+    // images 배열에 들어있는 이미지 파일들을 FormData에 추가
+    images.forEach((file) => {
+      formData.append('file', file);
+    });
+
+    formData.append('postId', `${postId}`);
+
+    const res = await addImages(formData);
+
+    if (res?.success) {
+      alert('게시물 등록 성공!');
       navigate('/community');
     }
   };

@@ -10,6 +10,8 @@ export type CardData = {
   authorId: number;
   authorName: string;
   authorProfile: string;
+  lat: number;
+  lng: number;
 };
 
 type PostImage = {
