@@ -8,7 +8,7 @@ import DetailsForm from '../components/UserTrailEditor/DetailsForm';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import DrawTrail from '../components/UserTrailEditor/DrawTrail';
-import { PolylineData, UserTrail } from '../@types/custom_trail';
+import { PolylineData, UserTrail } from '../@types/custom';
 
 interface APIImage {
   imageUrl: string;

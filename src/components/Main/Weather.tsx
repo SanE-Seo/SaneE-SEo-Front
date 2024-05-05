@@ -165,7 +165,15 @@ function Weather() {
             </W.InfoBox>
           </W.WeatherLayout>
         ) : (
-          <Spinner />
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              margin: 'auto',
+            }}
+          >
+            <Spinner />
+          </div>
         )}
       </>
     );

@@ -1,4 +1,4 @@
-export type UserTrail = {
+export type UserTrail<T> = {
   // author: string;
   category: number;
   title: string;
@@ -11,7 +11,7 @@ export type UserTrail = {
   transportation: string;
   images: File[];
   districtId: string;
-  geometry: trailData;
+  geometry: T;
 };
 
 export type trailData = {

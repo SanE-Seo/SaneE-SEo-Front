@@ -1,12 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
-function CourseDetail() {
+import { PostData } from '../../@types/post';
+
+type detailProps = {
+  detail: PostData;
+};
+function CourseDetail({ detail }: detailProps) {
   return (
     <DetailLayout>
       <span className="detail-title">코스 소개</span>
-      <span className="detail-text">
-        노원구 동네에서 걷기 좋은 산책로 추천드립니당
-      </span>
+      <span className="detail-text">{detail.description}</span>
       <span className="detail-title">사용자 등록 사진</span>
     </DetailLayout>
   );
