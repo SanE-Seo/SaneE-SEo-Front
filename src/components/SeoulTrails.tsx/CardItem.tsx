@@ -10,10 +10,9 @@ import { useNavigate } from 'react-router-dom';
 import { CardData } from '../../@types/card';
 
 type CardProps = {
-  key: number;
   data: CardData;
 };
-function CardItem({ key, data }: CardProps) {
+function CardItem({ data }: CardProps) {
   const navigate = useNavigate();
 
   return (

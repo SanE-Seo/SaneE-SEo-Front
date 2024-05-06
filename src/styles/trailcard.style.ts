@@ -49,7 +49,7 @@ export const Description = styled.div`
   .description-text {
     ${(props) => props.theme.fonts.caption};
     color: ${(props) => props.theme.colors.gray300};
-    margin: 0 10px 0 3px;
+    margin: 0 10px 0 1px;
   }
 `;
 

@@ -92,7 +92,7 @@ export const DistrictBox = styled.div`
 // HeaderLayout 컴포넌트의 Props 타입 정의
 type LiProps = {
   offset?: number; // logo-text의 색상을 설정할 수 있는 선택적 프로퍼티
-  active?: boolean;
+  active?: string;
 };
 
 export const SlideItem = styled.li<LiProps>`
@@ -112,10 +112,11 @@ export const SlideItem = styled.li<LiProps>`
     height: 100%;
     ${(props) => props.theme.fonts.title_sm};
     color: ${(props) =>
-      props.active
+      props.active == 'true'
         ? props.theme.colors.mainAccentColor
         : props.theme.colors.gray600};
-    border-bottom: ${(props) => (props.active ? '2px solid #94C020' : 'none')};
+    border-bottom: ${(props) =>
+      props.active == 'true' ? '2px solid #94C020' : 'none'};
     background-color: transparent;
     cursor: pointer;
     &:hover {

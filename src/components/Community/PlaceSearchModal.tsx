@@ -31,7 +31,7 @@ function PlaceSearchModal({
       }
     }
     setSearchResults(results);
-  });
+  }, [placeInput]);
   return (
     <>
       {searchResults.length > 0 && (

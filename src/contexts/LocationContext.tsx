@@ -61,7 +61,7 @@ export const LocationProvider: React.FC<LocationProviderProps> = ({
 };
 
 // 컨텍스트를 사용하기 쉽게 하는 훅
-export const useLocation = () => {
+export const useCurrentLocation = () => {
   const context = useContext(LocationContext);
   if (context === undefined) {
     throw new Error('useLocation must be used within a LocationProvider');

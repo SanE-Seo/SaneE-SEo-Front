@@ -10,41 +10,26 @@ import { ReactComponent as UltraFineDustIcon } from '../../assets/icons/ultra-fi
 import { ReactComponent as OzoneIcon } from '../../assets/icons/ozone-icon.svg';
 import TemperatureIcon from '../../assets/icons/temparature-icon.png';
 import { getDistrict } from '../../apis/kakao_api';
-import { useLocation } from '../../contexts/LocationContext';
 import { useQuery } from '@tanstack/react-query';
 import { getWeather } from '../../apis/weather';
 import Spinner from '../Spinner';
-function Weather() {
-  // 선택된 자치구 상태를 관리하기 위한 useState
-  const [selectedDistrict, setSelectedDistrict] = useState<string | null>(null);
-  const { latitude, longitude } = useLocation();
 
-  useEffect(() => {
-    if (latitude && longitude) {
-      console.log('실행');
-      fetchDistrict();
-    }
-    // fetchDistrict();
-  }, [latitude, longitude]);
-
+type WeatherProps = {
+  selectedDistrict: string;
+  setSelectedDistrict: (value: string) => void;
+  fetchDistrict: () => void;
+};
+function Weather({
+  selectedDistrict,
+  setSelectedDistrict,
+  fetchDistrict,
+}: WeatherProps) {
+  //날씨 데이터 가져오기
   const { isLoading, isSuccess, data } = useQuery({
     queryKey: ['getWeather', selectedDistrict],
-    queryFn: () => getWeather(SeoulDistricts.indexOf(selectedDistrict!) + 1),
+    queryFn: () => getWeather(SeoulDistricts.indexOf(selectedDistrict) + 1),
     enabled: Boolean(selectedDistrict),
   });
-
-  async function fetchDistrict() {
-    try {
-      const district = (await getDistrict(latitude, longitude)) as string;
-      console.log(district);
-      setSelectedDistrict(district);
-    } catch (error) {
-      setSelectedDistrict('강남구');
-      console.error('자치구 정보를 가져오는데 실패했습니다.', error);
-    }
-    // 사용자 위치 정보가 유효한 경우에만 fetchDistrict 함수 호출
-  }
-
   // 드롭다운에서 자치구가 선택될 때 실행될 핸들러 함수
   const handleDistrictChange = (
     event: React.ChangeEvent<HTMLSelectElement>,
@@ -87,30 +72,31 @@ function Weather() {
     }
   };
 
-  if (selectedDistrict) {
-    return (
-      <>
-        <W.PlaceForm>
-          <label className="select-label">지역선택</label>
-          <select
-            className="select-place"
-            value={selectedDistrict}
-            onChange={handleDistrictChange}
-          >
-            {SeoulDistricts.map((district, index) => (
-              <option key={index} value={district}>
-                {district}
-              </option>
-            ))}
-          </select>
-          <div className="my-place-wrapper" onClick={() => fetchDistrict()}>
-            <img src={MyPlace} alt="내 위치" height={17} />
-            <span className="my-place-label">내 위치</span>
-          </div>
-        </W.PlaceForm>
+  return (
+    <>
+      <W.PlaceForm>
+        <label className="select-label">지역선택</label>
+        <select
+          className="select-place"
+          value={selectedDistrict}
+          onChange={handleDistrictChange}
+        >
+          {SeoulDistricts.map((district, index) => (
+            <option key={index} value={district}>
+              {district}
+            </option>
+          ))}
+        </select>
+        <div className="my-place-wrapper" onClick={() => fetchDistrict()}>
+          <img src={MyPlace} alt="내 위치" height={17} />
+          <span className="my-place-label">내 위치</span>
+        </div>
+      </W.PlaceForm>
+
+      <W.WeatherLayout>
+        <label className="weather-label">기상정보</label>
         {isSuccess && data ? (
-          <W.WeatherLayout>
-            <label className="weather-label">기상정보</label>
+          <>
             <W.InfoBox>
               <div className="row-container">
                 <img src={TemperatureIcon} className="icon-style" height={28} />
@@ -123,6 +109,7 @@ function Weather() {
                 </span>
               </div>
             </W.InfoBox>
+
             <W.InfoBox>
               <div className="row-container">
                 <WaterIcon className="icon-style" />
@@ -137,7 +124,22 @@ function Weather() {
               </div>
               <span className="value-md">{data.precipitation}</span>
             </W.InfoBox>
-            <label className="weather-label">대기오염정보 </label>
+          </>
+        ) : (
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              margin: 'auto',
+            }}
+          >
+            <Spinner />
+          </div>
+        )}
+        <label className="weather-label">대기오염정보 </label>
+        {isSuccess && data ? (
+          <>
             <W.InfoBox>
               <div className="row-container">
                 <FineDustIcon className="icon-style" />
@@ -163,23 +165,22 @@ function Weather() {
               </div>
               <span className="value-md">{transformOzone(data.ozone)}</span>
             </W.InfoBox>
-          </W.WeatherLayout>
+          </>
         ) : (
           <div
             style={{
               display: 'flex',
-              justifyContent: 'center',
+              flexDirection: 'column',
+              alignItems: 'center',
               margin: 'auto',
             }}
           >
             <Spinner />
           </div>
         )}
-      </>
-    );
-  } else {
-    return <></>;
-  }
+      </W.WeatherLayout>
+    </>
+  );
 }
 
 export default Weather;

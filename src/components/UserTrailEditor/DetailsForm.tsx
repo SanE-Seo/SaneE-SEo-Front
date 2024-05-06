@@ -47,7 +47,7 @@ function DetailsForm({
     getValues,
     formState: { errors },
   } = useForm<IFormData>({
-    defaultValues: { images: [], title: '', districtId: '' },
+    defaultValues: { images: [], title: '', level: '초급', districtId: '' },
   });
 
   console.log(trailData);
@@ -226,6 +226,9 @@ function DetailsForm({
                   />
                 )}
               />
+              {errors.districtId && (
+                <D.ErrorMessage>{errors.districtId.message}</D.ErrorMessage>
+              )}
             </D.InputContainer>
 
             <D.InputContainer>
@@ -257,11 +260,31 @@ function DetailsForm({
 
             <D.InputContainer>
               <D.Label2 htmlFor="level">난이도</D.Label2>
-              <DropDownTime
+
+              <Controller
+                name="level"
+                control={control}
+                rules={{ required: '난이도를 선택해주세요.' }}
+                render={({ field }) => (
+                  <DropDownTime
+                    {...field}
+                    value={field.value}
+                    onChange={(value) => field.onChange(value)}
+                    options={['초급', '중급', '고급']} // 초급, 중급, 고급을 옵션으로 전달
+                  />
+                )}
+              />
+              {/* <DropDownTime
                 value={getValues('level')}
                 onChange={(value) => setValue('level', value)}
                 options={['초급', '중급', '고급']} // 초급, 중급, 고급을 옵션으로 전달
-              />
+                {...register('level', {
+                  required: '난이도는 필수 입력값입니다.',
+                })}
+              /> */}
+              {errors.level && (
+                <D.ErrorMessage>{errors.level.message}</D.ErrorMessage>
+              )}
             </D.InputContainer>
             <D.InputContainer>
               <D.Label2>거리</D.Label2>

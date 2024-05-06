@@ -2,9 +2,6 @@ import React from 'react';
 import styled, { css, keyframes } from 'styled-components';
 function Spinner() {
   return (
-    // <Loader>
-    //   <JimuPrimaryLoading />
-    // </Loader>
     <SpinnerContainer>
       {Array.from({ length: 12 }).map((_, index) => (
         <SpinnerBlade
@@ -29,20 +26,13 @@ const rotate = keyframes`
 
 const SpinnerContainer = styled.div`
   font-size: 28px;
-  // position: relative;
-  // display: flex;
-  // flex-direction: column;
-  // align-items: center;
-  // justify-content: center; // 가로 중앙 정렬
-  // // align-items: flex-end; // 세로 아래쪽 정렬
   width: 1em;
   height: 1em;
 `;
 
 const SpinnerBlade = styled.div`
   position: absolute;
-  left: 0.4629em;
-  bottom: 0;
+  margin-left: 0.4629em;
   width: 0.074em;
   height: 0.2777em;
   border-radius: 0.0555em;
