@@ -4,6 +4,7 @@ import Spinner from '../Spinner';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { getUserActivities } from '../../apis/user';
 import CardItem from '../SeoulTrails.tsx/CardItem';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 function UserActivity() {
   const [offset, setOffset] = useState<number>(0);
@@ -21,14 +22,6 @@ function UserActivity() {
     queryFn: () => getUserActivities(activities.indexOf(selectedActivity)),
     enabled: true,
   });
-
-  const handlePrevClick = useCallback(() => {
-    if (offset < 0) setOffset(offset + 1000);
-  }, [offset]);
-
-  const handleNextClick = useCallback(() => {
-    if (offset > -2000) setOffset(offset - 1000);
-  }, [offset]);
 
   const onActivityClick = (activity: string) => {
     setSelectedActivity(activity);
@@ -54,17 +47,17 @@ function UserActivity() {
         </ul>
         {!isLoading ? (
           data && data.data.length > 0 ? (
-            <M.SlideItem>
+            <M.CardItemBox>
               {data.data.map((item, index) => (
                 <CardItem key={index} data={item} />
               ))}
-            </M.SlideItem>
+            </M.CardItemBox>
           ) : (
-            <M.SlideItem>
+            <M.CardItemBox>
               <div className="no-content">
-                <span className="text-md">해당되는 활동이 없습니다.</span>
+                <span className="text-md">해당하는 활동이 없습니다.</span>
               </div>
-            </M.SlideItem>
+            </M.CardItemBox>
           )
         ) : (
           <Spinner />

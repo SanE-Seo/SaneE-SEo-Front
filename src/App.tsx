@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { GlobalStyle } from './styles/global-style';
-import { LocationProvider } from './contexts/LocationContext'; // Import the LocationProvider
+// import { LocationProvider } from './contexts/LocationContext'; // Import the LocationProvider
 
 import Main from './pages/Main';
 import Login from './pages/Login';
@@ -46,30 +46,26 @@ function App() {
       <GlobalStyle />
 
       <BrowserRouter>
-        <LocationProvider>
-          {' '}
-          {/* Wrap the Routes component with LocationProvider */}
-          <Routes>
-            <Route path="/" element={<Main />} />
-            <Route path="/seoul-trails" element={<SeoulTrails />} />
-            <Route
-              path="/trail-detail/:postId"
-              element={<SeoulTrailsDetail />}
-            />
-            <Route path="/community" element={<Community />} />
-            {/* <Route path="/user-trail-editor" element={<UserTrailEditor />} /> */}
-            <Route element={<PrivateRoute />}>
-              <Route path="/user-trail-editor" element={<UserTrailEditor />} />
-              <Route path="/mypage" element={<MyPage />} />
-            </Route>
-            <Route element={<PublicRoute />}>
-              <Route path="/login" element={<Login />} />
-              <Route path="/sign-up" element={<Signup />} />
-            </Route>
+        {/* <LocationProvider> */}{' '}
+        {/* Wrap the Routes component with LocationProvider */}
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/seoul-trails" element={<SeoulTrails />} />
+          <Route path="/trail-detail/:postId" element={<SeoulTrailsDetail />} />
+          <Route path="/community" element={<Community />} />
+          {/* <Route path="/user-trail-editor" element={<UserTrailEditor />} /> */}
+          <Route element={<PrivateRoute />}>
+            <Route path="/user-trail-editor" element={<UserTrailEditor />} />
+            <Route path="/mypage" element={<MyPage />} />
+          </Route>
+          <Route element={<PublicRoute />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/sign-up" element={<Signup />} />
+          </Route>
 
-            <Route path="/redirect" element={<RedirectPage />} />
-          </Routes>
-        </LocationProvider>
+          <Route path="/redirect" element={<RedirectPage />} />
+        </Routes>
+        {/* </LocationProvider> */}
       </BrowserRouter>
       <ReactQueryDevtools initialIsOpen={true} />
     </>
