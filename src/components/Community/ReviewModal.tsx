@@ -2,19 +2,21 @@ import React, { useState } from 'react';
 import * as R from '../../styles/review-modal';
 import { ReactComponent as CloseIcon } from '../../assets/icons/close-icon.svg';
 import { sendReview } from '../../apis/review';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 type modalProps = {
   isOpenModal: boolean;
   setIsOpenModal: (value: boolean) => void;
   title: string;
   postId: number;
 };
+
 function ReviewModal({
   isOpenModal,
   setIsOpenModal,
   title,
   postId,
 }: modalProps) {
-  const [reviewText, setReviewText] = useState(''); // 리뷰 텍스트 상태를 관리합니다.
+  const [reviewText, setReviewText] = useState<string>(''); // 리뷰 텍스트 상태를 관리합니다.
 
   // 리뷰 텍스트의 유효성을 검사하는 함수입니다.
   const handleReviewChange = (
@@ -24,12 +26,27 @@ function ReviewModal({
   };
 
   const isReviewValid = reviewText.trim().length > 0; // 리뷰 텍스트가 비어있지 않은지 확인합니다.
+  const queryClient = useQueryClient();
+  type reviewProps = {
+    postId: number;
+    reviewText: string;
+  };
+  const { mutate: postReviewMutate } = useMutation({
+    mutationFn: ({ postId, reviewText }: reviewProps) =>
+      sendReview(postId, reviewText),
+    onSuccess: () => {
+      // 리뷰 작성 성공 후 getReview 쿼리를 다시 불러옴
+      queryClient.invalidateQueries({ queryKey: ['getReview'] });
+      setIsOpenModal(!isOpenModal);
+    },
+  });
 
   const submitReview = async () => {
-    const res = await sendReview(postId, reviewText);
-    if (res?.success) {
-      setIsOpenModal(!isOpenModal);
-    }
+    postReviewMutate({ postId, reviewText });
+    // const res = await sendReview(postId, reviewText);
+    // if (res?.success) {
+    //   setIsOpenModal(!isOpenModal);
+    // }
   };
   return (
     <R.ModalBackdrop isOpen={isOpenModal}>

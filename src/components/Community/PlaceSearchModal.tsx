@@ -7,6 +7,7 @@ type PlaceProps = {
   setIsOpen: (value: boolean) => void;
   setLat: (value: number) => void;
   setLng: (value: number) => void;
+  setSelectedDistrict: (value: string) => void;
 };
 
 type DistrictCoordinates = {
@@ -18,8 +19,8 @@ function PlaceSearchModal({
   setIsOpen,
   setLat,
   setLng,
+  setSelectedDistrict,
 }: PlaceProps) {
-  console.log(placeInput);
   const [searchResults, setSearchResults] = useState<string[]>([]);
 
   const coordinates: DistrictCoordinates = SeoulCoordinates;
@@ -34,10 +35,10 @@ function PlaceSearchModal({
   }, [placeInput]);
   return (
     <>
-      {searchResults.length > 0 && (
-        <P.ModalWrapper>
-          <ul>
-            {searchResults.map((district, index) => (
+      <P.ModalWrapper>
+        <ul>
+          {searchResults.length > 0 &&
+            searchResults.map((district, index) => (
               <>
                 <li
                   key={index}
@@ -46,6 +47,7 @@ function PlaceSearchModal({
                     setPlaceInput(district);
                     setLat(coordinates[district].lat);
                     setLng(coordinates[district].lng);
+                    setSelectedDistrict(district);
                     setIsOpen(false);
                   }}
                 >
@@ -54,9 +56,8 @@ function PlaceSearchModal({
                 <hr className="line" />
               </>
             ))}
-          </ul>
-        </P.ModalWrapper>
-      )}
+        </ul>
+      </P.ModalWrapper>
     </>
   );
 }

@@ -17,12 +17,14 @@ export type PostData = {
   };
 
   districtName: string[];
-  images: {
-    id: number;
-    imageUrl: string;
-  };
+  images: imageProps[];
 };
 export type latlng = {
   lat: number;
   lng: number;
+};
+
+type imageProps = {
+  id: number;
+  imageUrl: string;
 };

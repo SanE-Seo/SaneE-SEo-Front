@@ -35,37 +35,43 @@ function Review({ detail }: ReviewProps) {
         <AddReviewButton onClick={() => setIsOpenModal(!isOpenModal)}>
           리뷰 작성하기
         </AddReviewButton>
-        {isSuccess && data && data.length > 0 ? (
-          data.map((item, index) => (
-            <ReviewItem key={index}>
-              <div className="profile-rating-box">
-                <div className="profile-rating-box">
-                  <img
-                    src={DefaultProfileImg}
-                    className="profile-img"
-                    alt="profile"
-                  />
-                  <span className="name">{item.authorName}</span>
-                </div>
-                <CiMenuKebab className="icon-style" />
-              </div>
-              <span className="review-text">{item.content}</span>
-              <span className="review-date">
-                {formatDate(item.createAt)}
-              </span>{' '}
-            </ReviewItem>
-          ))
-        ) : (
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center', // 중앙 정렬을 위해 추가
-            }}
-          >
-            <Spinner />
-          </div>
-        )}
+        <ReviewBox>
+          {isSuccess && data ? (
+            data.length > 0 ? (
+              data.map((item, index) => (
+                <ReviewItem key={index}>
+                  <div className="profile-rating-box">
+                    <div className="profile-rating-box">
+                      <img
+                        src={DefaultProfileImg}
+                        className="profile-img"
+                        alt="profile"
+                      />
+                      <span className="name">{item.authorName}</span>
+                    </div>
+                    <CiMenuKebab className="icon-style" />
+                  </div>
+                  <span className="review-text">{item.content}</span>
+                  <span className="review-date">
+                    {formatDate(item.createAt)}
+                  </span>{' '}
+                </ReviewItem>
+              ))
+            ) : (
+              <span className="no-review">아직 작성된 리뷰가 없습니다.</span>
+            )
+          ) : (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center', // 중앙 정렬을 위해 추가
+              }}
+            >
+              <Spinner />
+            </div>
+          )}
+        </ReviewBox>
       </ReviewLayout>
       {isOpenModal && (
         <ReviewModal
@@ -86,6 +92,7 @@ const ReviewLayout = styled.div`
   flex-direction: column;
   padding: 15px 20px;
   cursor: default;
+  align-items: center;
 `;
 
 const AddReviewButton = styled.button`
@@ -96,6 +103,23 @@ const AddReviewButton = styled.button`
   border-radius: 10px;
   ${(props) => props.theme.fonts.text_md};
   color: #ffffff;
+`;
+
+const ReviewBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  max-height: calc(100vh - 435px);
+
+  .no-review {
+    ${(props) => props.theme.fonts.text_md};
+    color: ${(props) => props.theme.colors.gray600};
+    margin-top: 50px;
+  }
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
 `;
 
 const ReviewItem = styled.div`

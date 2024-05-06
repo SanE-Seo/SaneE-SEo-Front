@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as S from '../styles/signup.style';
 import { ReactComponent as Logo } from '../assets/icons/logo.svg';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { emailRegex, passwordRegex } from '../utils/regex';
 import { checkNicknameDuplicate, registerUser } from '../apis/user';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function Signup() {
   //폼으로 입력받을 데이터 정의
   type FormValue = {
@@ -30,7 +32,7 @@ function Signup() {
       nickname: '',
     },
   });
-
+  const [isNicknameValid, setIsNicknameValid] = useState(false); // 닉네임 중복 검사 상태 추가
   //비밀번호 값 추적
   const password_watch = watch('password');
   const nickname_watch = watch('nickname');
@@ -45,11 +47,18 @@ function Signup() {
     const res = await checkNicknameDuplicate(nickname);
     if (res?.status == 200) {
       alert('사용가능한 닉네임 입니다.');
+      setIsNicknameValid(true);
+    } else {
+      setIsNicknameValid(false);
     }
   };
 
   //서버 api 요청 코드 추가
   const onSubmitHandler: SubmitHandler<FormValue> = async () => {
+    if (!isNicknameValid) {
+      alert('닉네임 중복검사를 진행해주세요.');
+      return;
+    }
     const { email, password, pw_confirm, nickname } = getValues();
     console.log(email, password, pw_confirm, nickname);
     const res = await registerUser(email, password, nickname);
