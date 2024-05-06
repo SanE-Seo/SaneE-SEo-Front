@@ -10,11 +10,10 @@ import LevelIcon from '../../assets/icons/level-icon';
 import { CardData } from '../../@types/card';
 import { useNavigate } from 'react-router-dom';
 type CardProps = {
-  key: number;
   data: CardData;
   type: 'seoul' | 'town';
 };
-function TrailCard({ type, key, data }: CardProps) {
+function TrailCard({ type, data }: CardProps) {
   // type에 따라 프로필 이미지 결정
   const logoImage = type === 'seoul' ? SeoulLogo : DefaultProfile;
   const navigate = useNavigate();
@@ -23,7 +22,7 @@ function TrailCard({ type, key, data }: CardProps) {
     if (type === 'seoul') {
       navigate(`/trail-detail/${data.postId}`);
     } else {
-      navigate('/community');
+      navigate('/community', { state: data });
     }
   };
   return (

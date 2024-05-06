@@ -1,32 +1,41 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useKakaoLoader from '../useKakaoLoader';
-import {
-  Map,
-  CustomOverlayMap,
-  Polyline,
-  MapMarker,
-} from 'react-kakao-maps-sdk';
-import { ReactComponent as CustomMarker } from '../../assets/image/custom-marker.svg';
+import { Map, Polyline, MapMarker } from 'react-kakao-maps-sdk';
 import customMarker from '../../assets/image/foundation_marker.png';
 import * as U from '../../styles/user-trail-map.style';
 import Drawer from './Drawer';
 import { CardData } from '../../@types/card';
 import { getPostDetails } from '../../apis/post';
-import { PolylineData, UserTrail } from '../../@types/custom';
 import { PostData } from '../../@types/post';
+import { useQuery } from '@tanstack/react-query';
+import { getAllCustomPosts } from '../../apis/community';
 type MapProps = {
   lat: number;
   lng: number;
-  trailData?: CardData[];
+  selectedDistrict: string;
+  clickItem?: CardData;
 };
-function UserTrailMap({ lat, lng, trailData }: MapProps) {
+function UserTrailMap({ lat, lng, selectedDistrict, clickItem }: MapProps) {
   useKakaoLoader();
   const [isOpenDrawer, setIsOpenDrawer] = useState<boolean>(false);
 
   const [detail, setDetail] = useState<PostData>();
-  // if (trailData) {
-  //   trailData.map((data, index) => console.log(data));
-  // }
+
+  const {
+    isLoading,
+    isSuccess,
+    data: trailData,
+  } = useQuery({
+    queryKey: ['getUserTrails', selectedDistrict],
+    queryFn: () => getAllCustomPosts(selectedDistrict),
+  });
+
+  useEffect(() => {
+    //만약 카드를 클릭해서 넘어온 경우, 해당 아이템 마커를 클릭한것처럼 이벤트 처리
+    if (clickItem) {
+      handleClickMarker(clickItem.postId);
+    }
+  }, [clickItem]);
 
   const handleClickMarker = async (postId: number) => {
     const res = await getPostDetails(`${postId}`);
@@ -42,6 +51,7 @@ function UserTrailMap({ lat, lng, trailData }: MapProps) {
       <U.MapLayout>
         {isOpenDrawer && detail != undefined && (
           <Drawer
+            key={detail.id}
             isOpenDrawer={isOpenDrawer}
             setIsOpenDrawer={setIsOpenDrawer}
             detail={detail}
@@ -54,7 +64,8 @@ function UserTrailMap({ lat, lng, trailData }: MapProps) {
           className="map-style"
           level={3}
         >
-          {trailData &&
+          {isSuccess &&
+            trailData &&
             trailData.map((data, index) => (
               <>
                 <MapMarker
@@ -69,18 +80,17 @@ function UserTrailMap({ lat, lng, trailData }: MapProps) {
                   }}
                   onClick={() => handleClickMarker(data.postId)}
                 />
-                {isOpenDrawer && detail && (
-                  <Polyline
-                    path={detail.geometry.coordinates}
-                    strokeWeight={3} // 선의 두께 입니다
-                    strokeColor={'#FF6450'} // 선의 색깔입니다
-                    strokeOpacity={0.8} // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-                    strokeStyle={'solid'} // 선의 스타일입니다>
-                  />
-                )}
-                ;
               </>
             ))}
+          {isOpenDrawer && detail && (
+            <Polyline
+              path={detail.geometry.coordinates}
+              strokeWeight={3} // 선의 두께 입니다
+              strokeColor={'#FF6450'} // 선의 색깔입니다
+              strokeOpacity={0.8} // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+              strokeStyle={'solid'} // 선의 스타일입니다>
+            />
+          )}
         </Map>
       </U.MapLayout>
     </>

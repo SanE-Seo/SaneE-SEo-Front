@@ -3,7 +3,7 @@ import { Map, DrawingManager } from 'react-kakao-maps-sdk';
 import { HiOutlinePencil } from 'react-icons/hi';
 import { MdOutlineEdit, MdMyLocation } from 'react-icons/md';
 import useKakaoLoader from '../useKakaoLoader';
-import { useLocation } from '../../contexts/LocationContext';
+import { useCurrentLocation } from '../../contexts/LocationContext';
 import colors from '../../styles/theme';
 import { ToastContainer, toast } from 'react-toastify';
 import * as E from '../../styles/user-trail-editor.style';
@@ -29,7 +29,7 @@ function DrawTrail({
 }: DrawTrailProps) {
   useKakaoLoader();
   const [mapKey, setMapKey] = useState(0);
-  const { latitude, longitude } = useLocation();
+  const { latitude, longitude } = useCurrentLocation();
   const mapRef = useRef<kakao.maps.Map | null>(null);
   const managerRef =
     useRef<

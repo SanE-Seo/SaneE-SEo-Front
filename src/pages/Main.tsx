@@ -1,29 +1,57 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import DefaultLayout from '../components/DefaultLayout';
 import * as M from '../styles/main.style';
 import Weather from '../components/Main/Weather';
 import TrailCard from '../components/Main/TrailCard';
 import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg';
-
-import { useNavigate } from 'react-router-dom';
+import { getDistrict } from '../apis/kakao_api';
+import { useCurrentLocation } from '../contexts/LocationContext';
 import { useQuery } from '@tanstack/react-query';
-import { getSortedPosts } from '../apis/post';
+import { useNavigate } from 'react-router-dom';
+
+import { getSortedCustomPosts, getSortedPosts } from '../apis/post';
+import useKakaoLoader from '../components/useKakaoLoader';
 function Main() {
+  useKakaoLoader();
   const navigate = useNavigate();
+  const { latitude, longitude } = useCurrentLocation();
+  // 선택된 자치구 상태를 관리하기 위한 useState
+  const [selectedDistrict, setSelectedDistrict] = useState<string>('강남구');
 
   // 서울 두드림길 데이터 불러오기
   const { isLoading: isSeoulLoading, data: seoulData } = useQuery({
     queryKey: ['getSeoulTrails'],
     queryFn: () => getSortedPosts(0),
   });
+  //걸음나눔터 데이터 불러오기
   const { isLoading: isCustomLoading, data: customData } = useQuery({
-    queryKey: ['getCustomTrails'],
-    queryFn: () => getSortedPosts(1),
+    queryKey: ['getCustomTrails', selectedDistrict],
+    queryFn: () => getSortedCustomPosts(selectedDistrict),
+    enabled: Boolean(selectedDistrict),
   });
 
-  if (seoulData) {
-    console.log(seoulData.length);
+  useEffect(() => {
+    //현 위치에서 구 데이터 가져오기
+    if (latitude && longitude) {
+      fetchDistrict();
+    } else {
+      //위치 데이터가 없으면,
+      setSelectedDistrict('강남구');
+    }
+  }, [latitude, longitude]);
+
+  async function fetchDistrict() {
+    try {
+      const district = (await getDistrict(latitude, longitude)) as string;
+      console.log(district);
+      setSelectedDistrict(district);
+    } catch (error) {
+      setSelectedDistrict('강남구');
+      console.error('자치구 정보를 가져오는데 실패했습니다.', error);
+    }
+    // 사용자 위치 정보가 유효한 경우에만 fetchDistrict 함수 호출
   }
+
   return (
     <>
       <DefaultLayout>
@@ -32,7 +60,13 @@ function Main() {
             <M.Title>
               우리 동네 <M.Title title_color="#94C020">날씨정보</M.Title>
             </M.Title>
-            <Weather />
+            {selectedDistrict && (
+              <Weather
+                selectedDistrict={selectedDistrict}
+                setSelectedDistrict={setSelectedDistrict}
+                fetchDistrict={fetchDistrict}
+              />
+            )}
           </M.WeatherWrapper>
           <M.SeoulWrapper>
             <M.Title>

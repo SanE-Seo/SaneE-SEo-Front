@@ -57,15 +57,11 @@ export const addImages = async (formData: FormData) => {
     }
   }
 };
-export const getAllCustomPosts = async () => {
+export const getAllCustomPosts = async (district: string) => {
   try {
     const res = await Get<CardData[]>(
-      `/api/districts/posts?page=0&size=20&category=1`,
+      `/api/posts/by-district-prefix?districtName=${district}`,
     );
-
-    if (res.status == 204) {
-      return [];
-    }
     return res.data.data;
   } catch (error) {
     if (axios.isAxiosError<CommonError>(error) && error.response) {

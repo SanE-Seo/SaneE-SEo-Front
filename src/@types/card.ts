@@ -12,6 +12,7 @@ export type CardData = {
   authorProfile: string;
   lat: number;
   lng: number;
+  category: number;
 };
 
 type PostImage = {

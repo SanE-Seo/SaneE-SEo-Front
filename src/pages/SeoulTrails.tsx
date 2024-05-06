@@ -108,7 +108,7 @@ function SeoulTrails() {
                     key={index}
                     className="slide-item"
                     offset={offset}
-                    active={selectedDistrict == d}
+                    active={`${selectedDistrict == d}`}
                   >
                     <button onClick={() => onDistrictClick(d)}>{d}</button>
                   </S.SlideItem>
@@ -126,7 +126,18 @@ function SeoulTrails() {
             {selectedDistrict === '전체' && isSuccess ? (
               <InfiniteScroll
                 dataLength={paging?.pages.length}
-                loader={<Spinner />}
+                loader={
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      marginTop: '50px',
+                    }}
+                  >
+                    <Spinner />
+                  </div>
+                }
                 hasMore={hasNextPage}
                 next={() => fetchNextPage()}
               >
@@ -157,9 +168,17 @@ function SeoulTrails() {
                 </S.CardItemBox>
               )
             ) : (
-              <Spinner />
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  marginTop: '50px',
+                }}
+              >
+                <Spinner />
+              </div>
             )}
-            {/* </S.CardItemBox> */}
           </S.ScreenWrapper>
         </S.Background>
       </DefaultLayout>
