@@ -202,9 +202,9 @@ export const updateUserProfile = async (
 
 export const getUserActivities = async (num: number) => {
   const url =
-    num === 2
-      ? `/api/member/liked-posts/${num}` // num이 2이면 사용자의 게시글
-      : `/api/member/liked-posts/${num}`; // num이 0이면 사용자가 좋아요한 두드림길, 1이면 사용자가 좋아요한 사용자들의 게시글
+    num === 0
+      ? `/api/member/my-posts` // num이 0이면 사용자의 게시글
+      : `/api/member/liked-posts/${num - 1}`; // num이 1이면 사용자가 좋아요한 두드림길 -> 0, 2이면 사용자가 좋아요한 사용자들의 게시글 -> 1
   try {
     const response = await Get<CardData[]>(url);
     return response.data;
