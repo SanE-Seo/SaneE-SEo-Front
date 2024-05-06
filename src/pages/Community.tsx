@@ -111,6 +111,7 @@ function Community() {
           setIsOpen={setIsOpen}
           setLat={setLat}
           setLng={setLng}
+          setSelectedDistrict={setSelectedDistrict}
         />
       )}
 

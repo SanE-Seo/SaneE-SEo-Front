@@ -54,9 +54,7 @@ export const getPostDetails = async (postId: string) => {
 
 export const getSortedPosts = async (category: number) => {
   try {
-    const res = await Get<CardData[]>(
-      `/api/districts/posts/${category}/sorted-by-likes`,
-    );
+    const res = await Get<CardData[]>(`/api/districts/posts/0/sorted-by-likes`);
     return res.data.data;
   } catch (error) {
     if (axios.isAxiosError<CommonError>(error) && error.response) {
@@ -68,9 +66,10 @@ export const getSortedPosts = async (category: number) => {
 };
 
 export const getSortedCustomPosts = async (district: string) => {
+  console.log(district);
   try {
     const res = await Get<CardData[]>(
-      `/api/posts/by-district-prefix?districtName=${district}`,
+      `/api/districts/posts/1/sorted-by-likes?districtPrefix=${district}`,
     );
     return res.data.data;
   } catch (error) {

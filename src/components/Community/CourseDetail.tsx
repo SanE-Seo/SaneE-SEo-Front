@@ -11,6 +11,13 @@ function CourseDetail({ detail }: detailProps) {
       <span className="detail-title">코스 소개</span>
       <span className="detail-text">{detail.description}</span>
       <span className="detail-title">사용자 등록 사진</span>
+      {detail.images && detail.images.length > 0 ? (
+        detail.images.map((image, index) => (
+          <img key={index} src={image.imageUrl} alt="image" />
+        ))
+      ) : (
+        <div></div>
+      )}
     </DetailLayout>
   );
 }
