@@ -73,7 +73,71 @@ export const UserInfoEditButton = styled.button`
 `;
 
 export const UserActivityLayout = styled.div`
-  width: 884;
+  width: 884px;
   height: 670px;
-  margin: auto;
+  padding: 20px;
+  magin: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  // justify-content: space-around;
+
+  background: #ffffff;
+  box-shadow:
+    -2.17893px -2.17893px 6.5368px #ffffff,
+    2.17893px 2.17893px 6.5368px rgba(174, 174, 192, 0.4);
+  border-radius: 20px;
+
+  .slide-item-wrapper {
+    width: 1100px;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    overflow: hidden;
+  }
+`;
+
+export const TabLayout = styled.div`
+  ${(props) => props.theme.fonts.title_sm};
+  color: ${(props) => props.theme.colors.gray600};
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
+  border-bottom: 3px solid ${(props) => props.theme.colors.green500};
+`;
+
+// HeaderLayout 컴포넌트의 Props 타입 정의
+type LiProps = {
+  offset?: number; // logo-text의 색상을 설정할 수 있는 선택적 프로퍼티
+  active?: boolean;
+};
+
+export const SlideItem = styled.li<LiProps>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 90px;
+  height: 40px;
+  margin: 0 14px;
+  list-style: none;
+  transform: ${(props) => `translateX(${props.offset}px)`};
+  transition: 0.8s ease;
+
+  button {
+    border: none;
+    width: 100%;
+    height: 100%;
+    ${(props) => props.theme.fonts.title_sm};
+    color: ${(props) =>
+      props.active
+        ? props.theme.colors.mainAccentColor
+        : props.theme.colors.gray600};
+    border-bottom: ${(props) => (props.active ? '2px solid #94C020' : 'none')};
+    background-color: transparent;
+    cursor: pointer;
+    &:hover {
+      color: ${(props) => props.theme.colors.mainAccentColor};
+      font-weight: 600;
+    }
+  }
 `;

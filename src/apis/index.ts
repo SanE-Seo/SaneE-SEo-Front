@@ -47,3 +47,12 @@ export const Delete = async <T>(
   const response = await axiosInstance.delete(url, config);
   return response;
 };
+
+export const Patch = async <T>(
+  url: string,
+  data?: any,
+  config?: AxiosRequestConfig,
+): Promise<AxiosResponse<CommonResponse<T>>> => {
+  const response = await axiosInstance.patch(url, data, config);
+  return response;
+};

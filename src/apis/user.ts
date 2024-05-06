@@ -1,7 +1,9 @@
-import { Get, Post, axiosInstance } from './index';
+import { Get, Post, Patch, axiosInstance } from './index';
 import axios from 'axios';
 import { CommonError } from '../@types/api';
 import { Cookies } from 'react-cookie';
+import { CardData } from '../@types/card';
+import { PostInfoBox } from '../styles/drawer.style';
 
 export const checkNicknameDuplicate = async (nickname: string) => {
   try {
@@ -144,7 +146,7 @@ export const onSilentRefresh = async () => {
 type userProps = {
   email: string;
   name: string;
-  image?: string;
+  profile?: string;
 };
 
 export const getUser = async () => {
@@ -175,7 +177,6 @@ export const logoutUser = async () => {
   }
 };
 
-// 수정 필요
 export const updateUserProfile = async (
   name: string,
   email: string,
@@ -187,7 +188,7 @@ export const updateUserProfile = async (
     formData.append('email', email);
     if (imageFile) formData.append('profile', imageFile);
 
-    const response = await axios.patch(`/api/member`, formData, {
+    const response = await Patch(`/api/member`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -196,5 +197,23 @@ export const updateUserProfile = async (
     return response.data;
   } catch (error) {
     console.error('Update failed:', error);
+  }
+};
+
+export const getUserActivities = async (num: number) => {
+  const url =
+    num === 2
+      ? `/api/member/liked-posts/${num}` // num이 2이면 사용자의 게시글
+      : `/api/member/liked-posts/${num}`; // num이 0이면 사용자가 좋아요한 두드림길, 1이면 사용자가 좋아요한 사용자들의 게시글
+  try {
+    const response = await Get<CardData[]>(url);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    if (axios.isAxiosError<CommonError>(error) && error.response) {
+      const errorCode = error.response.data.errorCode;
+      const message = error.response.data.message;
+      console.log(`${errorCode}: ${message}`);
+    }
   }
 };

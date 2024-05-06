@@ -64,7 +64,7 @@ function Header() {
           {isLoggedIn && !isLoading && data ? (
             <div className="menu-box">
               <img
-                src={data.image == null ? DefaultProfileImg : data.image}
+                src={data.profile == null ? DefaultProfileImg : data.profile}
                 alt="profile"
                 className="profile-icon"
               />

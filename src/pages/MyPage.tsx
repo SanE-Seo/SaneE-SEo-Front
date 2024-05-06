@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import DefaultLayout from '../components/DefaultLayout';
+import UserActivity from '../components/Mypage/UserActivity';
 import * as M from '../styles/my-page.style';
 import DefaultProfileImg from '../assets/image/default-profile.png';
 import { ReactComponent as SettingIcon } from '../assets/icons/setting-icon.svg';
-import ProfileEditModal from '../components/ProfileEditModal';
+import ProfileEditModal from '../components/Mypage/ProfileEditModal';
 
 import { useQuery } from '@tanstack/react-query';
 import { getUser, logoutUser } from '../apis/user';
@@ -23,15 +24,11 @@ function MyPage() {
     document.body.style.overflow = 'hidden';
   };
 
-  const closeProfileEditModal = () => {
+  const closeProfileEditModal = async () => {
     setProfileEditIsOpen(false);
     document.body.style.overflow = 'unset';
   };
-  useEffect(() => {
-    if (data && data) {
-      console.log(data);
-    }
-  }, []);
+
   return (
     <>
       <DefaultLayout>
@@ -41,7 +38,9 @@ function MyPage() {
               <div className="user-image-container">
                 {isLoggedIn && !isLoading && data ? (
                   <img
-                    src={data.image == null ? DefaultProfileImg : data.image}
+                    src={
+                      data.profile == null ? DefaultProfileImg : data.profile
+                    }
                     alt="profile"
                     className="profile-icon"
                   />
@@ -65,10 +64,13 @@ function MyPage() {
               <SettingIcon />
             </M.UserInfoEditButton>
           </M.UserInfoLayout>
+          <UserActivity></UserActivity>
         </M.MyPageWrapper>
       </DefaultLayout>
       {profileEditIsOpen && (
-        <ProfileEditModal closeProfileEditModal={closeProfileEditModal} />
+        <ProfileEditModal
+          closeProfileEditModal={() => closeProfileEditModal()}
+        />
       )}
     </>
   );

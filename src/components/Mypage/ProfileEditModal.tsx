@@ -1,19 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import * as P from '../styles/profile-edit-modal.style';
-import { ReactComponent as CloseIcon } from '../assets/icons/close-icon.svg';
+import * as P from '../../styles/profile-edit-modal.style';
+import { ReactComponent as CloseIcon } from '../../assets/icons/close-icon.svg';
+import DefaultProfileImg from '../../assets/image/default-profile.png';
 import { useQuery } from '@tanstack/react-query';
-import { getUser, updateUserProfile } from '../apis/user';
-import { useAuth } from '../contexts/AuthContext';
-import { checkNicknameDuplicate } from '../apis/user';
-import { nicknameRegex, emailRegex } from '../utils/regex';
-import DefaultProfileImg from '../assets/image/default-profile.png';
+import {
+  getUser,
+  updateUserProfile,
+  checkNicknameDuplicate,
+} from '../../apis/user';
+import { useAuth } from '../../contexts/AuthContext';
+import { nicknameRegex, emailRegex } from '../../utils/regex';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 
 interface propsType {
   closeProfileEditModal: () => void; // onClose 함수 타입으로 지정
 }
 
 function ProfileEditModal({ closeProfileEditModal }: propsType) {
+  const navigate = useNavigate();
   const { isLoggedIn, logout } = useAuth();
   const { isLoading, data } = useQuery({
     queryKey: ['getUser'],
@@ -127,8 +132,8 @@ function ProfileEditModal({ closeProfileEditModal }: propsType) {
             ) : (
               <img
                 src={
-                  isLoggedIn && !isLoading && data && data.image
-                    ? data.image
+                  isLoggedIn && !isLoading && data && data.profile
+                    ? data.profile
                     : DefaultProfileImg
                 }
                 alt="profile"
@@ -175,7 +180,11 @@ function ProfileEditModal({ closeProfileEditModal }: propsType) {
               {emailAlertText}
             </div>
           </div>
-          <P.CompleteButton onClick={handleUpdateProfile}>
+          <P.CompleteButton
+            onClick={() => {
+              handleUpdateProfile();
+            }}
+          >
             수정 완료
           </P.CompleteButton>
         </div>
