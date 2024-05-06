@@ -6,7 +6,10 @@ import { ReactComponent as SearchIcon } from '../assets/icons/search-icon.svg';
 import { useNavigate } from 'react-router-dom';
 import UserTrailMap from '../components/Community/UserTrailMap';
 import PlaceSearchModal from '../components/Community/PlaceSearchModal';
-import { useCurrentLocation } from '../contexts/LocationContext';
+import {
+  useCurrentLocation,
+  useGeolocation,
+} from '../contexts/LocationContext';
 import { getAllCustomPosts } from '../apis/community';
 import { useQuery } from '@tanstack/react-query';
 import { useLocation } from 'react-router';
@@ -24,7 +27,7 @@ function Community() {
   const [placeInput, setPlaceInput] = useState<string>('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const { latitude, longitude } = useCurrentLocation();
+  const { latitude, longitude } = useGeolocation();
   const [selectedDistrict, setSelectedDistrict] = useState<string>('강남구');
 
   const { state } = useLocation() as unknown as {

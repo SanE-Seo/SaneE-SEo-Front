@@ -25,42 +25,66 @@ type LocationProviderProps = {
   children: React.ReactNode;
 };
 
-// 컨텍스트 제공자 생성
-export const LocationProvider: React.FC<LocationProviderProps> = ({
-  children,
-}) => {
-  const [location, setLocation] = useState<LocationState>({
-    ...initialLocationState,
-    fetchLocation: () => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            setLocation((prevState) => ({
-              ...prevState,
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-            }));
-          },
-          (error) => {
-            console.error('Geolocation error:', error);
-          },
-        );
-      }
-    },
-  });
+const getIp = async () =>
+  await fetch('https://geolocation-db.com/json/')
+    .then((res) => res.json())
+    .then((res) => res['IPv4']);
 
+export const useGeolocation = () => {
+  const [geo, setGeo] = useState({ latitude: 0, longitude: 0 });
+  const getLocation = async () => {
+    const nowIp = await getIp();
+    const geoData = await fetch(`http://ip-api.com/json/${nowIp}`)
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        return res;
+      });
+    const latitude = geoData.lat;
+    const longitude = geoData.lon;
+    setGeo({ latitude: latitude, longitude: longitude });
+  };
   useEffect(() => {
-    location.fetchLocation();
-  }, [location]);
+    getLocation();
+  }, []);
 
-  return (
-    <LocationContext.Provider value={location}>
-      {children}
-    </LocationContext.Provider>
-  );
+  return geo;
 };
+// // 컨텍스트 제공자 생성
+// export const LocationProvider: React.FC<LocationProviderProps> = ({
+//   children,
+// }) => {
+//   const [location, setLocation] = useState<LocationState>({
+//     ...initialLocationState,
+//     fetchLocation: () => {
+//       if (navigator.geolocation) {
+//         navigator.geolocation.getCurrentPosition(
+//           (position) => {
+//             setLocation((prevState) => ({
+//               ...prevState,
+//               latitude: position.coords.latitude,
+//               longitude: position.coords.longitude,
+//             }));
+//           },
+//           (error) => {
+//             console.error('Geolocation error:', error);
+//           },
+//         );
+//       }
+//     },
+//   });
 
-// 컨텍스트를 사용하기 쉽게 하는 훅
+//   useEffect(() => {
+//     location.fetchLocation();
+//   }, [location]);
+
+//   return (
+//     <LocationContext.Provider value={location}>
+//       {children}
+//     </LocationContext.Provider>
+//   );
+// };
+
 export const useCurrentLocation = () => {
   const context = useContext(LocationContext);
   if (context === undefined) {

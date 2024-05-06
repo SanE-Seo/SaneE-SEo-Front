@@ -5,7 +5,10 @@ import Weather from '../components/Main/Weather';
 import TrailCard from '../components/Main/TrailCard';
 import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg';
 import { getDistrict } from '../apis/kakao_api';
-import { useCurrentLocation } from '../contexts/LocationContext';
+import {
+  useCurrentLocation,
+  useGeolocation,
+} from '../contexts/LocationContext';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,7 +17,7 @@ import useKakaoLoader from '../components/useKakaoLoader';
 function Main() {
   useKakaoLoader();
   const navigate = useNavigate();
-  const { latitude, longitude } = useCurrentLocation();
+  const { latitude, longitude } = useGeolocation();
   // 선택된 자치구 상태를 관리하기 위한 useState
   const [selectedDistrict, setSelectedDistrict] = useState<string>('강남구');
 
