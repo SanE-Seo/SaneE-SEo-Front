@@ -6,7 +6,11 @@ export const MyPageWrapper = styled.div`
   background: ${(props) => props.theme.colors.background};
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
+`;
+
+export const UserInfoWrapper = styled.div`
+  width: 90%;
 `;
 
 export const UserInfoLayout = styled.div`
@@ -75,10 +79,10 @@ export const UserInfoEditButton = styled.button`
 export const UserActivityLayout = styled.div`
   width: 884px;
   height: 670px;
-  padding: 20px;
-  magin: auto;
+  padding: 5px 10px;
+  margin: 10px
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: start;
   // justify-content: space-around;
 
@@ -89,11 +93,13 @@ export const UserActivityLayout = styled.div`
   border-radius: 20px;
 
   .slide-item-wrapper {
-    width: 1100px;
+    width: 100%;
     display: flex;
+    flex-direction: row;
     align-items: center;
     padding: 0;
     overflow: hidden;
+    justify-content: space-around;
   }
 `;
 
@@ -124,6 +130,8 @@ export const SlideItem = styled.li<LiProps>`
   transition: 0.8s ease;
 
   button {
+    padding: 5px;
+    min-width: 200px;
     border: none;
     width: 100%;
     height: 100%;
@@ -132,12 +140,33 @@ export const SlideItem = styled.li<LiProps>`
       props.active
         ? props.theme.colors.mainAccentColor
         : props.theme.colors.gray600};
-    border-bottom: ${(props) => (props.active ? '2px solid #94C020' : 'none')};
+    border-bottom: ${(props) => (props.active ? '3px solid #94C020' : 'none')};
     background-color: transparent;
     cursor: pointer;
     &:hover {
       color: ${(props) => props.theme.colors.mainAccentColor};
       font-weight: 600;
+    }
+  }
+`;
+
+export const CardItemBox = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+
+  .no-content {
+    margin: auto;
+    width: 995px;
+    height: 250px;
+    // background: #ffffff;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .text-md {
+      ${(props) => props.theme.fonts.text_lg};
+      color: ${(props) => props.theme.colors.gray600};
     }
   }
 `;
