@@ -123,7 +123,10 @@ function UserTrailDetail() {
         </U.ScreenLayout>
       </DefaultLayout>
       {ConfirmModalIsOpen && (
-        <ConfirmModal closeConfirmModal={() => closeConfirmModal()} />
+        <ConfirmModal
+          closeConfirmModal={() => closeConfirmModal()}
+          postId={postId}
+        />
       )}
     </>
   );

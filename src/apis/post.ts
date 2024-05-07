@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Get } from '.';
+import { Get, Delete } from '.';
 import { CommonError } from '../@types/api';
 import { CardData } from '../@types/card';
 import { PostData } from '../@types/post';
@@ -72,6 +72,19 @@ export const getSortedCustomPosts = async (district: string) => {
       `/api/districts/posts/1/sorted-by-likes?districtPrefix=${district}`,
     );
     return res.data.data;
+  } catch (error) {
+    if (axios.isAxiosError<CommonError>(error) && error.response) {
+      const errorCode = error.response.data.errorCode;
+      const message = error.response.data.message;
+      console.log(`${errorCode}: ${message}`);
+    }
+  }
+};
+
+export const deletePost = async (postId: string) => {
+  try {
+    const res = await Delete(`/api/posts/1`);
+    return res;
   } catch (error) {
     if (axios.isAxiosError<CommonError>(error) && error.response) {
       const errorCode = error.response.data.errorCode;
