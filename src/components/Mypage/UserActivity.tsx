@@ -4,6 +4,7 @@ import Spinner from '../Spinner';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { getUserActivities } from '../../apis/user';
 import CardItem from '../SeoulTrails.tsx/CardItem';
+import UserTrailCardItem from './UserTrailCardItem';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 function UserActivity() {
@@ -18,7 +19,7 @@ function UserActivity() {
   ];
 
   const { isLoading, data } = useQuery({
-    queryKey: ['getUserAtivities', selectedActivity],
+    queryKey: ['getUserActivities', selectedActivity],
     queryFn: () => getUserActivities(activities.indexOf(selectedActivity)),
     enabled: true,
   });
@@ -48,9 +49,13 @@ function UserActivity() {
         {!isLoading ? (
           data && data.data.length > 0 ? (
             <M.CardItemBox>
-              {data.data.map((item, index) => (
-                <CardItem key={index} data={item} />
-              ))}
+              {data.data.map((item, index) =>
+                selectedActivity === '나의 산책로' ? (
+                  <UserTrailCardItem key={index} data={item} />
+                ) : (
+                  <CardItem key={index} data={item} />
+                ),
+              )}
             </M.CardItemBox>
           ) : (
             <M.CardItemBox>
