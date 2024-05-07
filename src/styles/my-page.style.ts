@@ -1,16 +1,18 @@
 import styled from 'styled-components';
 
-export const MyPageWrapper = styled.div`
-  width: 100%;
-  height: 100vh;
+export const MyPageBackground = styled.div`
   background: ${(props) => props.theme.colors.background};
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: center;
 `;
 
-export const UserInfoWrapper = styled.div`
-  width: 90%;
+export const MyPageWrapper = styled.div`
+  width: 80%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 `;
 
 export const UserInfoLayout = styled.div`
@@ -153,17 +155,39 @@ export const SlideItem = styled.li<LiProps>`
 export const CardItemBox = styled.div`
   display: flex;
   flex-wrap: wrap;
+  max-height: 88%; // Set a fixed maximum height
+  overflow-y: auto; // Enable vertical scrolling
+  overflow-x: hidden; // Hide horizontal scrollbar
+  margin: 10px 0; // Optional: adds some vertical space around the box
+
+  &::-webkit-scrollbar {
+    width: 6px; // Thinner scrollbar
+    border-radius: 2px; // Rounder corners
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1; // Light grey track
+    border-radius: 2px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #888; // Dark grey drag handle
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555; // Darker grey drag handle on hover
+  }
 
   .no-content {
     margin: auto;
-    width: 995px;
-    height: 250px;
-    // background: #ffffff;
-    border-radius: 20px;
+    width: 100%; // Full width inside the container
+    height: 250px; // Fixed height for the no content message
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
     .text-md {
       ${(props) => props.theme.fonts.text_lg};
       color: ${(props) => props.theme.colors.gray600};
