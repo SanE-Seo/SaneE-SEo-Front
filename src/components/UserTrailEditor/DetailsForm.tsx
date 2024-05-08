@@ -282,14 +282,6 @@ function DetailsForm({
                   />
                 )}
               />
-              {/* <DropDownTime
-                value={getValues('level')}
-                onChange={(value) => setValue('level', value)}
-                options={['초급', '중급', '고급']} // 초급, 중급, 고급을 옵션으로 전달
-                {...register('level', {
-                  required: '난이도는 필수 입력값입니다.',
-                })}
-              /> */}
               {errors.level && (
                 <D.ErrorMessage>{errors.level.message}</D.ErrorMessage>
               )}

@@ -15,6 +15,9 @@ import { useNavigate } from 'react-router-dom';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import ProgressStepper from './ProgressStepper';
 import { PolylineData, UserTrail } from '../../@types/custom';
+import * as C from '../../styles/community.style';
+import { ReactComponent as SearchIcon } from '../../assets/icons/search-icon.svg';
+import PlaceSearchModal from '../Community/PlaceSearchModal';
 
 type DrawTrailProps = {
   handlePrevStep: () => void;
@@ -40,6 +43,12 @@ function DrawTrail({
   useKakaoLoader();
   const [mapKey, setMapKey] = useState(0);
   const { latitude, longitude } = useGeolocation();
+
+  const [placeInput, setPlaceInput] = useState<string>('');
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const [lat, setLat] = useState<number>(latitude);
+  const [lng, setLng] = useState<number>(longitude);
   const mapRef = useRef<kakao.maps.Map | null>(null);
   const managerRef =
     useRef<
@@ -127,16 +136,9 @@ function DrawTrail({
             lng: point.x,
           })),
         });
-
         // 경로의 거리를 구함.
         const distance = getDistance(data.polyline[0]);
         setDistance(distance);
-
-        // coordinate: 'wgs84', // 예시, 실제 사용하는 좌표체계로 변경 필요
-        // // points: data.polyline[0].points.map((point) => ({
-        // //   lat: point.y, // 가정: point.y가 위도
-        // //   lng: point.x, // 가정: point.x가 경도
-        // // })),
       }
     }
   };
@@ -171,7 +173,7 @@ function DrawTrail({
   return (
     <>
       <E.HeaderLayout>
-        <E.AddButton
+        {/* <E.AddButton
           onClick={() => {
             navigate('/community');
             handlePrevStep();
@@ -182,7 +184,19 @@ function DrawTrail({
           </span>
           <span style={{ flex: 1, textAlign: 'center' }}>이전 단계</span>
           <span style={{ width: 25 }}></span>
-        </E.AddButton>
+        </E.AddButton> */}
+        <C.SearchContainer>
+          <SearchIcon />
+          <input
+            name="text"
+            placeholder="지역을 검색하세요"
+            value={placeInput}
+            onChange={(e) => {
+              setPlaceInput(e.target.value);
+              setIsOpen(true);
+            }}
+          ></input>
+        </C.SearchContainer>
 
         <ProgressStepper
           currentStep={currentStep}
@@ -197,6 +211,15 @@ function DrawTrail({
           </span>
         </E.AddButton>
       </E.HeaderLayout>
+      {isOpen && (
+        <PlaceSearchModal
+          placeInput={placeInput}
+          setPlaceInput={setPlaceInput}
+          setIsOpen={setIsOpen}
+          setLat={setLat}
+          setLng={setLng}
+        />
+      )}
       <div
         style={{
           position: 'relative',
@@ -208,7 +231,7 @@ function DrawTrail({
       >
         <Map
           key={mapKey} // Key to force re-render
-          center={{ lat: latitude, lng: longitude }}
+          center={{ lat: lat, lng: lng }}
           style={{
             position: 'absolute',
             top: 0,

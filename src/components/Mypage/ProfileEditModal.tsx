@@ -8,7 +8,8 @@ import {
   updateUserProfile,
   checkNicknameDuplicate,
 } from '../../apis/user';
-import { useAuth } from '../../contexts/AuthContext';
+import { useRecoilState } from 'recoil';
+import { isLoggedInState } from '../../contexts/UserState';
 import { nicknameRegex, emailRegex } from '../../utils/regex';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
@@ -19,7 +20,7 @@ interface propsType {
 
 function ProfileEditModal({ closeProfileEditModal }: propsType) {
   const navigate = useNavigate();
-  const { isLoggedIn, logout } = useAuth();
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
   const { isLoading, data } = useQuery({
     queryKey: ['getUser'],
     queryFn: () => getUser(),
