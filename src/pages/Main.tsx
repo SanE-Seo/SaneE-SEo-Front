@@ -5,10 +5,7 @@ import Weather from '../components/Main/Weather';
 import TrailCard from '../components/Main/TrailCard';
 import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg';
 import { getDistrict } from '../apis/kakao_api';
-import {
-  useCurrentLocation,
-  useGeolocation,
-} from '../contexts/LocationContext';
+import { useGeolocation } from '../contexts/LocationContext';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 

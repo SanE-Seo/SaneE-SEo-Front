@@ -2,14 +2,12 @@ import React, { useEffect, useState } from 'react';
 import * as W from '../../styles/weather.style';
 import { SeoulDistricts } from '../../assets/seoul_districts';
 import MyPlace from '../../assets/icons/target-point.png';
-
 import { ReactComponent as WaterIcon } from '../../assets/icons/water-icon.svg';
 import { ReactComponent as RainIcon } from '../../assets/icons/rain-icon.svg';
 import { ReactComponent as FineDustIcon } from '../../assets/icons/fine-dust.svg';
 import { ReactComponent as UltraFineDustIcon } from '../../assets/icons/ultra-fine-dust.svg';
 import { ReactComponent as OzoneIcon } from '../../assets/icons/ozone-icon.svg';
 import TemperatureIcon from '../../assets/icons/temparature-icon.png';
-import { getDistrict } from '../../apis/kakao_api';
 import { useQuery } from '@tanstack/react-query';
 import { getWeather } from '../../apis/weather';
 import Spinner from '../Spinner';
