@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as S from '../styles/signup.style';
 import { ReactComponent as Logo } from '../assets/icons/logo.svg';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -31,10 +31,18 @@ function Signup() {
       nickname: '',
     },
   });
+
   const [isNicknameValid, setIsNicknameValid] = useState(false); // 닉네임 중복 검사 상태 추가
+  const [nickNameAlertText, setNickNameAlertText] = useState('');
   //비밀번호 값 추적
   const password_watch = watch('password');
   const nickname_watch = watch('nickname');
+
+  useEffect(() => {
+    // 닉네임 입력 값이 변경될 때마다 실행
+    setNickNameAlertText(''); // 중복 검사 메시지 초기화
+    setIsNicknameValid(false); // 중복 검사 상태를 초기화
+  }, [nickname_watch]); // nickname_watch 값에 따라 useEffect가 실행
 
   const checkValues = () => {
     const { email, password, pw_confirm, nickname } = getValues();
@@ -45,9 +53,10 @@ function Signup() {
     const { nickname } = getValues();
     const res = await checkNicknameDuplicate(nickname);
     if (res?.status == 200) {
-      alert('사용가능한 닉네임 입니다.');
+      setNickNameAlertText('사용 가능한 별명이에요.');
       setIsNicknameValid(true);
     } else {
+      setNickNameAlertText('이미 존재하는 별명이에요.');
       setIsNicknameValid(false);
     }
   };
@@ -164,6 +173,9 @@ function Signup() {
             {errors.nickname && (
               <span className="error">{errors.nickname.message}</span>
             )}
+            <div className={`alert-text ${nickNameAlertText ? 'show' : ''}`}>
+              {nickNameAlertText}
+            </div>
             <S.SubmitButton
               type="submit"
               className="submit-button"

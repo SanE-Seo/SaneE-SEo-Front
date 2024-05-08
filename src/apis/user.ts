@@ -20,7 +20,7 @@ export const checkNicknameDuplicate = async (nickname: string) => {
       switch (statusCode) {
         case 400:
           console.log(message);
-          alert(message);
+        // alert(message);
       }
     }
   }
