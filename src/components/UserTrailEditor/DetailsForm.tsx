@@ -180,10 +180,19 @@ function DetailsForm({
           <span style={{ width: 25 }}></span>
         </E.AddButton>
 
-        <ProgressStepper
-          currentStep={currentStep}
-          isAnimatingForward={isAnimatingForward}
-        />
+        <div
+          style={{
+            position: 'fixed',
+            top: '16%', // 상단에서 50% 위치에
+            left: '50%', // 좌측에서 50% 위치에
+            transform: 'translate(-50%, -50%)', // 자신의 크기만큼 반대 방향으로 이동
+          }}
+        >
+          <ProgressStepper
+            currentStep={currentStep}
+            isAnimatingForward={isAnimatingForward}
+          />
+        </div>
 
         <E.AddButton type="submit" onClick={handleSubmit(onFormSubmit)}>
           <span style={{ width: 25 }}></span>
