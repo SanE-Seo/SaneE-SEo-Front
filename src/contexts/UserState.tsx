@@ -5,7 +5,7 @@ export const isLoggedInState = atom<boolean>({
   default: false, // 기본값은 로그인하지 않은 상태(false)
 });
 
-export const memberIdState = atom<string | null>({
+export const memberIdState = atom<number | null>({
   key: 'memberId',
   default: null, // 기본값은 null
 });

@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import DefaultProfileImg from '../../assets/image/default-profile.png';
 import ReviewModal from './ReviewModal';
 import { PostData } from '../../@types/post';
-import { getReviews } from '../../apis/review';
-import { useQuery } from '@tanstack/react-query';
+import { deleteReview, getReviews } from '../../apis/review';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Spinner from '../Spinner';
 import { CiMenuKebab } from 'react-icons/ci';
 import { isLoggedInState, memberIdState } from '../../contexts/UserState';
@@ -35,9 +35,25 @@ function Review({ detail }: ReviewProps) {
 
     return `${year}.${month}.${day}`;
   };
+  type reviewProps = {
+    postId: number;
+    reviewId: number;
+  };
+  const queryClient = useQueryClient();
 
-  const handleDelete = () => {
+  const { mutate: postReviewMutate } = useMutation({
+    mutationFn: ({ postId, reviewId }: reviewProps) =>
+      deleteReview(postId, reviewId),
+    onSuccess: () => {
+      // 리뷰 작성 성공 후 getReview 쿼리를 다시 불러옴
+      queryClient.invalidateQueries({ queryKey: ['getReview'] });
+      setShowDelete(!showDelete);
+    },
+  });
+
+  const handleDelete = async (postId: number, reviewId: number) => {
     console.log('삭제');
+    postReviewMutate({ postId, reviewId });
   };
 
   return (
@@ -49,7 +65,7 @@ function Review({ detail }: ReviewProps) {
               alert('로그인이 필요합니다.');
               navigate('/login');
             } else {
-              setIsOpenModal(!isOpenModal);
+              setIsOpenModal(true);
             }
           }}
         >
@@ -69,7 +85,7 @@ function Review({ detail }: ReviewProps) {
                       />
                       <span className="name">{item.authorName}</span>
                     </div>
-                    {item.authorId && (
+                    {memberId && item.authorId == memberId && (
                       <>
                         <button
                           onClick={() => {
@@ -81,7 +97,13 @@ function Review({ detail }: ReviewProps) {
                         </button>
 
                         <DeleteModal isOpen={showDelete}>
-                          <button onClick={handleDelete}>삭제하기</button>
+                          <button
+                            onClick={() =>
+                              handleDelete(item.postId, item.reviewId)
+                            }
+                          >
+                            삭제하기
+                          </button>
                         </DeleteModal>
                       </>
                     )}
