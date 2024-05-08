@@ -308,7 +308,10 @@ function DetailsForm({
             {imagePreviews.map((src, index) => (
               <D.ImagePreviewContainer key={index}>
                 <D.ImagePreview src={src} alt={`Preview ${index}`} />
-                <D.RemoveButton onClick={() => removeImage(index)}>
+                <D.RemoveButton
+                  type="button"
+                  onClick={() => removeImage(index)}
+                >
                   <MdOutlineCancel />
                 </D.RemoveButton>
               </D.ImagePreviewContainer>
