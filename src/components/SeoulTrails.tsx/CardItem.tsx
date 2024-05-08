@@ -20,7 +20,7 @@ function CardItem({ data }: CardProps) {
       <img
         className="card-image"
         src={
-          data.postImages[0].imageUrl
+          data.postImages[0] != undefined && data.postImages[0].imageUrl != null
             ? data.postImages[0].imageUrl
             : postDefaultImage
         }
