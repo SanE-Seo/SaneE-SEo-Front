@@ -101,6 +101,8 @@ function UserTrailEditor() {
   //   alert(message);
   // }
 
+  const [distance, setDistance] = useState('');
+
   function handleNextStep() {
     if (currentStep < 2) {
       setCurrentStep((prevStep) => prevStep + 1);
@@ -125,6 +127,7 @@ function UserTrailEditor() {
           handleNextStep={handleNextStep}
           isAnimatingForward={isAnimatingForward}
           setTrailData={setTrailData}
+          setDistance={setDistance}
         />
       ),
     },
@@ -137,6 +140,7 @@ function UserTrailEditor() {
           handleNextStep={handleNextStep}
           isAnimatingForward={isAnimatingForward}
           trailData={trailData!}
+          distance={distance}
         />
       ),
     },

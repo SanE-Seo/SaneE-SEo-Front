@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Map, DrawingManager } from 'react-kakao-maps-sdk';
+import { Map, DrawingManager, Polyline } from 'react-kakao-maps-sdk';
 import { HiOutlinePencil } from 'react-icons/hi';
 import { MdOutlineEdit, MdMyLocation } from 'react-icons/md';
 import useKakaoLoader from '../useKakaoLoader';
@@ -25,6 +25,7 @@ type DrawTrailProps = {
   isAnimatingForward: boolean;
   handleNextStep: () => void;
   setTrailData: (value: PolylineData) => void;
+  setDistance: (value: string) => void;
 };
 function DrawTrail({
   handlePrevStep,
@@ -32,7 +33,13 @@ function DrawTrail({
   isAnimatingForward,
   handleNextStep,
   setTrailData,
+  setDistance,
 }: DrawTrailProps) {
+  // convertDrawingPolylineToPolyline에 쓰이는 인터페이스
+  interface DrawingPolylineData {
+    points: { x: number; y: number }[];
+  }
+
   useKakaoLoader();
   const [mapKey, setMapKey] = useState(0);
   const { latitude, longitude } = useGeolocation();
@@ -50,6 +57,7 @@ function DrawTrail({
   const [polylines, setPolylines] = useState<
     kakao.maps.drawing.DrawingPolylineData[]
   >([]);
+  const [distanceData, setDistanceData] = useState<number[]>([]);
 
   //   useEffect(() => {
   //     console.log('User Trail updated:', userTrail);
@@ -93,6 +101,25 @@ function DrawTrail({
     return false; // Default case to handle unexpected conditions
   };
 
+  // polyline의 길이를 구하는 함수
+  const getDistance = (drawingData: DrawingPolylineData): string => {
+    const path = drawingData.points.map(
+      (point) => new kakao.maps.LatLng(point.y, point.x),
+    );
+
+    const mapInstance = mapRef.current || undefined;
+    const polylineOptions: kakao.maps.PolylineOptions = {
+      path: path,
+      map: mapInstance, // Assign the map instance or undefined
+    };
+
+    const polyline = new kakao.maps.Polyline(polylineOptions);
+    const distance = Math.floor(polyline.getLength());
+
+    const distanceInKm = (distance / 1000).toFixed(2) + 'Km'; // m를 km로 변환하고 문자열 형태로 포맷팅
+    return distanceInKm; // '1.4km' 등의 형식으로 반환
+  };
+
   // 지도 상에 그린 폴리라인 데이터를 가져오는 함수
   const getOverlayData = () => {
     const manager = managerRef.current;
@@ -109,6 +136,9 @@ function DrawTrail({
             lng: point.x,
           })),
         });
+        // 경로의 거리를 구함.
+        const distance = getDistance(data.polyline[0]);
+        setDistance(distance);
       }
     }
   };
