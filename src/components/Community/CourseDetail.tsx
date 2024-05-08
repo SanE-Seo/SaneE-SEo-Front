@@ -38,6 +38,10 @@ const DetailLayout = styled.div`
   flex-direction: column;
   padding: 15px 20px;
   cursor: default;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
 
   .detail-title {
     ${(props) => props.theme.fonts.text_md};

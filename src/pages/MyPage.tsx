@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import DefaultLayout from '../components/DefaultLayout';
 import UserActivity from '../components/Mypage/UserActivity';
 import * as M from '../styles/my-page.style';
-import themes from '../styles/theme';
 import DefaultProfileImg from '../assets/image/default-profile.png';
 import { ReactComponent as SettingIcon } from '../assets/icons/setting-icon.svg';
 import ProfileEditModal from '../components/Mypage/ProfileEditModal';

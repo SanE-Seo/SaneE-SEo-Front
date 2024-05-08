@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import * as M from '../../styles/my-page.style';
 import Spinner from '../Spinner';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { getUserActivities } from '../../apis/user';
 import CardItem from '../SeoulTrails.tsx/CardItem';
 import UserTrailCardItem from './UserTrailCardItem';
-import InfiniteScroll from 'react-infinite-scroll-component';
 
 function UserActivity() {
   const [selectedActivity, setSelectedActivity] =
