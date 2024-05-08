@@ -92,7 +92,7 @@ function DrawTrail({
     return false; // Default case to handle unexpected conditions
   };
 
-  // getLength() 함수를 사용하기 위해 DrawingPolylineData를 Polyline으로 변환하는 함수
+  // polyline의 길이를 구하는 함수
   const getDistance = (drawingData: DrawingPolylineData): string => {
     const path = drawingData.points.map(
       (point) => new kakao.maps.LatLng(point.y, point.x),
