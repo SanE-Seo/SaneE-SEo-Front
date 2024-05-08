@@ -48,7 +48,8 @@ function UserActivity() {
           data && data.data.length > 0 ? (
             <M.CardItemBox>
               {data.data.map((item, index) =>
-                selectedActivity === '나의 산책로' ? (
+                selectedActivity === '나의 산책로' ||
+                selectedActivity === '좋아한 걸음나눔터' ? (
                   <UserTrailCardItem key={index} data={item} />
                 ) : (
                   <CardItem key={index} data={item} />

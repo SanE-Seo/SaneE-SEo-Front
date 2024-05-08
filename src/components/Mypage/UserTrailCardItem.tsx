@@ -12,11 +12,14 @@ import { CiMenuKebab } from 'react-icons/ci';
 import styled from 'styled-components';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deletePost } from '../../apis/post';
+import { useRecoilState } from 'recoil';
+import { memberIdState } from '../../contexts/UserState';
 
 type CardProps = {
   data: CardData;
 };
 function UserTrailCardItem({ data }: CardProps) {
+  const [memberId, setMemberId] = useRecoilState(memberIdState);
   const navigate = useNavigate();
   const [showDelete, setShowDelete] = useState<boolean>(false);
 
@@ -36,7 +39,7 @@ function UserTrailCardItem({ data }: CardProps) {
   };
 
   return (
-    <C.CardLayout>
+    <C.CardLayout onClick={() => navigate('/community', { state: data })}>
       <img
         className="card-image"
         src={
@@ -54,15 +57,17 @@ function UserTrailCardItem({ data }: CardProps) {
             <span className="category-sm">{data.subTitle}</span>
           </div>
         </div>
-        <MenuButton
-          onClick={(e) => {
-            e.stopPropagation(); // 이벤트 버블링을 막기 위해 호출
-            console.log('click');
-            setShowDelete(!showDelete);
-          }}
-        >
-          <CiMenuKebab />
-        </MenuButton>
+        {memberId == data.authorId && (
+          <MenuButton
+            onClick={(e) => {
+              e.stopPropagation(); // 이벤트 버블링을 막기 위해 호출
+              console.log('click');
+              setShowDelete(!showDelete);
+            }}
+          >
+            <CiMenuKebab />
+          </MenuButton>
+        )}
       </Data>
       <DeleteModal isOpen={showDelete}>
         <button onClick={() => handleDelete(data.postId)}>삭제하기</button>
