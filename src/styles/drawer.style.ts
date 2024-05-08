@@ -100,3 +100,14 @@ export const MenuItem = styled.li<LiProps>`
     }
   }
 `;
+
+export const CloseButton = styled.button`
+  position: fixed;
+  width: 25px;
+  height: 66px;
+  left: 340px;
+  top: 260px;
+  z-index: 2;
+  background: #ffffff;
+  border-radius: 0px 10px 10px 0px;
+`;

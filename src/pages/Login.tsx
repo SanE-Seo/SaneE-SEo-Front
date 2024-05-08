@@ -6,7 +6,8 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { emailRegex, passwordRegex } from '../utils/regex';
 import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../apis/user';
-import { useAuth } from '../contexts/AuthContext';
+import { useRecoilState } from 'recoil';
+import { isLoggedInState } from '../contexts/UserState';
 function Login() {
   //폼으로 입력받을 데이터 정의
   interface FormValue {
@@ -27,7 +28,8 @@ function Login() {
       password: '',
     },
   });
-  const { login } = useAuth();
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
+
   const navigate = useNavigate();
   //서버 api 요청 코드 추가
   const onSubmitHandler: SubmitHandler<FormValue> = async () => {
@@ -35,8 +37,7 @@ function Login() {
 
     const res = await loginUser(email, password);
     if (res?.status == 200) {
-      alert('로그인성공!');
-      login();
+      setIsLoggedIn(true);
       console.log(res);
       navigate('/');
     }
@@ -48,7 +49,7 @@ function Login() {
         <L.LoginLayout>
           <div className="header-container">
             <Logo />
-            <div className="logo-container">
+            <div className="logo-container" onClick={() => navigate('/')}>
               <L.LogoText color="#94C020">산책</L.LogoText>
               <L.LogoText color="#F9C758">이음</L.LogoText>
               <L.LogoText color="#645023">서울</L.LogoText>
