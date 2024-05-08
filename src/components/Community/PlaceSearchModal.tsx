@@ -7,7 +7,7 @@ type PlaceProps = {
   setIsOpen: (value: boolean) => void;
   setLat: (value: number) => void;
   setLng: (value: number) => void;
-  setSelectedDistrict: (value: string) => void;
+  setSelectedDistrict?: (value: string) => void;
 };
 
 type DistrictCoordinates = {
@@ -47,7 +47,9 @@ function PlaceSearchModal({
                     setPlaceInput(district);
                     setLat(coordinates[district].lat);
                     setLng(coordinates[district].lng);
-                    setSelectedDistrict(district);
+                    if (setSelectedDistrict) {
+                      setSelectedDistrict(district);
+                    }
                     setIsOpen(false);
                   }}
                 >
