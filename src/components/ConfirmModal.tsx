@@ -4,7 +4,8 @@ import themes from '../styles/theme';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import PropTypes from 'prop-types';
 import { deletePost } from '../apis/post';
-import { useAuth } from '../contexts/AuthContext';
+import { useRecoilState } from 'recoil';
+import { isLoggedInState } from '../contexts/UserState';
 
 interface propsType {
   closeConfirmModal: () => void; // onClose 함수 타입으로 지정
@@ -12,7 +13,7 @@ interface propsType {
 }
 
 function ConfirmModal({ closeConfirmModal, postId }: propsType) {
-  const { isLoggedIn } = useAuth();
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 

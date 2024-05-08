@@ -9,10 +9,11 @@ import ProfileEditModal from '../components/Mypage/ProfileEditModal';
 
 import { useQuery } from '@tanstack/react-query';
 import { getUser } from '../apis/user';
-import { useAuth } from '../contexts/AuthContext';
+import { useRecoilState } from 'recoil';
+import { isLoggedInState } from '../contexts/UserState';
 
 function MyPage() {
-  const { isLoggedIn, logout } = useAuth();
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
   const [profileEditIsOpen, setProfileEditIsOpen] = useState<boolean>(false);
   const { isLoading, data } = useQuery({
     queryKey: ['getUser'],
@@ -73,6 +74,7 @@ function MyPage() {
                 <SettingIcon />
               </M.UserInfoEditButton>
             </M.UserInfoLayout>
+
             <UserActivity></UserActivity>
           </M.MyPageWrapper>
         </M.MyPageBackground>

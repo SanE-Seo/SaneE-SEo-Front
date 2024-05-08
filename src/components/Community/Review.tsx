@@ -7,11 +7,18 @@ import { getReviews } from '../../apis/review';
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '../Spinner';
 import { CiMenuKebab } from 'react-icons/ci';
+import { isLoggedInState, memberIdState } from '../../contexts/UserState';
+import { useRecoilState } from 'recoil';
+import { useNavigate } from 'react-router-dom';
 type ReviewProps = {
   detail: PostData;
 };
 function Review({ detail }: ReviewProps) {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const [showDelete, setShowDelete] = useState<boolean>(false);
+  const [memberId, setMemberId] = useRecoilState(memberIdState);
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
+  const navigate = useNavigate();
 
   const { isLoading, isSuccess, data } = useQuery({
     queryKey: ['getReview'],
@@ -29,10 +36,23 @@ function Review({ detail }: ReviewProps) {
     return `${year}.${month}.${day}`;
   };
 
+  const handleDelete = () => {
+    console.log('삭제');
+  };
+
   return (
     <>
       <ReviewLayout>
-        <AddReviewButton onClick={() => setIsOpenModal(!isOpenModal)}>
+        <AddReviewButton
+          onClick={() => {
+            if (!isLoggedIn) {
+              alert('로그인이 필요합니다.');
+              navigate('/login');
+            } else {
+              setIsOpenModal(!isOpenModal);
+            }
+          }}
+        >
           리뷰 작성하기
         </AddReviewButton>
         <ReviewBox>
@@ -49,7 +69,22 @@ function Review({ detail }: ReviewProps) {
                       />
                       <span className="name">{item.authorName}</span>
                     </div>
-                    <CiMenuKebab className="icon-style" />
+                    {item.authorId && (
+                      <>
+                        <button
+                          onClick={() => {
+                            console.log('click');
+                            setShowDelete(!showDelete);
+                          }}
+                        >
+                          <CiMenuKebab className="icon-style" />
+                        </button>
+
+                        <DeleteModal isOpen={showDelete}>
+                          <button onClick={handleDelete}>삭제하기</button>
+                        </DeleteModal>
+                      </>
+                    )}
                   </div>
                   <span className="review-text">{item.content}</span>
                   <span className="review-date">
@@ -157,5 +192,30 @@ const ReviewItem = styled.div`
     margin-top: 5px;
     ${(props) => props.theme.fonts.text_sm};
     color: ${(props) => props.theme.colors.gray400};
+  }
+`;
+
+type modalProps = {
+  isOpen: boolean;
+};
+
+const DeleteModal = styled.div<modalProps>`
+  width: 71px;
+  height: 47px;
+  position: absolute;
+  // display: flex;
+  display: ${(props) => (props.isOpen === true ? 'flex' : 'none')};
+  right: 10px;
+  margin-top: 65px;
+  // bottom: 10px;
+  button {
+    background-color: #ffe0dc;
+    border: 1px solid ${(props) => props.theme.colors.red500};
+    color: ${(props) => props.theme.colors.red500};
+    margin: 0;
+    width: inherit;
+    height: 23px;
+    cursor: pointer;
+    ${(props) => props.theme.fonts.text_sm};
   }
 `;

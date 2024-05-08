@@ -8,29 +8,30 @@ export const MyPageBackground = styled.div`
 `;
 
 export const MyPageWrapper = styled.div`
-  width: 80%;
+  width: 1150px;
   height: 100vh;
   display: flex;
-  align-items: center;
+  flex-direction: row;
   justify-content: space-around;
+  margin-top: 30px;
 `;
 
 export const UserInfoLayout = styled.div`
-  width: 260px;
-  height: 300px;
-  margin: auto;
+  width: 250px;
+  height: 280px;
+  // margin: auto;
 
   background: #ffffff;
-  box-shadow:
-    -2.17893px -2.17893px 6.5368px #ffffff,
-    2.17893px 2.17893px 6.5368px rgba(174, 174, 192, 0.4);
+  // box-shadow:
+  //   -2.17893px -2.17893px 6.5368px #ffffff,
+  //   2.17893px 2.17893px 6.5368px rgba(174, 174, 192, 0.4);
   border-radius: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
 
   .user-info-container {
-    margin-top: 48px;
+    margin-top: 39px;
     .user-image-container {
       display: flex;
       flex-direction: column;
@@ -89,9 +90,9 @@ export const UserActivityLayout = styled.div`
   // justify-content: space-around;
 
   background: #ffffff;
-  box-shadow:
-    -2.17893px -2.17893px 6.5368px #ffffff,
-    2.17893px 2.17893px 6.5368px rgba(174, 174, 192, 0.4);
+  // box-shadow:
+  //   -2.17893px -2.17893px 6.5368px #ffffff,
+  //   2.17893px 2.17893px 6.5368px rgba(174, 174, 192, 0.4);
   border-radius: 20px;
 
   .slide-item-wrapper {
@@ -116,20 +117,18 @@ export const TabLayout = styled.div`
 
 // HeaderLayout 컴포넌트의 Props 타입 정의
 type LiProps = {
-  offset?: number; // logo-text의 색상을 설정할 수 있는 선택적 프로퍼티
   active?: boolean;
 };
 
 export const SlideItem = styled.li<LiProps>`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   min-width: 90px;
   height: 40px;
   margin: 0 14px;
   list-style: none;
-  transform: ${(props) => `translateX(${props.offset}px)`};
-  transition: 0.8s ease;
 
   button {
     padding: 5px;

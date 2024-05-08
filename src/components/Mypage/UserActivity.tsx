@@ -8,7 +8,6 @@ import UserTrailCardItem from './UserTrailCardItem';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 function UserActivity() {
-  const [offset, setOffset] = useState<number>(0);
   const [selectedActivity, setSelectedActivity] =
     useState<string>('나의 산책로');
 
@@ -37,7 +36,6 @@ function UserActivity() {
             <M.SlideItem
               key={index}
               className="slide-item"
-              offset={offset}
               active={selectedActivity == activityName}
             >
               <button onClick={() => onActivityClick(activityName)}>
@@ -65,7 +63,16 @@ function UserActivity() {
             </M.CardItemBox>
           )
         ) : (
-          <Spinner />
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              marginTop: '50px',
+            }}
+          >
+            <Spinner />
+          </div>
         )}
       </M.UserActivityLayout>
     </>

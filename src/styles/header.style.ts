@@ -74,8 +74,9 @@ export const MenuBox = styled.div`
   width: 165px;
   height: 85px;
   border-radius: 5px;
+  background: #ffffff;
   box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.2);
-  z-index: 2;
+  z-index: 3;
   border: 1px solid #dbdbdb;
   display: flex;
   flex-direction: column;

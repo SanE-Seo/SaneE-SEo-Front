@@ -31,7 +31,10 @@ const getIp = async () =>
     .then((res) => res['IPv4']);
 
 export const useGeolocation = () => {
-  const [geo, setGeo] = useState({ latitude: 0, longitude: 0 });
+  const [geo, setGeo] = useState({
+    latitude: 33.450701,
+    longitude: 126.570667,
+  });
   const getLocation = async () => {
     const nowIp = await getIp();
     const geoData = await fetch(`http://ip-api.com/json/${nowIp}`)
