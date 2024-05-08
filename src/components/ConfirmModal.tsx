@@ -9,7 +9,7 @@ import { isLoggedInState } from '../contexts/UserState';
 
 interface propsType {
   closeConfirmModal: () => void; // onClose 함수 타입으로 지정
-  postId: string;
+  postId: number;
 }
 
 function ConfirmModal({ closeConfirmModal, postId }: propsType) {
