@@ -15,6 +15,6 @@ export type CardData = {
   category: number;
 };
 
-type PostImage = {
+export type PostImage = {
   imageUrl: string;
 };
