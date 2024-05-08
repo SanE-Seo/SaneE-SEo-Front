@@ -29,6 +29,7 @@ type FormProps = {
   isAnimatingForward: boolean;
   handleNextStep: () => void;
   trailData: PolylineData;
+  distance: string;
 };
 
 function DetailsForm({
@@ -37,6 +38,7 @@ function DetailsForm({
   isAnimatingForward,
   handleNextStep,
   trailData,
+  distance,
 }: FormProps) {
   const {
     register,
@@ -47,7 +49,13 @@ function DetailsForm({
     getValues,
     formState: { errors },
   } = useForm<IFormData>({
-    defaultValues: { images: [], title: '', level: '초급', districtId: '' },
+    defaultValues: {
+      images: [],
+      title: '',
+      level: '초급',
+      districtId: '',
+      distance,
+    },
   });
 
   console.log(trailData);
@@ -291,6 +299,7 @@ function DetailsForm({
               <D.Input
                 placeholder="예: Km, m"
                 type="text"
+                readOnly // 입력 필드를 읽기 전용으로 설정
                 {...register('distance', {
                   required: '거리는 필수 입력값입니다.',
                 })}
