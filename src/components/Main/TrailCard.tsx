@@ -29,7 +29,7 @@ function TrailCard({ type, data }: CardProps) {
     <T.Main onClick={handleNavigatePost}>
       <T.Card
         src={
-          data.postImages[0].imageUrl
+          data.postImages[0] != undefined && data.postImages[0].imageUrl != null
             ? data.postImages[0].imageUrl
             : postDefaultImage
         }

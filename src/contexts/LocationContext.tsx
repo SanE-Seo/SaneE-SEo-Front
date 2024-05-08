@@ -32,8 +32,8 @@ const getIp = async () =>
 
 export const useGeolocation = () => {
   const [geo, setGeo] = useState({
-    latitude: 33.450701,
-    longitude: 126.570667,
+    latitude: 37.5642135,
+    longitude: 127.0016985,
   });
   const getLocation = async () => {
     const nowIp = await getIp();

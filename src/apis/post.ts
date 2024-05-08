@@ -81,9 +81,9 @@ export const getSortedCustomPosts = async (district: string) => {
   }
 };
 
-export const deletePost = async (postId: string) => {
+export const deletePost = async (postId: number) => {
   try {
-    const res = await Delete(`/api/posts/1`);
+    const res = await Delete(`/api/posts/${postId}`);
     return res;
   } catch (error) {
     if (axios.isAxiosError<CommonError>(error) && error.response) {

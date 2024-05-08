@@ -4,7 +4,7 @@ import { Map, Polyline, MapMarker } from 'react-kakao-maps-sdk';
 import customMarker from '../../assets/image/foundation_marker.png';
 import * as U from '../../styles/user-trail-map.style';
 import Drawer from './Drawer';
-import { CardData } from '../../@types/card';
+import { CardData, PostImage } from '../../@types/card';
 import { getPostDetails } from '../../apis/post';
 import { PostData } from '../../@types/post';
 import { useQuery } from '@tanstack/react-query';
@@ -20,6 +20,7 @@ function UserTrailMap({ lat, lng, selectedDistrict, clickItem }: MapProps) {
   const [isOpenDrawer, setIsOpenDrawer] = useState<boolean>(false);
 
   const [detail, setDetail] = useState<PostData>();
+  const [postImages, setPostImages] = useState<PostImage[]>();
 
   const {
     isLoading,
@@ -33,16 +34,17 @@ function UserTrailMap({ lat, lng, selectedDistrict, clickItem }: MapProps) {
   useEffect(() => {
     //만약 카드를 클릭해서 넘어온 경우, 해당 아이템 마커를 클릭한것처럼 이벤트 처리
     if (clickItem) {
-      handleClickMarker(clickItem.postId);
+      handleClickMarker(clickItem.postImages, clickItem.postId);
     }
   }, [clickItem]);
 
-  const handleClickMarker = async (postId: number) => {
+  const handleClickMarker = async (images: PostImage[], postId: number) => {
     const res = await getPostDetails(`${postId}`);
 
     if (res) {
       setIsOpenDrawer(!isOpenDrawer);
       setDetail(res);
+      setPostImages(images);
       console.log('click!');
     }
   };
@@ -55,6 +57,7 @@ function UserTrailMap({ lat, lng, selectedDistrict, clickItem }: MapProps) {
             isOpenDrawer={isOpenDrawer}
             setIsOpenDrawer={setIsOpenDrawer}
             detail={detail}
+            {...(postImages && { postImages: postImages })}
           />
         )}
 
@@ -78,7 +81,9 @@ function UserTrailMap({ lat, lng, selectedDistrict, clickItem }: MapProps) {
                       height: 85,
                     },
                   }}
-                  onClick={() => handleClickMarker(data.postId)}
+                  onClick={() =>
+                    handleClickMarker(data.postImages, data.postId)
+                  }
                 />
               </>
             ))}
