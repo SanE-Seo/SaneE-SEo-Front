@@ -8,7 +8,7 @@ export const ModalWrapper = styled.div`
   margin-left: 15px;
   border: 1px solid #949494;
   border-radius: 10px;
-  z-index: 2;
+  z-index: 5;
   overflow: auto;
 
   &::-webkit-scrollbar {

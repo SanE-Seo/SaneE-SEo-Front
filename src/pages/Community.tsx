@@ -6,17 +6,17 @@ import { ReactComponent as SearchIcon } from '../assets/icons/search-icon.svg';
 import { useNavigate } from 'react-router-dom';
 import UserTrailMap from '../components/Community/UserTrailMap';
 import PlaceSearchModal from '../components/Community/PlaceSearchModal';
+import { useRecoilState } from 'recoil';
+import { isLoggedInState } from '../contexts/UserState';
 import {
   useCurrentLocation,
   useGeolocation,
 } from '../contexts/LocationContext';
-import { getAllCustomPosts } from '../apis/community';
-import { useQuery } from '@tanstack/react-query';
 import { useLocation } from 'react-router';
 import { CardData } from '../@types/card';
 import { getDistrict } from '../apis/kakao_api';
 import SeoulCoordinates from '../seoul_districts_coordinates.json';
-import { useAuth } from '../contexts/AuthContext';
+
 import useKakaoLoader from '../components/useKakaoLoader';
 
 type DistrictCoordinates = {
@@ -29,6 +29,7 @@ function Community() {
 
   const { latitude, longitude } = useGeolocation();
   const [selectedDistrict, setSelectedDistrict] = useState<string>('강남구');
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
 
   const { state } = useLocation() as unknown as {
     state: CardData;
@@ -39,7 +40,6 @@ function Community() {
 
   const coordinates: DistrictCoordinates = SeoulCoordinates;
 
-  const { isLoggedIn } = useAuth(); //로그인 여부 확인
   useEffect(() => {
     //카드를 클릭해 넘어왔을 경우
     if (state) {
@@ -52,24 +52,23 @@ function Community() {
         fetchDistrict();
       }
     }
+    setLat(latitude);
+    setLng(longitude);
   }, [latitude, longitude, state]);
+
   //커뮤니티 페이지 진입시 자치구 설정 함수
   async function fetchDistrict() {
     try {
       const district = (await getDistrict(latitude, longitude)) as string;
       console.log(district);
       setSelectedDistrict(district);
-      setLat(coordinates[`${district} 전체`].lat);
-      setLng(coordinates[`${district} 전체`].lng);
+      // setLat(coordinates[`${district} 전체`].lat);
+      // setLng(coordinates[`${district} 전체`].lng);
     } catch (error) {
       console.error('자치구 정보를 가져오는데 실패했습니다.', error);
     }
     // 사용자 위치 정보가 유효한 경우에만 fetchDistrict 함수 호출
   }
-
-  // if (!isLoading && data) {
-  //   console.log(data);
-  // }
 
   const navigate = useNavigate();
 

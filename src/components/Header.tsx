@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import * as H from '../styles/header.style';
 import { ReactComponent as Logo } from '../assets/icons/logo.svg';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { getUser, logoutUser } from '../apis/user';
 import DefaultProfileImg from '../assets/image/default-profile.png';
 import { ReactComponent as MenuIcon } from '../assets/icons/menu-icon.svg';
-import { useAuth } from '../contexts/AuthContext';
 import { Cookies } from 'react-cookie';
+import { useRecoilState } from 'recoil';
+import { isLoggedInState, memberIdState } from '../contexts/UserState';
 function Header() {
   const navigate = useNavigate();
-  const { isLoggedIn, logout } = useAuth();
-  // console.log(isLoggedIn);
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
+  const [memberId, setMemberId] = useRecoilState(memberIdState);
+
   const { isLoading, data } = useQuery({
     queryKey: ['getUser'],
     queryFn: () => getUser(),
@@ -21,11 +23,17 @@ function Header() {
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
   const cookie = new Cookies();
 
+  useEffect(() => {
+    if (data) {
+      setMemberId(data?.memberId);
+    }
+  }, [data]);
+
   const handleLogout = async () => {
     const res = await logoutUser();
 
     if (res?.success) {
-      logout();
+      setIsLoggedIn(false);
       cookie.remove('refreshToken');
       window.location.href = '/';
     }

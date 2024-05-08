@@ -10,22 +10,24 @@ import SeoulTrails from './pages/SeoulTrails';
 import Community from './pages/Community';
 import UserTrailEditor from './pages/UserTrailEditor';
 import SeoulTrailsDetail from './pages/SeoulTrailsDetail';
+import UserTrailDetail from './pages/UserTrailDetail';
 import RedirectPage from './components/Login/RedirectPage';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { onSilentRefresh } from './apis/user';
 import { Cookies } from 'react-cookie';
 import MyPage from './pages/MyPage';
-import { useAuth } from './contexts/AuthContext';
+import { useRecoilState } from 'recoil';
+import { isLoggedInState } from './contexts/UserState';
 import { Navigate, Outlet } from 'react-router-dom';
 
 function App() {
   const cookie = new Cookies();
-  const { isLoggedIn, login } = useAuth();
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
   useEffect(() => {
     const refreshToken = cookie.get('refreshToken');
     if (refreshToken && refreshToken.length > 0) {
       onSilentRefresh().then(() => {
-        login();
+        setIsLoggedIn(true);
       });
     }
     // 의존성 배열을 비워 컴포넌트가 마운트될 때만 실행되도록 설정
@@ -57,6 +59,10 @@ function App() {
           <Route element={<PrivateRoute />}>
             <Route path="/user-trail-editor" element={<UserTrailEditor />} />
             <Route path="/mypage" element={<MyPage />} />
+            <Route
+              path="/user-trail-detail/:postId"
+              element={<UserTrailDetail />}
+            />
           </Route>
           <Route element={<PublicRoute />}>
             <Route path="/login" element={<Login />} />

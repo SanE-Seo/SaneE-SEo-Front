@@ -1,34 +1,37 @@
 import styled from 'styled-components';
 
-export const MyPageWrapper = styled.div`
-  width: 100%;
-  height: 100vh;
+export const MyPageBackground = styled.div`
   background: ${(props) => props.theme.colors.background};
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: center;
 `;
 
-export const UserInfoWrapper = styled.div`
-  width: 90%;
+export const MyPageWrapper = styled.div`
+  width: 1150px;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top: 30px;
 `;
 
 export const UserInfoLayout = styled.div`
-  width: 260px;
-  height: 300px;
-  margin: auto;
+  width: 250px;
+  height: 280px;
+  // margin: auto;
 
   background: #ffffff;
-  box-shadow:
-    -2.17893px -2.17893px 6.5368px #ffffff,
-    2.17893px 2.17893px 6.5368px rgba(174, 174, 192, 0.4);
+  // box-shadow:
+  //   -2.17893px -2.17893px 6.5368px #ffffff,
+  //   2.17893px 2.17893px 6.5368px rgba(174, 174, 192, 0.4);
   border-radius: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
 
   .user-info-container {
-    margin-top: 48px;
+    margin-top: 39px;
     .user-image-container {
       display: flex;
       flex-direction: column;
@@ -87,9 +90,9 @@ export const UserActivityLayout = styled.div`
   // justify-content: space-around;
 
   background: #ffffff;
-  box-shadow:
-    -2.17893px -2.17893px 6.5368px #ffffff,
-    2.17893px 2.17893px 6.5368px rgba(174, 174, 192, 0.4);
+  // box-shadow:
+  //   -2.17893px -2.17893px 6.5368px #ffffff,
+  //   2.17893px 2.17893px 6.5368px rgba(174, 174, 192, 0.4);
   border-radius: 20px;
 
   .slide-item-wrapper {
@@ -114,20 +117,18 @@ export const TabLayout = styled.div`
 
 // HeaderLayout 컴포넌트의 Props 타입 정의
 type LiProps = {
-  offset?: number; // logo-text의 색상을 설정할 수 있는 선택적 프로퍼티
   active?: boolean;
 };
 
 export const SlideItem = styled.li<LiProps>`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   min-width: 90px;
   height: 40px;
   margin: 0 14px;
   list-style: none;
-  transform: ${(props) => `translateX(${props.offset}px)`};
-  transition: 0.8s ease;
 
   button {
     padding: 5px;
@@ -153,17 +154,39 @@ export const SlideItem = styled.li<LiProps>`
 export const CardItemBox = styled.div`
   display: flex;
   flex-wrap: wrap;
+  max-height: 88%; // Set a fixed maximum height
+  overflow-y: auto; // Enable vertical scrolling
+  overflow-x: hidden; // Hide horizontal scrollbar
+  margin: 10px 0; // Optional: adds some vertical space around the box
+
+  &::-webkit-scrollbar {
+    width: 6px; // Thinner scrollbar
+    border-radius: 2px; // Rounder corners
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1; // Light grey track
+    border-radius: 2px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #888; // Dark grey drag handle
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555; // Darker grey drag handle on hover
+  }
 
   .no-content {
     margin: auto;
-    width: 995px;
-    height: 250px;
-    // background: #ffffff;
-    border-radius: 20px;
+    width: 100%; // Full width inside the container
+    height: 250px; // Fixed height for the no content message
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
     .text-md {
       ${(props) => props.theme.fonts.text_lg};
       color: ${(props) => props.theme.colors.gray600};

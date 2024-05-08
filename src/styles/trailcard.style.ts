@@ -39,7 +39,7 @@ export const Data = styled.div`
 export const Description = styled.div`
   display: flex;
   flex-direction: row;
-  margin-left: 10px;
+  margin-left: 5px;
   margin-top: 210px;
   align-items: center;
 
@@ -49,7 +49,7 @@ export const Description = styled.div`
   .description-text {
     ${(props) => props.theme.fonts.caption};
     color: ${(props) => props.theme.colors.gray300};
-    margin: 0 10px 0 1px;
+    margin: 0 10px 0 0;
   }
 `;
 

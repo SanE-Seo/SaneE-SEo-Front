@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import * as S from '../styles/seoultrails-detail.style';
 import HeartEmptyIcon from '../assets/icons/heart-empty-icon';
 import HeartFilledIcon from '../assets/icons/heart-filled-icon';
-import { useAuth } from '../contexts/AuthContext';
+import { useRecoilState } from 'recoil';
+import { isLoggedInState } from '../contexts/UserState';
 import { useNavigate } from 'react-router-dom';
 import { addLikes, checkLikes, deleteLikes } from '../apis/like';
 import styled from 'styled-components';
@@ -15,7 +16,7 @@ type likeProps = {
 function Like({ postId, likeStatus, setLikeStatus }: likeProps) {
   const navigate = useNavigate();
 
-  const { isLoggedIn } = useAuth();
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
 
   useEffect(() => {
     if (isLoggedIn) {
