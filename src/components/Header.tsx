@@ -25,7 +25,7 @@ function Header() {
 
   useEffect(() => {
     if (data) {
-      setMemberId(data?.name);
+      setMemberId(data?.memberId);
     }
   }, [data]);
 

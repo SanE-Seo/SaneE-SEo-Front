@@ -12,7 +12,7 @@ export const HeaderLayout = styled.div`
 `;
 
 export const AddButton = styled.button`
-  width: 180px;
+  width: 150px;
   height: 40px;
   background: linear-gradient(
     90deg,

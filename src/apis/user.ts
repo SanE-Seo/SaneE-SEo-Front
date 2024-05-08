@@ -4,6 +4,7 @@ import { CommonError } from '../@types/api';
 import { Cookies } from 'react-cookie';
 import { CardData } from '../@types/card';
 import { PostInfoBox } from '../styles/drawer.style';
+import { userProps } from '../@types/user';
 
 export const checkNicknameDuplicate = async (nickname: string) => {
   try {
@@ -141,12 +142,6 @@ export const onSilentRefresh = async () => {
     alert('로그인이 필요합니다.');
     window.location.href = '/login';
   }
-};
-
-type userProps = {
-  email: string;
-  name: string;
-  profile?: string;
 };
 
 export const getUser = async () => {
