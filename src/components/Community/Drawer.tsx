@@ -12,12 +12,19 @@ import Like from '../Like';
 import { useQuery } from '@tanstack/react-query';
 import { getLikes } from '../../apis/like';
 import { MdKeyboardDoubleArrowLeft } from 'react-icons/md';
+import { PostImage } from '../../@types/card';
 type DrawerProps = {
   isOpenDrawer: boolean;
   setIsOpenDrawer: (value: boolean) => void;
   detail: PostData;
+  postImages?: PostImage[];
 };
-function Drawer({ isOpenDrawer, setIsOpenDrawer, detail }: DrawerProps) {
+function Drawer({
+  isOpenDrawer,
+  setIsOpenDrawer,
+  detail,
+  postImages,
+}: DrawerProps) {
   const [selectedMenu, setSelectedMenu] = useState<string>('상세정보');
   const [likeStatus, setLikeStatus] = useState<boolean>(false);
 
@@ -99,7 +106,10 @@ function Drawer({ isOpenDrawer, setIsOpenDrawer, detail }: DrawerProps) {
           </D.MenuItem>
         </D.MenuBox>
         {selectedMenu == '상세정보' ? (
-          <CourseDetail detail={detail} />
+          <CourseDetail
+            detail={detail}
+            {...(postImages && { postImages: postImages })}
+          />
         ) : (
           <Review detail={detail} />
         )}
