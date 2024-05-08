@@ -51,9 +51,9 @@ function Community() {
       if (latitude && longitude) {
         fetchDistrict();
       }
+      setLat(latitude);
+      setLng(longitude);
     }
-    setLat(latitude);
-    setLng(longitude);
   }, [latitude, longitude, state]);
 
   //커뮤니티 페이지 진입시 자치구 설정 함수

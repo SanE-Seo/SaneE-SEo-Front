@@ -81,7 +81,7 @@ export const getSortedCustomPosts = async (district: string) => {
   }
 };
 
-export const deletePost = async (postId: string) => {
+export const deletePost = async (postId: number) => {
   try {
     const res = await Delete(`/api/posts/${postId}`);
     return res;
