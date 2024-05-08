@@ -37,7 +37,7 @@ function SeoulTrails() {
     queryKey: ['getAllPosts'],
     initialPageParam: 1,
     enabled: selectedDistrict == '전체',
-    queryFn: async ({ pageParam = 1 }) => {
+    queryFn: async ({ pageParam = 0 }) => {
       const data = await getAllPosts(pageParam);
       return {
         // 반환되는 객체 내에서 'result' 대신 직접 'data'를 사용
