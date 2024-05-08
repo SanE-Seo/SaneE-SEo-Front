@@ -6,7 +6,7 @@ type SpanProps = {
 };
 
 export const HeaderWrapper = styled.nav`
-  width: 100%;
+  width: 100vw;
   height: 80px;
   border-bottom: 1px solid ${(props) => props.theme.colors.gray100};
 `;
