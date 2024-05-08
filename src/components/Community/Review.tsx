@@ -77,7 +77,7 @@ function Review({ detail }: ReviewProps) {
               data.map((item, index) => (
                 <ReviewItem key={index}>
                   <div className="profile-rating-box">
-                    <div className="profile-rating-box">
+                    <div className="wrapper">
                       <img
                         src={DefaultProfileImg}
                         className="profile-img"
@@ -85,6 +85,7 @@ function Review({ detail }: ReviewProps) {
                       />
                       <span className="name">{item.authorName}</span>
                     </div>
+
                     {memberId && item.authorId == memberId && (
                       <>
                         <button
@@ -183,25 +184,32 @@ const ReviewItem = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 20px;
+  width: 290px;
 
   .profile-rating-box {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
 
-    .profile-img {
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
+    .wrapper {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      .profile-img {
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+      }
+
+      .name {
+        ${(props) => props.theme.fonts.text_sm};
+        color: ${(props) => props.theme.colors.gray600};
+        margin-left: 6px;
+      }
     }
 
-    .name {
-      ${(props) => props.theme.fonts.text_sm};
-      color: ${(props) => props.theme.colors.gray600};
-      margin-left: 6px;
-    }
     .icon-style {
-      margin-left: 220px;
       color: ${(props) => props.theme.colors.gray600};
     }
   }

@@ -88,6 +88,19 @@ export const SignUpLayout = styled.div`
     color: ${(props) => props.theme.colors.red500};
     ${(props) => props.theme.fonts.text_sm};
   }
+
+  .alert-text {
+    transition: opacity 0.3s ease-in-out;
+    opacity: 0; /* Start as invisible */
+    min-height: 20px;
+    color: ${(props) => props.theme.colors.red500};
+    ${(props) => props.theme.fonts.text_sm};
+    width: 290px;
+    margin-top: 5px;
+  }
+  .alert-text.show {
+    opacity: 1; /* Fade in */
+  }
 `;
 // HeaderLayout 컴포넌트의 Props 타입 정의
 type SpanProps = {
