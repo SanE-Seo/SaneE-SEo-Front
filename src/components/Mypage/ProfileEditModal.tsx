@@ -89,7 +89,8 @@ function ProfileEditModal({ closeProfileEditModal }: propsType) {
   const handleUpdateProfile = async () => {
     // Check if nickname and email conditions are met
     if (
-      nickNameAlertText === '사용 가능한 별명이에요.' &&
+      nickNameAlertText !== '사용 가능한 별명이에요.' &&
+      nickNameAlertText !== '올바르지 않은 이메일 형식이에요.' &&
       emailAlertText !== '올바르지 않은 이메일 형식이에요.'
     ) {
       const updateResult = await updateUserProfile(
