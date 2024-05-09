@@ -10,7 +10,7 @@ export type PostData = {
   transportation: string;
   authorId: number;
   authorName: string;
-  authorProfile: string;
+  authorProfileImageUrl: string;
   geometry: {
     type: string;
     coordinates: latlng[];

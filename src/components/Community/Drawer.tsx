@@ -83,9 +83,9 @@ function Drawer({
           <div className="profile-box">
             <img
               src={
-                detail.authorProfile == null
+                detail.authorProfileImageUrl == null
                   ? DefaultProfileImg
-                  : detail.authorProfile
+                  : detail.authorProfileImageUrl
               }
               alt="profile"
               className="profile-img"
