@@ -18,7 +18,7 @@
 
 ## 📌 웹 서비스 소개
 
-### **서울 내에서의 산책로를 발견하고 다른 사람들과 공유할 수 있는 웹서비스** ✈️
+### **서울 내에서의 산책로를 발견하고 다른 사람들과 공유할 수 있는 웹서비스** 
 
 > 오늘 산책하기 좋은 **날씨**인지 궁금하신가요?🚶🏻‍♀️🚶🏻
 >
@@ -62,8 +62,9 @@
         <img src="https://img.shields.io/badge/AmazonAWS-232F3E?style=  &logo=amazonaws&logoColor=white"/>
     </div>
   </tr>
-  <tr>
+</table>
 
+<br/>
 <div id="3"></div>
 
 ## 💡 주요 기능
@@ -74,8 +75,8 @@
 | ![ezgif com-video-to-gif-converter (1)](https://github.com/SanE-Seo/SaneE-SEo-Front/assets/86836540/da889361-5bbc-4fd0-a3a1-8d30b44f8049)| **회원가입 및 로그인**<br/>이메일이나 카카오 소셜 로그인을 통해 서비스에 가입할 수 있습니다.<br/>이메일 회원가입 시 이메일, 비밀번호, 닉네임을 입력하고, 카카오 소셜 로그인 시 닉네임을 자동으로 설정합니다. |
 |![ezgif com-video-to-gif-converter (2)](https://github.com/SanE-Seo/SaneE-SEo-Front/assets/86836540/68f1e237-0fca-4549-8427-1cfd9a0812a9)| **서울두드림길**<br/>서울 전체, 자치구별 서울 두드림길 목록을 확인할 수 있습니다. 특정 카드 클릭 시 해당 두드림길에 대한 코스정보, 교통편, 난이도, 소요시간, 거리, 지도 상의 경로를 확인할 수 있습니다.      |
 |  ![ezgif com-video-to-gif-converter (3)](https://github.com/SanE-Seo/SaneE-SEo-Front/assets/86836540/e3e2a3e4-fe4f-47e1-aff6-192016626348)| **걸음나눔터**<br/>다른 사람들이 공유한 우리동네 산책로 정보를 확인할 수 있습니다. 특정 마커 클릭 시 해당 산책로의 코스정보를 확인하고 리뷰를 작성할 수 있습니다.                                            |
-| | **코스생성**<br/>사용자는 자신만의 산책로 코스를 생성하여 다른사람들과 공유할 수 있습니다. |
-|   | **마이페이지**<br/>사용자는 이메일, 닉네임 정보를 수정할 수 있으며, 자신이 작성한 산책로 게시물, 좋아요 누른 산책로 목록을 확인할 수 있습니다.                                                               |
+| ![ezgif com-video-to-gif-converter (4)](https://github.com/SanE-Seo/SaneE-SEo-Front/assets/86836540/bfe2bf99-3b09-4613-9fb8-54d2ec198d2b)| **코스생성**<br/>사용자는 자신만의 산책로 코스를 생성하여 다른사람들과 공유할 수 있습니다. |
+| ![ezgif com-video-to-gif-converter (5)](https://github.com/SanE-Seo/SaneE-SEo-Front/assets/86836540/1e7cb7f8-2d35-4689-ae83-abed0d716270)| **마이페이지**<br/>사용자는 이메일, 닉네임 정보를 수정할 수 있으며, 자신이 작성한 산책로 게시물, 좋아요 누른 산책로 목록을 확인할 수 있습니다.                                                               |
 
 <div id="4"></div>
 
