@@ -38,7 +38,9 @@ function TrailCard({ type, data }: CardProps) {
       <T.Data>
         <img
           src={
-            type == 'seoul' ? SeoulLogo : data.authorProfile ?? DefaultProfile
+            type == 'seoul'
+              ? SeoulLogo
+              : data.authorProfileImageUrl ?? DefaultProfile
           }
           className="profile-icon"
           alt="seoul"
